@@ -9,11 +9,11 @@ import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:isar/isar.dart';
 
-class IsarTodoRepo implements ExpenseRepository {
+class IsarExpenseRepository implements ExpenseRepository {
   //database instance
   final Isar db;
 
-  IsarTodoRepo(this.db);
+  IsarExpenseRepository(this.db);
 
   //get expenses
   @override
