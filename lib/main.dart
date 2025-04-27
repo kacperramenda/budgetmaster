@@ -1,9 +1,8 @@
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
-import 'package:budgetmaster/presentation/home_view.dart';
-import 'package:budgetmaster/presentation/main_scaffold.dart';
-import 'package:budgetmaster/theme/app_theme.dart';
+import 'package:budgetmaster/presentation/common/main_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:budgetmaster/data/models/isar_expense.dart';
@@ -43,23 +42,25 @@ class MyApp extends StatelessWidget {
 
   const MyApp({super.key, required this.expensesRepository});
 
-  // This widget is the root of your application.
-@override
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BudgetMaster',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        primaryColor: Colors.blue,
+    return RepositoryProvider.value(
+      value: expensesRepository,
+      child: MaterialApp(
+        title: 'BudgetMaster',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          primaryColor: Colors.blue,
+        ),
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => const MainScaffold(currentIndex: 0),
+          '/budget': (context) => const MainScaffold(currentIndex: 1),
+          '/savings': (context) => const MainScaffold(currentIndex: 2),
+          '/expenses': (context) => const MainScaffold(currentIndex: 3),
+        },
       ),
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => const MainScaffold(currentIndex: 0),
-        '/budget': (context) => const MainScaffold(currentIndex: 1),
-        '/expenses': (context) => const MainScaffold(currentIndex: 2),
-        '/settings': (context) => const MainScaffold(currentIndex: 3),
-      },
     );
   }
 }

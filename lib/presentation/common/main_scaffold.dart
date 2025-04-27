@@ -1,8 +1,9 @@
-import 'package:budgetmaster/widgets/customBottomNav.dart';
+import 'package:budgetmaster/domain/repository/expense_repo.dart';
+import 'package:budgetmaster/presentation/common/customBottomNav.dart';
+import 'package:budgetmaster/presentation/expenses/view/expenses_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:budgetmaster/theme/colors.dart';
-import 'package:budgetmaster/presentation/home_view.dart';
+import 'package:budgetmaster/presentation/home/view/home_view.dart';
+import 'package:provider/provider.dart';
 
 class MainScaffold extends StatefulWidget {
   final int currentIndex;
@@ -26,10 +27,10 @@ class _MainScaffoldState extends State<MainScaffold> {
         route = '/budget';
         break;
       case 2:
-        route = '/expenses';
+        route = '/savings';
         break;
       case 3:
-        route = '/settings';
+        route = '/expenses';
         break;
       default:
         route = '/home';
@@ -58,7 +59,9 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 2:
         return const HomeView();
       case 3:
-        return const HomeView();
+          return ExpensesPage(
+            expensesRepository: context.read<ExpenseRepository>(),
+          );
       default:
         return const HomeView();
     }

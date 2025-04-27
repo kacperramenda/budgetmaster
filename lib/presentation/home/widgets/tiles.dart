@@ -1,5 +1,5 @@
-import 'package:budgetmaster/theme/colors.dart';
-import 'package:budgetmaster/theme/typography.dart';
+import 'package:budgetmaster/core/constants/app_colors.dart';
+import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

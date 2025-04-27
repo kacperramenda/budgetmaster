@@ -5,9 +5,9 @@ HOME VIEW
 */
 
 // Removed unused import
-import 'package:budgetmaster/theme/colors.dart';
-import 'package:budgetmaster/theme/typography.dart';
-import 'package:budgetmaster/widgets/home/tiles.dart';
+import 'package:budgetmaster/core/constants/app_colors.dart';
+import 'package:budgetmaster/core/theme/app_typography.dart';
+import 'package:budgetmaster/presentation/home/widgets/tiles.dart';
 import 'package:flutter/material.dart';
 
 

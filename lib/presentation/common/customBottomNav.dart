@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:budgetmaster/theme/colors.dart';
+import 'package:budgetmaster/core/constants/app_colors.dart';
 
 class CustomBottomNav extends StatelessWidget {
   final int currentIndex;

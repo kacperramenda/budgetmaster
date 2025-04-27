@@ -7,7 +7,7 @@ RESPONSIBLE FOR UI OF THE EXPENSES VIEW
 */
 
 import 'package:budgetmaster/domain/models/expense.dart';
-import 'package:budgetmaster/presentation/expense_cubit.dart';
+import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
