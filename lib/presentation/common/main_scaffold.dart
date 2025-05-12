@@ -4,6 +4,7 @@ import 'package:budgetmaster/presentation/expenses/view/expenses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/home/view/home_view.dart';
 import 'package:provider/provider.dart';
+import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 
 class MainScaffold extends StatefulWidget {
   final int currentIndex;
@@ -61,6 +62,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 3:
           return ExpensesPage(
             expensesRepository: context.read<ExpenseRepository>(),
+            budgetCategoryRepository: context.read<BudgetCategoryRepository>(),
           );
       default:
         return const HomeView();

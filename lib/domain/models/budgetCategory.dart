@@ -23,7 +23,7 @@ Methods:
 
 */
 
-class Category {
+class BudgetCategory {
   final String id;
   final String name;
   final double startAmount;
@@ -31,7 +31,7 @@ class Category {
   final String month;
   final String year;
 
-  Category({
+  BudgetCategory({
     required this.id,
     required this.name,
     required this.startAmount,

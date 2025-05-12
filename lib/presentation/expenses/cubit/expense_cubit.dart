@@ -7,26 +7,47 @@ Each cubit is a list of expenses.
 */
 
 import 'package:bloc/bloc.dart';
+import 'package:budgetmaster/domain/models/budgetCategory.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
+import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 
-class ExpenseCubit extends Cubit<List<Expense>> {
+class ExpenseState {
+  final List<Expense> expenses;
+  final List<BudgetCategory> budgetCategories;
+  final BudgetCategory? selectedCategory;
+
+  ExpenseState({
+    required this.expenses,
+    required this.budgetCategories,
+    this.selectedCategory,
+  });
+}
+
+class ExpenseCubit extends Cubit<ExpenseState> {
   final ExpenseRepository expenseRepo;
+  final BudgetCategoryRepository categoryRepo;
 
-  ExpenseCubit(this.expenseRepo) : super([]) {
+  ExpenseCubit(this.expenseRepo, this.categoryRepo)
+      : super(ExpenseState(expenses: [], budgetCategories: [], selectedCategory: null)) {
     _loadExpenses();
+    _loadCategories();
+
   }
 
   Future<void> _loadExpenses() async {
-    // fetch all expenses from the repository
     final expenses = await expenseRepo.getAllExpenses();
+    emit(ExpenseState(expenses: expenses, budgetCategories: state.budgetCategories));
+  }
 
-    // emit the loaded expenses to the state
-    emit(expenses);
+  Future<void> _loadCategories() async {
+    final budgetCategories = await categoryRepo.getAllCategories();
+    emit(ExpenseState(expenses: state.expenses, budgetCategories: budgetCategories));
   }
 
   // Add expense
-  Future<void> addExpense(String name, double amount, String category, String description) async {
+  Future<void> addExpense(
+      String name, double amount, String category, String description) async {
     final newExpense = Expense(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
@@ -44,9 +65,9 @@ class ExpenseCubit extends Cubit<List<Expense>> {
   }
 
   // Delete expense
-    Future<void> deleteExpense(String id) async {
-      await expenseRepo.deleteExpense(id);
+  Future<void> deleteExpense(String id) async {
+    await expenseRepo.deleteExpense(id);
 
-      _loadExpenses();
-    }
+    _loadExpenses();
+  }
 }

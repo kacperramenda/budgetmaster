@@ -8,13 +8,13 @@ Convert the Category model to an Isar model. This model is used to store categor
 */
 
 import 'package:isar/isar.dart';
-import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/domain/models/budgetCategory.dart';
 
  // Generated code for Isar model. 
-part 'isar_category.g.dart'; // dart run build_runner build
+part 'isar_budgetCategory.g.dart'; // dart run build_runner build
 
 @collection
-class IsarCategory {
+class IsarBudgetCategory {
   Id id = Isar.autoIncrement; // Unique identifier for the category.
   late String name; // The name of the category.
   late double startAmount; // The starting amount of the category.
@@ -22,8 +22,8 @@ class IsarCategory {
   late String month; // The month of the category.
   late String year; // The year of the category.
 
-  Category toDomain() {
-      return Category(
+  BudgetCategory toDomain() {
+      return BudgetCategory(
         id: id.toString(),
         name: name,
         startAmount: startAmount,
@@ -33,8 +33,8 @@ class IsarCategory {
       );
     }
 
-  static IsarCategory fromDomain(Category category) {
-    return IsarCategory()
+  static IsarBudgetCategory fromDomain(BudgetCategory category) {
+    return IsarBudgetCategory()
       ..id = int.parse(category.id)
       ..name = category.name
       ..startAmount = category.startAmount

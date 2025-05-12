@@ -12,16 +12,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/expenses_view.dart';
+import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 
 class ExpensesPage extends StatelessWidget {
   final ExpenseRepository expensesRepository;
+  final BudgetCategoryRepository budgetCategoryRepository;
 
-  const ExpensesPage({Key? key, required this.expensesRepository}) : super(key: key);
+  const ExpensesPage({
+    super.key,
+    required this.expensesRepository,
+    required this.budgetCategoryRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => ExpenseCubit(expensesRepository),
-    child: const ExpensesView(),
+    return BlocProvider(
+      create: (context) => ExpenseCubit(expensesRepository, budgetCategoryRepository),
+      child: const ExpensesView(),
     );
   }
 }

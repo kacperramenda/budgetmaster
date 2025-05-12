@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'isar_category.dart';
+part of 'isar_budgetCategory.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,14 @@ part of 'isar_category.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetIsarCategoryCollection on Isar {
-  IsarCollection<IsarCategory> get isarCategories => this.collection();
+extension GetIsarBudgetCategoryCollection on Isar {
+  IsarCollection<IsarBudgetCategory> get isarBudgetCategorys =>
+      this.collection();
 }
 
-const IsarCategorySchema = CollectionSchema(
-  name: r'IsarCategory',
-  id: -4755059740594730637,
+const IsarBudgetCategorySchema = CollectionSchema(
+  name: r'IsarBudgetCategory',
+  id: -5868918568529773283,
   properties: {
     r'currentAmount': PropertySchema(
       id: 0,
@@ -43,22 +44,22 @@ const IsarCategorySchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _isarCategoryEstimateSize,
-  serialize: _isarCategorySerialize,
-  deserialize: _isarCategoryDeserialize,
-  deserializeProp: _isarCategoryDeserializeProp,
+  estimateSize: _isarBudgetCategoryEstimateSize,
+  serialize: _isarBudgetCategorySerialize,
+  deserialize: _isarBudgetCategoryDeserialize,
+  deserializeProp: _isarBudgetCategoryDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
-  getId: _isarCategoryGetId,
-  getLinks: _isarCategoryGetLinks,
-  attach: _isarCategoryAttach,
+  getId: _isarBudgetCategoryGetId,
+  getLinks: _isarBudgetCategoryGetLinks,
+  attach: _isarBudgetCategoryAttach,
   version: '3.1.0+1',
 );
 
-int _isarCategoryEstimateSize(
-  IsarCategory object,
+int _isarBudgetCategoryEstimateSize(
+  IsarBudgetCategory object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -69,8 +70,8 @@ int _isarCategoryEstimateSize(
   return bytesCount;
 }
 
-void _isarCategorySerialize(
-  IsarCategory object,
+void _isarBudgetCategorySerialize(
+  IsarBudgetCategory object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -82,13 +83,13 @@ void _isarCategorySerialize(
   writer.writeString(offsets[4], object.year);
 }
 
-IsarCategory _isarCategoryDeserialize(
+IsarBudgetCategory _isarBudgetCategoryDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = IsarCategory();
+  final object = IsarBudgetCategory();
   object.currentAmount = reader.readDouble(offsets[0]);
   object.id = id;
   object.month = reader.readString(offsets[1]);
@@ -98,7 +99,7 @@ IsarCategory _isarCategoryDeserialize(
   return object;
 }
 
-P _isarCategoryDeserializeProp<P>(
+P _isarBudgetCategoryDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -120,31 +121,33 @@ P _isarCategoryDeserializeProp<P>(
   }
 }
 
-Id _isarCategoryGetId(IsarCategory object) {
+Id _isarBudgetCategoryGetId(IsarBudgetCategory object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _isarCategoryGetLinks(IsarCategory object) {
+List<IsarLinkBase<dynamic>> _isarBudgetCategoryGetLinks(
+    IsarBudgetCategory object) {
   return [];
 }
 
-void _isarCategoryAttach(
-    IsarCollection<dynamic> col, Id id, IsarCategory object) {
+void _isarBudgetCategoryAttach(
+    IsarCollection<dynamic> col, Id id, IsarBudgetCategory object) {
   object.id = id;
 }
 
-extension IsarCategoryQueryWhereSort
-    on QueryBuilder<IsarCategory, IsarCategory, QWhere> {
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhere> anyId() {
+extension IsarBudgetCategoryQueryWhereSort
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QWhere> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension IsarCategoryQueryWhere
-    on QueryBuilder<IsarCategory, IsarCategory, QWhereClause> {
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhereClause> idEqualTo(Id id) {
+extension IsarBudgetCategoryQueryWhere
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QWhereClause> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhereClause>
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -153,8 +156,8 @@ extension IsarCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -176,9 +179,8 @@ extension IsarCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhereClause> idGreaterThan(
-      Id id,
-      {bool include = false}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -186,8 +188,8 @@ extension IsarCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -195,7 +197,8 @@ extension IsarCategoryQueryWhere
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterWhereClause> idBetween(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterWhereClause>
+      idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -212,9 +215,9 @@ extension IsarCategoryQueryWhere
   }
 }
 
-extension IsarCategoryQueryFilter
-    on QueryBuilder<IsarCategory, IsarCategory, QFilterCondition> {
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+extension IsarBudgetCategoryQueryFilter
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QFilterCondition> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       currentAmountEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -228,7 +231,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       currentAmountGreaterThan(
     double value, {
     bool include = false,
@@ -244,7 +247,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       currentAmountLessThan(
     double value, {
     bool include = false,
@@ -260,7 +263,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       currentAmountBetween(
     double lower,
     double upper, {
@@ -280,8 +283,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> idEqualTo(
-      Id value) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -290,7 +293,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -303,7 +307,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> idLessThan(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -316,7 +321,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> idBetween(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -333,7 +339,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthEqualTo(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -346,7 +353,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       monthGreaterThan(
     String value, {
     bool include = false,
@@ -362,7 +369,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthLessThan(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -377,7 +385,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthBetween(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -396,7 +405,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       monthStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -410,7 +419,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthEndsWith(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -423,9 +433,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'month',
@@ -435,9 +444,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> monthMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      monthMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'month',
@@ -447,7 +455,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       monthIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -457,7 +465,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       monthIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -467,7 +475,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -480,7 +489,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       nameGreaterThan(
     String value, {
     bool include = false,
@@ -496,7 +505,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -511,7 +521,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameBetween(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -530,7 +541,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       nameStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -544,7 +555,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -557,9 +569,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'name',
@@ -569,9 +580,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'name',
@@ -581,7 +591,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -591,7 +601,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -601,7 +611,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       startAmountEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -615,7 +625,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       startAmountGreaterThan(
     double value, {
     bool include = false,
@@ -631,7 +641,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       startAmountLessThan(
     double value, {
     bool include = false,
@@ -647,7 +657,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       startAmountBetween(
     double lower,
     double upper, {
@@ -667,7 +677,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearEqualTo(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -680,7 +691,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       yearGreaterThan(
     String value, {
     bool include = false,
@@ -696,7 +707,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearLessThan(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -711,7 +723,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearBetween(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -730,7 +743,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       yearStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -744,7 +757,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearEndsWith(
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -757,9 +771,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'year',
@@ -769,9 +782,8 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition> yearMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      yearMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'year',
@@ -781,7 +793,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       yearIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -791,7 +803,7 @@ extension IsarCategoryQueryFilter
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterFilterCondition>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       yearIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -802,224 +814,245 @@ extension IsarCategoryQueryFilter
   }
 }
 
-extension IsarCategoryQueryObject
-    on QueryBuilder<IsarCategory, IsarCategory, QFilterCondition> {}
+extension IsarBudgetCategoryQueryObject
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QFilterCondition> {}
 
-extension IsarCategoryQueryLinks
-    on QueryBuilder<IsarCategory, IsarCategory, QFilterCondition> {}
+extension IsarBudgetCategoryQueryLinks
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QFilterCondition> {}
 
-extension IsarCategoryQuerySortBy
-    on QueryBuilder<IsarCategory, IsarCategory, QSortBy> {
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByCurrentAmount() {
+extension IsarBudgetCategoryQuerySortBy
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QSortBy> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'currentAmount', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       sortByCurrentAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'currentAmount', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByMonth() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByMonth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'month', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByMonthDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByMonthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'month', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByName() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByStartAmount() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByStartAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startAmount', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       sortByStartAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startAmount', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByYear() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByYear() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'year', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> sortByYearDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByYearDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'year', Sort.desc);
     });
   }
 }
 
-extension IsarCategoryQuerySortThenBy
-    on QueryBuilder<IsarCategory, IsarCategory, QSortThenBy> {
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByCurrentAmount() {
+extension IsarBudgetCategoryQuerySortThenBy
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QSortThenBy> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'currentAmount', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       thenByCurrentAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'currentAmount', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenById() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByMonth() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByMonth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'month', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByMonthDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByMonthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'month', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByName() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByStartAmount() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByStartAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startAmount', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy>
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       thenByStartAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startAmount', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByYear() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByYear() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'year', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QAfterSortBy> thenByYearDesc() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByYearDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'year', Sort.desc);
     });
   }
 }
 
-extension IsarCategoryQueryWhereDistinct
-    on QueryBuilder<IsarCategory, IsarCategory, QDistinct> {
-  QueryBuilder<IsarCategory, IsarCategory, QDistinct>
+extension IsarBudgetCategoryQueryWhereDistinct
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
       distinctByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'currentAmount');
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QDistinct> distinctByMonth(
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
+      distinctByMonth({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'month', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QDistinct> distinctByName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
+      distinctByName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QDistinct> distinctByStartAmount() {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
+      distinctByStartAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'startAmount');
     });
   }
 
-  QueryBuilder<IsarCategory, IsarCategory, QDistinct> distinctByYear(
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
+      distinctByYear({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'year', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension IsarCategoryQueryProperty
-    on QueryBuilder<IsarCategory, IsarCategory, QQueryProperty> {
-  QueryBuilder<IsarCategory, int, QQueryOperations> idProperty() {
+extension IsarBudgetCategoryQueryProperty
+    on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QQueryProperty> {
+  QueryBuilder<IsarBudgetCategory, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<IsarCategory, double, QQueryOperations> currentAmountProperty() {
+  QueryBuilder<IsarBudgetCategory, double, QQueryOperations>
+      currentAmountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'currentAmount');
     });
   }
 
-  QueryBuilder<IsarCategory, String, QQueryOperations> monthProperty() {
+  QueryBuilder<IsarBudgetCategory, String, QQueryOperations> monthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'month');
     });
   }
 
-  QueryBuilder<IsarCategory, String, QQueryOperations> nameProperty() {
+  QueryBuilder<IsarBudgetCategory, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });
   }
 
-  QueryBuilder<IsarCategory, double, QQueryOperations> startAmountProperty() {
+  QueryBuilder<IsarBudgetCategory, double, QQueryOperations>
+      startAmountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'startAmount');
     });
   }
 
-  QueryBuilder<IsarCategory, String, QQueryOperations> yearProperty() {
+  QueryBuilder<IsarBudgetCategory, String, QQueryOperations> yearProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'year');
     });
