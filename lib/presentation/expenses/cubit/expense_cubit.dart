@@ -15,12 +15,12 @@ import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 class ExpenseState {
   final List<Expense> expenses;
   final List<BudgetCategory> budgetCategories;
-  final BudgetCategory? selectedCategory;
+  final String selectedCategory;
 
   ExpenseState({
     required this.expenses,
     required this.budgetCategories,
-    this.selectedCategory,
+    this.selectedCategory = '0',
   });
 }
 
@@ -29,7 +29,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
   final BudgetCategoryRepository categoryRepo;
 
   ExpenseCubit(this.expenseRepo, this.categoryRepo)
-      : super(ExpenseState(expenses: [], budgetCategories: [], selectedCategory: null)) {
+      : super(ExpenseState(expenses: [], budgetCategories: [], selectedCategory: '0')) {
     _loadExpenses();
     _loadCategories();
 
@@ -42,18 +42,28 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   Future<void> _loadCategories() async {
     final budgetCategories = await categoryRepo.getAllCategories();
+    BudgetCategory allCategory = BudgetCategory(
+      id: '0',
+      name: 'Wszystkie',
+      startAmount: 0,
+      currentAmount: 0,
+      month: DateTime.now().month.toString(),
+      year: DateTime.now().year.toString(),
+    );
+
+    budgetCategories.insert(0, allCategory);
     emit(ExpenseState(expenses: state.expenses, budgetCategories: budgetCategories));
   }
 
   // Add expense
   Future<void> addExpense(
-      String name, double amount, String category, String description) async {
+      String name, double amount, String budgetCategoryId, String description) async {
     final newExpense = Expense(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
       amount: amount,
       date: DateTime.now(),
-      category: category,
+      budgetCategoryId: budgetCategoryId,
       description: description,
       isSplitted: false,
       isPaid: false,
@@ -69,5 +79,31 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     await expenseRepo.deleteExpense(id);
 
     _loadExpenses();
+  }
+
+  // Update selected category and load expenses for that category
+  Future<void> selectCategory(String budgetCategoryId) async {
+    final selectedCategory = state.budgetCategories.firstWhere(
+      (category) => category.id == budgetCategoryId,
+      orElse: () => BudgetCategory(
+        id: '0',
+        name: 'Wszystkie',
+        startAmount: 0,
+        currentAmount: 0,
+        month: DateTime.now().month.toString(),
+        year: DateTime.now().year.toString(),
+      ),
+    );
+
+    if (selectedCategory.id == '0') {
+      _loadExpenses();
+      return;
+    }
+    final expenses = await expenseRepo.getExpensesByBudgetCategoryId(selectedCategory.id);
+    emit(ExpenseState(
+      expenses: expenses,
+      budgetCategories: state.budgetCategories,
+      selectedCategory: selectedCategory.id,
+    ));
   }
 }

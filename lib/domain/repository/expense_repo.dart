@@ -24,5 +24,5 @@ abstract class ExpenseRepository {
   Future<List<Expense>> getAllExpenses();
   
   // Get expenses by category
-  Future<List<Expense>> getExpensesByCategory(String category);
+  Future<List<Expense>> getExpensesByBudgetCategoryId(String budgetCategoryId);
 }

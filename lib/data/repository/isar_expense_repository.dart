@@ -59,10 +59,10 @@ class IsarExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  Future<List<Expense>> getExpensesByCategory(String category) {
+  Future<List<Expense>> getExpensesByBudgetCategoryId(String budgetCategoryId) {
     return db.isarExpenses
         .filter()
-        .categoryEqualTo(category)
+        .budgetCategoryIdEqualTo(budgetCategoryId)
         .findAll()
         .then((isarExpenses) {
       return isarExpenses.map((isarExpense) => isarExpense.toDomain()).toList();

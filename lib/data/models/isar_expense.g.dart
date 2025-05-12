@@ -22,9 +22,9 @@ const IsarExpenseSchema = CollectionSchema(
       name: r'amount',
       type: IsarType.double,
     ),
-    r'category': PropertySchema(
+    r'budgetCategoryId': PropertySchema(
       id: 1,
-      name: r'category',
+      name: r'budgetCategoryId',
       type: IsarType.string,
     ),
     r'date': PropertySchema(
@@ -73,7 +73,7 @@ int _isarExpenseEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.category.length * 3;
+  bytesCount += 3 + object.budgetCategoryId.length * 3;
   bytesCount += 3 + object.description.length * 3;
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
@@ -86,7 +86,7 @@ void _isarExpenseSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDouble(offsets[0], object.amount);
-  writer.writeString(offsets[1], object.category);
+  writer.writeString(offsets[1], object.budgetCategoryId);
   writer.writeDateTime(offsets[2], object.date);
   writer.writeString(offsets[3], object.description);
   writer.writeBool(offsets[4], object.isPaid);
@@ -102,7 +102,7 @@ IsarExpense _isarExpenseDeserialize(
 ) {
   final object = IsarExpense();
   object.amount = reader.readDouble(offsets[0]);
-  object.category = reader.readString(offsets[1]);
+  object.budgetCategoryId = reader.readString(offsets[1]);
   object.date = reader.readDateTime(offsets[2]);
   object.description = reader.readString(offsets[3]);
   object.id = id;
@@ -294,13 +294,14 @@ extension IsarExpenseQueryFilter
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition> categoryEqualTo(
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      budgetCategoryIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -308,7 +309,7 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryGreaterThan(
+      budgetCategoryIdGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -316,7 +317,7 @@ extension IsarExpenseQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -324,7 +325,7 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryLessThan(
+      budgetCategoryIdLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -332,14 +333,15 @@ extension IsarExpenseQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition> categoryBetween(
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      budgetCategoryIdBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -348,7 +350,7 @@ extension IsarExpenseQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'category',
+        property: r'budgetCategoryId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -359,13 +361,13 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryStartsWith(
+      budgetCategoryIdStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -373,13 +375,13 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryEndsWith(
+      budgetCategoryIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -387,22 +389,21 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryContains(String value, {bool caseSensitive = true}) {
+      budgetCategoryIdContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition> categoryMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      budgetCategoryIdMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'category',
+        property: r'budgetCategoryId',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -410,20 +411,20 @@ extension IsarExpenseQueryFilter
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryIsEmpty() {
+      budgetCategoryIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: '',
       ));
     });
   }
 
   QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
-      categoryIsNotEmpty() {
+      budgetCategoryIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'category',
+        property: r'budgetCategoryId',
         value: '',
       ));
     });
@@ -843,15 +844,17 @@ extension IsarExpenseQuerySortBy
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy> sortByCategory() {
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      sortByBudgetCategoryId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.asc);
+      return query.addSortBy(r'budgetCategoryId', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy> sortByCategoryDesc() {
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      sortByBudgetCategoryIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.desc);
+      return query.addSortBy(r'budgetCategoryId', Sort.desc);
     });
   }
 
@@ -930,15 +933,17 @@ extension IsarExpenseQuerySortThenBy
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy> thenByCategory() {
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      thenByBudgetCategoryId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.asc);
+      return query.addSortBy(r'budgetCategoryId', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy> thenByCategoryDesc() {
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      thenByBudgetCategoryIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.desc);
+      return query.addSortBy(r'budgetCategoryId', Sort.desc);
     });
   }
 
@@ -1023,10 +1028,11 @@ extension IsarExpenseQueryWhereDistinct
     });
   }
 
-  QueryBuilder<IsarExpense, IsarExpense, QDistinct> distinctByCategory(
+  QueryBuilder<IsarExpense, IsarExpense, QDistinct> distinctByBudgetCategoryId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'budgetCategoryId',
+          caseSensitive: caseSensitive);
     });
   }
 
@@ -1077,9 +1083,10 @@ extension IsarExpenseQueryProperty
     });
   }
 
-  QueryBuilder<IsarExpense, String, QQueryOperations> categoryProperty() {
+  QueryBuilder<IsarExpense, String, QQueryOperations>
+      budgetCategoryIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'category');
+      return query.addPropertyName(r'budgetCategoryId');
     });
   }
 

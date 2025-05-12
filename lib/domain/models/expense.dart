@@ -28,7 +28,7 @@ Methods:
 class Expense {
   final String id;
   final String name;
-  final String category;
+  final String budgetCategoryId;
   final DateTime date;
   final double amount;
   final String description;
@@ -38,7 +38,7 @@ class Expense {
   Expense({
     required this.id,
     required this.name,
-    required this.category,
+    required this.budgetCategoryId,
     required this.date,
     required this.amount,
     required this.description,

@@ -7,7 +7,6 @@ import 'package:budgetmaster/presentation/expenses/widgets/expenses_category_scr
 
 class ExpensesView extends StatelessWidget {
   const ExpensesView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +21,9 @@ class ExpensesView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: ExpensesCategoryScrollList(
                   categories: state.budgetCategories,
+                  selectedCategory: state.selectedCategory, // Add this line
                   onCategorySelected: (selectedCategory) {
-                    // Update the selected category in the state
+                    context.read<ExpenseCubit>().selectCategory(selectedCategory);
                   },
                 ),
               ),

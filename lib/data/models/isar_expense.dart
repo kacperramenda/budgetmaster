@@ -17,7 +17,7 @@ part 'isar_expense.g.dart'; // dart run build_runner build
 class IsarExpense {
   Id id = Isar.autoIncrement; // Unique identifier for the expense.
   late String name; // The name of the expense.
-  late String category; // The category of the expense.
+  late String budgetCategoryId; // The category of the expense.
   late DateTime date; // The date of the expense.
   late double amount; // The amount of the expense.
   late String description; // A description of the expense.
@@ -28,7 +28,7 @@ class IsarExpense {
       return Expense(
         id: id.toString(),
         name: name,
-        category: category,
+        budgetCategoryId: budgetCategoryId,
         date: date,
         amount: amount,
         description: description,
@@ -41,7 +41,7 @@ class IsarExpense {
     return IsarExpense()
       ..id = int.parse(expense.id)
       ..name = expense.name
-      ..category = expense.category
+      ..budgetCategoryId = expense.budgetCategoryId
       ..date = expense.date
       ..amount = expense.amount
       ..description = expense.description

@@ -38,6 +38,34 @@ void main() async {
   //   await isar.isarBudgetCategorys.put(newBudgetCategory); 
   // });
 
+  // add sample expenses
+  final newExpense = IsarExpense()
+    ..id = 2
+    ..name = 'Zakupy spożywcze'
+    ..amount = 250.0
+    ..budgetCategoryId = '2'
+    ..date = DateTime.now()
+    ..description = 'Zakupy w sklepie spożywczym'
+    ..isPaid = false
+    ..isSplitted = false;
+
+  await isar.writeTxn(() async {
+    await isar.isarExpenses.put(newExpense);
+  });
+
+  // delete all expenses
+  // await isar.writeTxn(() async {
+  //   final allExpenseIds = await isar.isarExpenses.where().idProperty().findAll();
+  //   await isar.isarExpenses.deleteAll(allExpenseIds);
+  // });
+
+  // print expenses from database in terminal
+  final expenses = await isarExpenseRepository.getAllExpenses();
+  for (var expense in expenses) {
+    print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.budgetCategoryId}, Date: ${expense.date}');
+  }
+
+
   // Run app
   runApp(MyApp(
     expensesRepository: isarExpenseRepository,

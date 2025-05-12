@@ -10,7 +10,7 @@ class ExpensesCategoryScrollList extends StatelessWidget {
     super.key,
     required this.categories,
     required this.onCategorySelected,
-    this.selectedCategory = '1',
+    this.selectedCategory,
   });
 
   @override
@@ -20,11 +20,12 @@ class ExpensesCategoryScrollList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: categories.map((category) {
+            print('SELECTED CATEGORY: $selectedCategory');
             final isSelected = category.id == selectedCategory;
             return Padding(
               padding: const EdgeInsets.only(right: 8),
               child: GestureDetector(
-                onTap: () => onCategorySelected(category.name),
+                onTap: () => onCategorySelected(category.id),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
