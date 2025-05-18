@@ -67,7 +67,8 @@ class ExpenseListItem extends StatelessWidget {
             const SizedBox(height: 8),
 
             // Third row: Paid
-            _labelValue("Opłacony", expense.isPaid ? "Tak" : "Nie", AppColors.semanticGreen),
+            if(expense.isSplitted)
+              _labelValue("Opłacony", expense.isPaid ? "Tak" : "Nie", expense.isPaid ? AppColors.semanticGreen : AppColors.semanticRed),
           ],
         ),
       ),

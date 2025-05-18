@@ -9,6 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:budgetmaster/data/models/isar_expense.dart';
 import 'package:budgetmaster/data/models/isar_budgetCategory.dart';
+import 'package:budgetmaster/presentation/expenses/view/expense_details_view.dart';
+import 'package:budgetmaster/domain/models/expense.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,6 +105,10 @@ class MyApp extends StatelessWidget {
           '/budget': (context) => const MainScaffold(currentIndex: 1),
           '/savings': (context) => const MainScaffold(currentIndex: 2),
           '/expenses': (context) => const MainScaffold(currentIndex: 3),
+          '/expense_details': (context) {
+            final expense = ModalRoute.of(context)!.settings.arguments as Expense;
+            return ExpenseDetailsView(expense: expense);
+          },
         },
       ),
     );

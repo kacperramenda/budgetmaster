@@ -1,12 +1,14 @@
+import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/expense_list_item.dart';
-import 'package:budgetmaster/presentation/expenses/widgets/expenses_header.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/expenses_category_scroll_list.dart';
 
+
 class ExpensesView extends StatelessWidget {
-  const ExpensesView({Key? key}) : super(key: key);
+  const ExpensesView({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,18 +18,25 @@ class ExpensesView extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ExpensesHeader(),
+              PageHeader(
+                title: 'Wydatki',
+                route: '/expenses',
+                showAddButton: true,
+                onAddPressed: () {
+                  Navigator.pushNamed(context, '/add-expense');
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: ExpensesCategoryScrollList(
                   categories: state.budgetCategories,
-                  selectedCategory: state.selectedCategory, // Add this line
+                  selectedCategory: state.selectedCategory,
                   onCategorySelected: (selectedCategory) {
                     context.read<ExpenseCubit>().selectCategory(selectedCategory);
                   },
                 ),
               ),
-              // Lista wydatków
+              // Expenses list
               Expanded(
                 child: state.expenses.isEmpty
                     ? const Center(child: Text('Brak wydatków'))
