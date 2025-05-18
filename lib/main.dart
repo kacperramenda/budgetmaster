@@ -3,13 +3,14 @@ import 'package:budgetmaster/data/repository/isar_budgetCategory_repository.dart
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 import 'package:budgetmaster/presentation/common/main_scaffold.dart';
+import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:budgetmaster/data/models/isar_expense.dart';
 import 'package:budgetmaster/data/models/isar_budgetCategory.dart';
-import 'package:budgetmaster/presentation/expenses/view/expense_details_view.dart';
+import 'package:budgetmaster/presentation/expenses/view/details/expense_details_view.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 
 void main() async {
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
             final expense = ModalRoute.of(context)!.settings.arguments as Expense;
             return ExpenseDetailsView(expense: expense);
           },
+          '/add-expense': (context) => const ExpenseAddView(),
         },
       ),
     );

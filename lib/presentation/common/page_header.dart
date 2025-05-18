@@ -19,11 +19,13 @@ class PageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 32, left: 8, right: 24),
       color: Colors.white,
       child: Row(
         children: [
           IconButton(
+            padding: EdgeInsets.zero, 
+            constraints: const BoxConstraints(), 
             icon: const Icon(Icons.chevron_left, size: 32),
             onPressed: () {
               Navigator.pushReplacementNamed(context, route);

@@ -20,7 +20,7 @@ class ExpensesView extends StatelessWidget {
             children: [
               PageHeader(
                 title: 'Wydatki',
-                route: '/expenses',
+                route: '/home',
                 showAddButton: true,
                 onAddPressed: () {
                   Navigator.pushNamed(context, '/add-expense');
