@@ -25,11 +25,16 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   late String expenseDescription;
   BudgetCategory? selectedCategory;
   final colorList = [AppColors.semanticBlue, AppColors.semanticGreen, AppColors.semanticRed, AppColors.semanticYellow];
+  late Future<List<BudgetCategory>> _categoriesFuture;
 
   @override
   void initState() {
     super.initState();
-    expenseDate = DateTime.now().toString();
+    _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+      context,
+      listen: false,
+    ).getAllCategories();
+    expenseDate = '';
     expenseCategory = '';
     expenseName = '';
     expenseAmount = '';
@@ -71,7 +76,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: FutureBuilder<List<BudgetCategory>>(
-                    future: Provider.of<BudgetCategoryRepository>(context, listen: false).getAllCategories(),
+                    future: _categoriesFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
@@ -92,23 +97,32 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                   onTap: () {
                                     setState(() {
                                       expenseCategory = '';
-                                      selectedCategory = null; // ustaw na null jeśli nullable
+                                      selectedCategory = null;
                                     });
                                   },
                                 ),
                               ),
                               ...categories.map((category) {
+                                final isSelected = selectedCategory?.id == category.id;
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 8),
-                                  child: ExpenseCategoryTile(
-                                    label: category.name,
-                                    backgroundColor: colorList[Random().nextInt(colorList.length)],
-                                    onTap: () {
-                                      setState(() {
-                                        expenseCategory = category.id;
-                                        selectedCategory = category;
-                                      });
-                                    },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: isSelected
+                                          ? Border.all(color: AppColors.primary1, width: 2)
+                                          : null,
+                                      borderRadius: BorderRadius.circular(12), // Match tile's radius if needed
+                                    ),
+                                    child: ExpenseCategoryTile(
+                                      label: category.name,
+                                      backgroundColor: colorList[Random().nextInt(colorList.length)],
+                                      onTap: () {
+                                        setState(() {
+                                          expenseCategory = category.id;
+                                          selectedCategory = category;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 );
                               }).toList(),
