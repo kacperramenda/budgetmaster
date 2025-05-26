@@ -30,6 +30,7 @@ class BudgetCategory {
   final double currentAmount;
   final String month;
   final String year;
+  final String? color;
 
   BudgetCategory({
     required this.id,
@@ -38,5 +39,6 @@ class BudgetCategory {
     required this.currentAmount,
     required this.month,
     required this.year,
+    this.color,
   });
 }

@@ -46,7 +46,9 @@ class BudgetCategoryListItem extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.semanticOrange,
+                    color: budgetCategory.color != null
+                        ? Color(int.parse(budgetCategory.color!))
+                        : AppColors.primary1,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),

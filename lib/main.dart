@@ -34,30 +34,37 @@ void main() async {
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
   //   ..id = 4
-  //   ..name = 'Rozrywka'
-  //   ..startAmount = 350.0
-  //   ..currentAmount = 250.0
+  //   ..name = 'Inne'
+  //   ..startAmount = 500.0
+  //   ..currentAmount = 500.0
   //   ..month = '5'
-  //   ..year = '2025';
+  //   ..year = '2025'
+  //   ..color = '0xFFFFAF2A'; // Default color
 
   // await isar.writeTxn(() async {
   //   await isar.isarBudgetCategorys.put(newBudgetCategory); 
   // });
 
-  // add sample expenses
-  final newExpense = IsarExpense()
-    ..id = 2
-    ..name = 'Zakupy spożywcze'
-    ..amount = 250.0
-    ..budgetCategoryId = '2'
-    ..date = DateTime.now()
-    ..description = 'Zakupy w sklepie spożywczym'
-    ..isPaid = false
-    ..isSplitted = false;
+  // delete all budget categories
+  // await isar.writeTxn(() async {
+  //   final allCategoryIds = await isar.isarBudgetCategorys.where().idProperty().findAll();
+  //   await isar.isarBudgetCategorys.deleteAll(allCategoryIds);
+  // });
 
-  await isar.writeTxn(() async {
-    await isar.isarExpenses.put(newExpense);
-  });
+  // add sample expenses
+  // final newExpense = IsarExpense()
+  //   ..id = 2
+  //   ..name = 'Zakupy spożywcze'
+  //   ..amount = 250.0
+  //   ..budgetCategoryId = '2'
+  //   ..date = DateTime.now()
+  //   ..description = 'Zakupy w sklepie spożywczym'
+  //   ..isPaid = false
+  //   ..isSplitted = false;
+
+  // await isar.writeTxn(() async {
+  //   await isar.isarExpenses.put(newExpense);
+  // });
 
   // delete all expenses
   // await isar.writeTxn(() async {

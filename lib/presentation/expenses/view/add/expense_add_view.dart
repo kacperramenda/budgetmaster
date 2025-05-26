@@ -1,7 +1,5 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/domain/models/budgetCategory.dart';
-import 'package:budgetmaster/domain/models/expense.dart';
-import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/presentation/common/buttonPrimary.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_add_tile.dart';
@@ -11,7 +9,6 @@ import 'package:budgetmaster/presentation/common/InputField.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:provider/provider.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
-import 'dart:math';
 
 // ...existing imports...
 
@@ -28,12 +25,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   late String expenseAmount;
   late String expenseDescription;
   BudgetCategory? selectedCategory;
-  final colorList = [
-    AppColors.semanticBlue,
-    AppColors.semanticGreen,
-    AppColors.semanticRed,
-    AppColors.semanticYellow
-  ];
   late Future<List<BudgetCategory>> _categoriesFuture;
 
   final TextEditingController _nameController = TextEditingController();
@@ -127,7 +118,9 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                     ),
                                     child: ExpenseCategoryTile(
                                       label: category.name,
-                                      backgroundColor: colorList[Random().nextInt(colorList.length)],
+                                      backgroundColor: category.color != null
+                                          ? Color(int.parse(category.color!))
+                                          : AppColors.primary1,
                                       onTap: () {
                                         setState(() {
                                           expenseCategory = category.id;

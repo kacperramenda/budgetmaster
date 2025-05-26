@@ -18,28 +18,33 @@ const IsarBudgetCategorySchema = CollectionSchema(
   name: r'IsarBudgetCategory',
   id: -5868918568529773283,
   properties: {
-    r'currentAmount': PropertySchema(
+    r'color': PropertySchema(
       id: 0,
+      name: r'color',
+      type: IsarType.string,
+    ),
+    r'currentAmount': PropertySchema(
+      id: 1,
       name: r'currentAmount',
       type: IsarType.double,
     ),
     r'month': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'month',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'startAmount': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'startAmount',
       type: IsarType.double,
     ),
     r'year': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'year',
       type: IsarType.string,
     )
@@ -64,6 +69,12 @@ int _isarBudgetCategoryEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.color;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.month.length * 3;
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.year.length * 3;
@@ -76,11 +87,12 @@ void _isarBudgetCategorySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.currentAmount);
-  writer.writeString(offsets[1], object.month);
-  writer.writeString(offsets[2], object.name);
-  writer.writeDouble(offsets[3], object.startAmount);
-  writer.writeString(offsets[4], object.year);
+  writer.writeString(offsets[0], object.color);
+  writer.writeDouble(offsets[1], object.currentAmount);
+  writer.writeString(offsets[2], object.month);
+  writer.writeString(offsets[3], object.name);
+  writer.writeDouble(offsets[4], object.startAmount);
+  writer.writeString(offsets[5], object.year);
 }
 
 IsarBudgetCategory _isarBudgetCategoryDeserialize(
@@ -90,12 +102,13 @@ IsarBudgetCategory _isarBudgetCategoryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = IsarBudgetCategory();
-  object.currentAmount = reader.readDouble(offsets[0]);
+  object.color = reader.readStringOrNull(offsets[0]);
+  object.currentAmount = reader.readDouble(offsets[1]);
   object.id = id;
-  object.month = reader.readString(offsets[1]);
-  object.name = reader.readString(offsets[2]);
-  object.startAmount = reader.readDouble(offsets[3]);
-  object.year = reader.readString(offsets[4]);
+  object.month = reader.readString(offsets[2]);
+  object.name = reader.readString(offsets[3]);
+  object.startAmount = reader.readDouble(offsets[4]);
+  object.year = reader.readString(offsets[5]);
   return object;
 }
 
@@ -107,14 +120,16 @@ P _isarBudgetCategoryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readDouble(offset)) as P;
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -217,6 +232,160 @@ extension IsarBudgetCategoryQueryWhere
 
 extension IsarBudgetCategoryQueryFilter
     on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QFilterCondition> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'color',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'color',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'color',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'color',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'color',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'color',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
+      colorIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'color',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterFilterCondition>
       currentAmountEqualTo(
     double value, {
@@ -823,6 +992,20 @@ extension IsarBudgetCategoryQueryLinks
 extension IsarBudgetCategoryQuerySortBy
     on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QSortBy> {
   QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.asc);
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      sortByColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.desc);
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       sortByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'currentAmount', Sort.asc);
@@ -895,6 +1078,20 @@ extension IsarBudgetCategoryQuerySortBy
 
 extension IsarBudgetCategoryQuerySortThenBy
     on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QSortThenBy> {
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.asc);
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
+      thenByColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.desc);
+    });
+  }
+
   QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QAfterSortBy>
       thenByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
@@ -983,6 +1180,13 @@ extension IsarBudgetCategoryQuerySortThenBy
 extension IsarBudgetCategoryQueryWhereDistinct
     on QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct> {
   QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
+      distinctByColor({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'color', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, IsarBudgetCategory, QDistinct>
       distinctByCurrentAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'currentAmount');
@@ -1023,6 +1227,12 @@ extension IsarBudgetCategoryQueryProperty
   QueryBuilder<IsarBudgetCategory, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<IsarBudgetCategory, String?, QQueryOperations> colorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'color');
     });
   }
 
