@@ -1,4 +1,5 @@
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
+import 'package:budgetmaster/presentation/budgetCategories/view/budgetCategories_view.dart';
 import 'package:budgetmaster/presentation/common/customBottomNav.dart';
 import 'package:budgetmaster/presentation/expenses/view/expenses_page.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 0:
         return const HomeView();
       case 1:
-        return const HomeView();
+        return BudgetCategoriesView();
       case 2:
         return const HomeView();
       case 3:

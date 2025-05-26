@@ -2,6 +2,7 @@ import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/data/repository/isar_budgetCategory_repository.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/presentation/budgetCategories/cubit/budgetCategory_cubit.dart';
 import 'package:budgetmaster/presentation/common/main_scaffold.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dart';
@@ -96,6 +97,9 @@ class MyApp extends StatelessWidget {
         Provider<BudgetCategoryRepository>.value(value: budgetCategoryRepository),
         BlocProvider<ExpenseCubit>(
           create: (context) => ExpenseCubit(expensesRepository, budgetCategoryRepository),
+        ),
+        BlocProvider<BudgetCategoryCubit>(
+          create: (context) => BudgetCategoryCubit(budgetCategoryRepository),
         ),
       ],
       child: MaterialApp(
