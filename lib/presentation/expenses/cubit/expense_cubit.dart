@@ -75,14 +75,20 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     );
 
     await expenseRepo.addExpense(newExpense);
+    await _updateBudgetCategoryAmount(budgetCategoryId, amountDelta: -amount);
     loadExpenses();
   }
 
   // Delete expense
   Future<void> deleteExpense(String id) async {
-    await expenseRepo.deleteExpense(id);
+    final expense = state.expenses.firstWhere((e) => e.id == id);
+    if (expense != null) {
+      await expenseRepo.deleteExpense(id);
+      await _updateBudgetCategoryAmount(expense.budgetCategoryId, amountDelta: expense.amount);
+      loadExpenses();
+    }
+    // Update the budget category's current amount
 
-    loadExpenses();
   }
 
   // Update selected category and load expenses for that category
@@ -109,5 +115,17 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       budgetCategories: state.budgetCategories,
       selectedCategory: selectedCategory.id,
     ));
+  }
+
+  Future<void> _updateBudgetCategoryAmount(String budgetCategoryId, {required double amountDelta}) async {
+    if (budgetCategoryId == '0') return; // Don't update for "Wszystkie"
+    final category = await categoryRepo.getCategoryById(budgetCategoryId);
+    if (category != null) {
+      final updatedCategory = category.copyWith(
+        currentAmount: (category.currentAmount ?? 0) + amountDelta,
+      );
+      await categoryRepo.updateCategory(updatedCategory);
+      await _loadCategories();
+    }
   }
 }

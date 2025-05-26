@@ -40,5 +40,26 @@ class BudgetCategory {
     required this.month,
     required this.year,
     this.color,
+
   });
+
+  BudgetCategory copyWith({
+    String? id,
+    String? name,
+    double? startAmount,
+    double? currentAmount,
+    String? month,
+    String? year,
+    String? color,
+  }) {
+    return BudgetCategory(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      startAmount: startAmount ?? this.startAmount,
+      currentAmount: currentAmount ?? this.currentAmount,
+      month: month ?? this.month,
+      year: year ?? this.year,
+      color: color ?? this.color,
+    );
+  }
 }

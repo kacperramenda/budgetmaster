@@ -33,13 +33,12 @@ void main() async {
 
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
-  //   ..id = 4
-  //   ..name = 'Inne'
-  //   ..startAmount = 500.0
-  //   ..currentAmount = 500.0
+  //   ..id = 1
+  //   ..name = 'Mieszkanie'
+  //   ..startAmount = 2500.0
+  //   ..currentAmount = 2500.0
   //   ..month = '5'
-  //   ..year = '2025'
-  //   ..color = '0xFFFFAF2A'; // Default color
+  //   ..year = '2025';
 
   // await isar.writeTxn(() async {
   //   await isar.isarBudgetCategorys.put(newBudgetCategory); 
