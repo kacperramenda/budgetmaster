@@ -30,12 +30,12 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   ExpenseCubit(this.expenseRepo, this.categoryRepo)
       : super(ExpenseState(expenses: [], budgetCategories: [], selectedCategory: '0')) {
-    _loadExpenses();
+    loadExpenses();
     _loadCategories();
 
   }
 
-  Future<void> _loadExpenses() async {
+  Future<void> loadExpenses() async {
     final expenses = await expenseRepo.getAllExpenses();
     emit(ExpenseState(expenses: expenses, budgetCategories: state.budgetCategories));
   }
@@ -57,12 +57,17 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   // Add expense
   Future<void> addExpense(
-      String name, double amount, String budgetCategoryId, String description) async {
+    String name,
+    double amount,
+    String budgetCategoryId,
+    String description, {
+    DateTime? date,
+  }) async {
     final newExpense = Expense(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
       amount: amount,
-      date: DateTime.now(),
+      date: date ?? DateTime.now(),
       budgetCategoryId: budgetCategoryId,
       description: description,
       isSplitted: false,
@@ -70,15 +75,14 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     );
 
     await expenseRepo.addExpense(newExpense);
-
-    _loadExpenses();
+    loadExpenses();
   }
 
   // Delete expense
   Future<void> deleteExpense(String id) async {
     await expenseRepo.deleteExpense(id);
 
-    _loadExpenses();
+    loadExpenses();
   }
 
   // Update selected category and load expenses for that category
@@ -96,7 +100,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     );
 
     if (selectedCategory.id == '0') {
-      _loadExpenses();
+      loadExpenses();
       return;
     }
     final expenses = await expenseRepo.getExpensesByBudgetCategoryId(selectedCategory.id);

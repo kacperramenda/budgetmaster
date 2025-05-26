@@ -22,9 +22,13 @@ class ExpensesView extends StatelessWidget {
                 title: 'Wydatki',
                 route: '/home',
                 showAddButton: true,
-                onAddPressed: () {
-                  Navigator.pushNamed(context, '/add-expense');
-                },
+                onAddPressed: () async {
+                  final result = await Navigator.pushNamed(context, '/add-expense');
+                  if (result == true) {
+                    // ignore: use_build_context_synchronously
+                    context.read<ExpenseCubit>().loadExpenses();
+                  }
+                }
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -47,12 +51,17 @@ class ExpensesView extends StatelessWidget {
                           final expense = state.expenses[index];
                           return ExpenseListItem(
                             expense: expense,
-                            onTap: () {
-                              Navigator.pushNamed(
+                            onTap: () async {
+                              final result = await Navigator.pushNamed(
                                 context,
                                 '/expense_details',
                                 arguments: expense,
                               );
+
+                              if (result == true) {
+                                // odśwież listę wydatków
+                                context.read<ExpenseCubit>().loadExpenses();
+                              }
                             },
                           );
                         },

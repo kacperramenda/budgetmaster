@@ -1,6 +1,9 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/expense.dart';
+import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/presentation/common/buttonPrimary.dart';
+import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_add_tile.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_tile.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,8 @@ import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:provider/provider.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 import 'dart:math';
+
+// ...existing imports...
 
 class ExpenseAddView extends StatefulWidget {
   const ExpenseAddView({super.key});
@@ -20,12 +25,21 @@ class ExpenseAddView extends StatefulWidget {
 class _ExpenseAddViewState extends State<ExpenseAddView> {
   late String expenseDate;
   late String expenseCategory;
-  late String expenseName;
   late String expenseAmount;
   late String expenseDescription;
   BudgetCategory? selectedCategory;
-  final colorList = [AppColors.semanticBlue, AppColors.semanticGreen, AppColors.semanticRed, AppColors.semanticYellow];
+  final colorList = [
+    AppColors.semanticBlue,
+    AppColors.semanticGreen,
+    AppColors.semanticRed,
+    AppColors.semanticYellow
+  ];
   late Future<List<BudgetCategory>> _categoriesFuture;
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +50,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
     ).getAllCategories();
     expenseDate = '';
     expenseCategory = '';
-    expenseName = '';
     expenseAmount = '';
     expenseDescription = '';
   }
@@ -65,14 +78,13 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                   child: InputField(
                     label: 'Data',
                     placeholder: 'Wybierz datę',
-                    value: expenseDate,
                     type: InputType.date,
+                    controller: _dateController,
                     onChanged: (newDate) {
                       setState(() => expenseDate = newDate);
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: FutureBuilder<List<BudgetCategory>>(
@@ -111,7 +123,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                       border: isSelected
                                           ? Border.all(color: AppColors.primary1, width: 2)
                                           : null,
-                                      borderRadius: BorderRadius.circular(12), // Match tile's radius if needed
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: ExpenseCategoryTile(
                                       label: category.name,
@@ -133,17 +145,15 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                     },
                   ),
                 ),
-
-
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: InputField(
                     label: 'Nazwa',
                     placeholder: 'Nazwa wydatku',
-                    value: expenseName,
+                    controller: _nameController,
                     type: InputType.text,
-                    onChanged: (newName) {
-                      setState(() => expenseName = newName);
+                    onChanged: (newValue) {
+                      setState(() {});
                     },
                   ),
                 ),
@@ -152,7 +162,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                   child: InputField(
                     label: 'Kwota',
                     placeholder: 'Kwota wydatku',
-                    value: expenseAmount,
+                    controller: _amountController,
                     type: InputType.number,
                     onChanged: (newAmount) {
                       setState(() => expenseAmount = newAmount);
@@ -164,20 +174,61 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                   child: InputField(
                     label: 'Opis',
                     placeholder: 'Opis wydatku',
-                    value: expenseDescription,
-                    type: InputType.number,
-                    onChanged: (newAmount) {
-                      setState(() => expenseDescription = newAmount);
+                    controller: _descriptionController,
+                    type: InputType.text,
+                    onChanged: (newDesc) {
+                      setState(() => expenseDescription = newDesc);
                     },
                   ),
                 ),
-
                 const SizedBox(height: 32),
-
                 ButtonPrimary(
                   label: 'Dodaj',
-                  onPressed: () {
-                    // wykonaj akcję
+                  onPressed: () async {
+                    // Always get the latest values from controllers
+                    final name = _nameController.text.trim();
+                    final amount = _amountController.text.trim();
+                    final desc = _descriptionController.text.trim();
+                    final date = _dateController.text.trim();
+
+                    if (date.isEmpty ||
+                        expenseCategory.isEmpty ||
+                        name.isEmpty ||
+                        amount.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Proszę wypełnić wszystkie pola')),
+                      );
+                      return;
+                    }
+
+                    // Parse date from dd/MM/yyyy to DateTime
+                    DateTime? parsedDate;
+                    try {
+                      final parts = date.split('/');
+                      parsedDate = DateTime(
+                        int.parse(parts[2]),
+                        int.parse(parts[1]),
+                        int.parse(parts[0]),
+                      );
+                    } catch (_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Nieprawidłowy format daty')),
+                      );
+                      return;
+                    }
+
+                    await context.read<ExpenseCubit>().addExpense(
+                      name,
+                      double.tryParse(amount) ?? 0.0,
+                      expenseCategory,
+                      desc,
+                      date: parsedDate,
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Wydatek zapisany')),
+                    );
+                    Navigator.pop(context, true);
                   },
                 ),
               ],

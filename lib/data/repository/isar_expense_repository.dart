@@ -18,8 +18,8 @@ class IsarExpenseRepository implements ExpenseRepository {
   //get expenses
   @override
   Future<List<Expense>> getAllExpenses() async {
-    // Fetch all expenses from the Isar database asynchronously.
-    final expenses = await db.isarExpenses.where().findAll();
+    // Fetch all expenses from the Isar database asynchronously, ordered by date descending.
+    final expenses = await db.isarExpenses.where().sortByDateDesc().findAll();
 
     // Convert IsarExpense to Expense using the toDomain method
     // and return the list of expenses.

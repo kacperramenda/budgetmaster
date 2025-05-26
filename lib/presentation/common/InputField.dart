@@ -8,22 +8,22 @@ enum InputType { text, number, date }
 class InputField extends StatelessWidget {
   final String? label;
   final String? placeholder;
-  final String value;
   final InputType type;
   final void Function(String) onChanged;
+  final TextEditingController? controller;
 
   const InputField({
     super.key,
     this.label,
     this.placeholder,
-    required this.value,
     required this.type,
     required this.onChanged,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController(text: value);
+    final effectiveController = controller ?? TextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,10 +42,12 @@ class InputField extends StatelessWidget {
         GestureDetector(
           onTap: () async {
             if (type == InputType.date) {
-              final initialDate = value.isNotEmpty
-                  ? DateFormat('dd/MM/yyyy').tryParse(value) ?? DateTime.now()
-                  : DateTime.now();
-
+              DateTime initialDate = DateTime.now();
+              if (effectiveController.text.isNotEmpty) {
+                try {
+                  initialDate = DateFormat('dd/MM/yyyy').parse(effectiveController.text);
+                } catch (_) {}
+              }
               final pickedDate = await showDatePicker(
                 context: context,
                 initialDate: initialDate,
@@ -53,14 +55,16 @@ class InputField extends StatelessWidget {
                 lastDate: DateTime(2100),
               );
               if (pickedDate != null) {
-                onChanged(DateFormat('dd/MM/yyyy').format(pickedDate));
+                final formatted = DateFormat('dd/MM/yyyy').format(pickedDate);
+                effectiveController.text = formatted;
+                onChanged(formatted);
               }
             }
           },
           child: AbsorbPointer(
             absorbing: type == InputType.date,
             child: TextField(
-              controller: controller,
+              controller: effectiveController,
               keyboardType: _getKeyboardType(),
               onChanged: onChanged,
               style: AppTypography.body3.copyWith(
