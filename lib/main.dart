@@ -33,12 +33,13 @@ void main() async {
 
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
-  //   ..id = 1
-  //   ..name = 'Mieszkanie'
-  //   ..startAmount = 2500.0
-  //   ..currentAmount = 2500.0
+  //   ..id = 4
+  //   ..name = 'Inne'
+  //   ..startAmount = 500.0
+  //   ..currentAmount = 500.0
   //   ..month = '5'
-  //   ..year = '2025';
+  //   ..year = '2025'
+  //   ..color = '0xFFFFAF2A'; // Example color in ARGB format
 
   // await isar.writeTxn(() async {
   //   await isar.isarBudgetCategorys.put(newBudgetCategory); 
@@ -48,6 +49,11 @@ void main() async {
   // await isar.writeTxn(() async {
   //   final allCategoryIds = await isar.isarBudgetCategorys.where().idProperty().findAll();
   //   await isar.isarBudgetCategorys.deleteAll(allCategoryIds);
+  // });
+
+  // delete budget categories with id 
+  // await isar.writeTxn(() async {
+  //   await isar.isarBudgetCategorys.delete(1);
   // });
 
   // add sample expenses

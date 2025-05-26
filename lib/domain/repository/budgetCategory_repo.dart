@@ -24,7 +24,7 @@ abstract class BudgetCategoryRepository {
   Future<List<BudgetCategory>> getAllCategories();
   
   // Get categories by month and year
-  Future<List<BudgetCategory?>> getCategoriesForCurrentMonth(String month, String year);
+  Future<List<BudgetCategory?>> getCategoriesForSelectedMonth(String month, String year);
 
   // Get category by id for current month and year
 }

@@ -28,13 +28,21 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
     {'name': 'Grudzień', 'index': 12},
   ];
 
+  int? selectedMonthIndex = DateTime.now().month;
+
   @override
   void initState() {
     super.initState();
-    // Wywołaj tylko raz
     Future.microtask(() {
       context.read<BudgetCategoryCubit>().loadCategories();
     });
+  }
+
+  void _onMonthSelected(int monthIndex) {
+    setState(() {
+      selectedMonthIndex = monthIndex;
+    });
+    context.read<BudgetCategoryCubit>().loadCategories(month: monthIndex);
   }
 
   @override
@@ -60,13 +68,19 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
                   onAddPressed: () async {
                     final result = await Navigator.pushNamed(context, '/add-budget-category');
                     if (result == true) {
-                      context.read<BudgetCategoryCubit>().loadCategories();
+                      context.read<BudgetCategoryCubit>().loadCategories(
+                        month: selectedMonthIndex,
+                      );
                     }
                   },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                  child: MonthsScrollList(months: months),
+                  child: MonthsScrollList(
+                    months: months,
+                    selectedMonth: selectedMonthIndex,
+                    onMonthSelected: _onMonthSelected,
+                  ),
                 ),
                 Expanded(
                   child: Padding(
@@ -91,7 +105,6 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
             return Center(child: Text('Błąd: ${state.message}'));
           }
 
-          // BudgetCategoryInitial — już nie powinien występować
           return const Center(child: Text('Ładowanie danych...'));
         },
       ),
