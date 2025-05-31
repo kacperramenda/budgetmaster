@@ -57,16 +57,11 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
   //get categories for current month
   @override
 Future<List<BudgetCategory>> getCategoriesForSelectedMonth(String month, String year) async {
-  final intMonth = int.tryParse(month);
-  final intYear = int.tryParse(year);
-
-  if (intMonth == null || intYear == null) return [];
-
   final categories = await db
       .collection<IsarBudgetCategory>()
       .filter()
-      .monthEqualTo(intMonth as String)
-      .yearEqualTo(intYear as String)
+      .monthEqualTo(month)
+      .yearEqualTo(year)
       .findAll();
 
   return categories.map((isarCategory) => isarCategory.toDomain()).toList();

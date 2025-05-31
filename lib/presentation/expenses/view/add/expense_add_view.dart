@@ -43,8 +43,9 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
     setState(() {
       expenseDate = newDate;
       final parsed = _extractMonthAndYear(newDate);
+      print('######################## Parsed date: $parsed');      
       if (parsed != null) {
-        _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+          _categoriesFuture = Provider.of<BudgetCategoryRepository>(
           context,
           listen: false,
         ).getCategoriesForSelectedMonth(parsed['month']!, parsed['year']!).then(
@@ -57,8 +58,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   Map<String, String>? _extractMonthAndYear(String dateStr) {
     try {
       final parts = dateStr.split('/');
-      final day = int.parse(parts[0]);
-      final month = parts[1];
+      final month = int.parse(parts[1]).toString(); // "05" → 5 → "5"
       final year = parts[2];
       return {'month': month, 'year': year};
     } catch (_) {
