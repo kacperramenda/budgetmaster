@@ -10,8 +10,6 @@ import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:provider/provider.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 
-// ...existing imports...
-
 class ExpenseAddView extends StatefulWidget {
   const ExpenseAddView({super.key});
 
@@ -25,7 +23,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   late String expenseAmount;
   late String expenseDescription;
   BudgetCategory? selectedCategory;
-  late Future<List<BudgetCategory>> _categoriesFuture;
+  Future<List<BudgetCategory>>? _categoriesFuture;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -35,14 +33,37 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   @override
   void initState() {
     super.initState();
-    _categoriesFuture = Provider.of<BudgetCategoryRepository>(
-      context,
-      listen: false,
-    ).getAllCategories();
     expenseDate = '';
     expenseCategory = '';
     expenseAmount = '';
     expenseDescription = '';
+  }
+
+  void _onDateChanged(String newDate) {
+    setState(() {
+      expenseDate = newDate;
+      final parsed = _extractMonthAndYear(newDate);
+      print('######################## Parsed date: $parsed');      
+      if (parsed != null) {
+          _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+          context,
+          listen: false,
+        ).getCategoriesForSelectedMonth(parsed['month']!, parsed['year']!).then(
+          (list) => list.whereType<BudgetCategory>().toList(),
+        );
+      }
+    });
+  }
+
+  Map<String, String>? _extractMonthAndYear(String dateStr) {
+    try {
+      final parts = dateStr.split('/');
+      final month = int.parse(parts[1]).toString(); // "05" → 5 → "5"
+      final year = parts[2];
+      return {'month': month, 'year': year};
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -71,73 +92,80 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                     placeholder: 'Wybierz datę',
                     type: InputType.date,
                     controller: _dateController,
-                    onChanged: (newDate) {
-                      setState(() => expenseDate = newDate);
-                    },
+                    onChanged: _onDateChanged,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: FutureBuilder<List<BudgetCategory>>(
-                    future: _categoriesFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      }
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text('Brak kategorii');
-                      }
-                      final categories = snapshot.data!;
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        clipBehavior: Clip.none,
-                        child: IntrinsicHeight(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: ExpenseCategoryAddTile(
-                                  onTap: () {
-                                    setState(() {
-                                      expenseCategory = '';
-                                      selectedCategory = null;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ...categories.map((category) {
-                                final isSelected = selectedCategory?.id == category.id;
-                                return Padding(
+                if (expenseDate.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      'Wybierz datę, aby wyświetlić kategorie',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: FutureBuilder<List<BudgetCategory>>(
+                      future: _categoriesFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Text('Brak kategorii dla tego miesiąca');
+                        }
+                        final categories = snapshot.data!;
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          clipBehavior: Clip.none,
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Padding(
                                   padding: const EdgeInsets.only(right: 8),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: isSelected
-                                          ? Border.all(color: AppColors.primary1, width: 2)
-                                          : null,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: ExpenseCategoryTile(
-                                      label: category.name,
-                                      backgroundColor: category.color != null
-                                          ? Color(int.parse(category.color!))
-                                          : AppColors.primary1,
-                                      onTap: () {
-                                        setState(() {
-                                          expenseCategory = category.id;
-                                          selectedCategory = category;
-                                        });
-                                      },
-                                    ),
+                                  child: ExpenseCategoryAddTile(
+                                    onTap: () {
+                                      setState(() {
+                                        expenseCategory = '';
+                                        selectedCategory = null;
+                                      });
+                                    },
                                   ),
-                                );
-                              }).toList(),
-                            ],
+                                ),
+                                ...categories.map((category) {
+                                  final isSelected = selectedCategory?.id == category.id;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: isSelected
+                                            ? Border.all(color: AppColors.primary1, width: 2)
+                                            : null,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: ExpenseCategoryTile(
+                                        label: category.name,
+                                        backgroundColor: category.color != null
+                                            ? Color(int.parse(category.color!))
+                                            : AppColors.primary1,
+                                        onTap: () {
+                                          setState(() {
+                                            expenseCategory = category.id;
+                                            selectedCategory = category;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: InputField(
@@ -145,9 +173,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                     placeholder: 'Nazwa wydatku',
                     controller: _nameController,
                     type: InputType.text,
-                    onChanged: (newValue) {
-                      setState(() {});
-                    },
+                    onChanged: (_) => setState(() {}),
                   ),
                 ),
                 Padding(
@@ -178,7 +204,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                 ButtonPrimary(
                   label: 'Dodaj',
                   onPressed: () async {
-                    // Always get the latest values from controllers
                     final name = _nameController.text.trim();
                     final amount = _amountController.text.trim();
                     final desc = _descriptionController.text.trim();
@@ -194,7 +219,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                       return;
                     }
 
-                    // Parse date from dd/MM/yyyy to DateTime
                     DateTime? parsedDate;
                     try {
                       final parts = date.split('/');
@@ -232,6 +256,3 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
     );
   }
 }
-
-
-              

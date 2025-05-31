@@ -39,7 +39,7 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get category by id for current month and year
   @override
-  Future<BudgetCategory?> getCategoryByIdForCurrentMonth(String id, String month, String year) async {
+  Future<BudgetCategory?> getCategoryByIdForSelectedMonth(String id, String month, String year) async {
     // Fetch a category by its ID for the current month and year from the Isar database asynchronously.
     final category = await db
         .collection<IsarBudgetCategory>()
@@ -56,19 +56,17 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get categories for current month
   @override
-  Future<List<BudgetCategory>> getCategoriesForCurrentMonth(String month, String year) async {
-    // Fetch categories for the current month and year from the Isar database asynchronously.
-    final categories = await db
-        .collection<IsarBudgetCategory>()
-        .filter()
-        .monthEqualTo(month)
-        .yearEqualTo(year)
-        .findAll();
+Future<List<BudgetCategory>> getCategoriesForSelectedMonth(String month, String year) async {
+  final categories = await db
+      .collection<IsarBudgetCategory>()
+      .filter()
+      .monthEqualTo(month)
+      .yearEqualTo(year)
+      .findAll();
 
-    // Convert IsarBudgetCategory to BudgetCategory using the toDomain method
-    // and return the list of categories.
-    return categories.map((isarCategory) => isarCategory.toDomain()).toList();
-  }
+  return categories.map((isarCategory) => isarCategory.toDomain()).toList();
+}
+
 
   //add category
   @override

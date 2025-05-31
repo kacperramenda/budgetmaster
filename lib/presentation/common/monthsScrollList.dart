@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class MonthsScrollList extends StatelessWidget {
   final List<Map<String, dynamic>> months;
-  final String? selectedMonth;
-  // final Function(String month) onMonthSelected;
+  final int? selectedMonth;
+  final Function(int monthIndex) onMonthSelected;
 
   const MonthsScrollList({
     super.key,
     required this.months,
-    // required this.onMonthSelected,
+    required this.onMonthSelected,
     this.selectedMonth,
   });
 
@@ -20,12 +20,13 @@ class MonthsScrollList extends StatelessWidget {
         child: Row(
           children: months.map((month) {
             final String monthName = month['name'] as String;
-            final String monthId = month['id'].toString();
-            final bool isSelected = monthId == selectedMonth;
+            final int monthIndex = month['index'] as int;
+            final bool isSelected = monthIndex == selectedMonth;
+
             return Padding(
               padding: const EdgeInsets.only(right: 8),
               child: GestureDetector(
-                // onTap: () => onMonthSelected(monthId),
+                onTap: () => onMonthSelected(monthIndex),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(

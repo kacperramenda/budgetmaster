@@ -38,14 +38,17 @@ class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
   final BudgetCategoryRepository repository;
 
   BudgetCategoryCubit(this.repository) : super(BudgetCategoryInitial());
-
-  void loadCategories() async {
+  
+  void loadCategories({int? month}) async {
     emit(BudgetCategoryLoading());
     try {
-      final categories = await repository.getAllCategories();
-      emit(BudgetCategoryLoaded(categories));
+      final all = await repository.getAllCategories(); // lub inna metoda pobierająca dane z bazy
+      final filtered = month != null
+          ? all.where((cat) => int.tryParse(cat.month) == month).toList()
+          : all;
+      emit(BudgetCategoryLoaded(filtered));
     } catch (e) {
-      emit(BudgetCategoryError('Failed to load categories'));
+      emit(BudgetCategoryError('Nie udało się załadować kategorii'));
     }
   }
 }
