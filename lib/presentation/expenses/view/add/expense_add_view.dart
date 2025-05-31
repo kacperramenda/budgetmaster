@@ -43,7 +43,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
     setState(() {
       expenseDate = newDate;
       final parsed = _extractMonthAndYear(newDate);
-      print('######################## Parsed date: $parsed');      
       if (parsed != null) {
           _categoriesFuture = Provider.of<BudgetCategoryRepository>(
           context,

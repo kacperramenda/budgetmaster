@@ -62,7 +62,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PageHeader(
-                  title: 'Budżet',
+                  title: 'Kategorie',
                   route: '/home',
                   showAddButton: true,
                   onAddPressed: () async {
@@ -83,19 +83,16 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
                   ),
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: categories.isEmpty
-                        ? const Center(child: Text("Brak kategorii"))
-                        : ListView.separated(
-                            itemCount: categories.length,
-                            separatorBuilder: (_, __) => const SizedBox(height: 12),
-                            itemBuilder: (context, index) {
-                              final category = categories[index];
-                              return BudgetCategoryListItem(budgetCategory: category);
-                            },
-                          ),
-                  ),
+                  child: categories.isEmpty
+                      ? const Center(child: Text('Brak kategorii'))
+                      : ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          itemCount: categories.length,
+                          itemBuilder: (context, index) {
+                            final category = categories[index];
+                            return BudgetCategoryListItem(budgetCategory: category);
+                          },
+                        ),
                 ),
               ],
             );

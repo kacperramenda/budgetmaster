@@ -2,8 +2,9 @@ import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
-enum InputType { text, number, date }
+enum InputType { text, number, date, monthYear }
 
 class InputField extends StatelessWidget {
   final String? label;
@@ -60,9 +61,27 @@ class InputField extends StatelessWidget {
                 onChanged(formatted);
               }
             }
+
+            if (type == InputType.monthYear) {
+              final now = DateTime.now();
+              final picked = await showMonthYearPicker(
+                context: context,
+                initialDate: now,
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                locale: const Locale("pl"), // jeśli chcesz PL
+              );
+
+              if (picked != null) {
+                final formatted = '${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                effectiveController.text = formatted;
+                onChanged(formatted);
+              }
+            }
           },
+
           child: AbsorbPointer(
-            absorbing: type == InputType.date,
+            absorbing: type == InputType.date || type == InputType.monthYear,
             child: TextField(
               controller: effectiveController,
               keyboardType: _getKeyboardType(),

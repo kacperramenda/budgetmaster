@@ -11,7 +11,7 @@ class PageHeader extends StatelessWidget {
   const PageHeader({
     super.key,
     required this.title,
-    required this.route,
+    this.route = '',
     this.showAddButton = false,
     this.onAddPressed,
   });
@@ -28,7 +28,11 @@ class PageHeader extends StatelessWidget {
             constraints: const BoxConstraints(), 
             icon: const Icon(Icons.chevron_left, size: 32),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, route);
+              if (route != '') {
+                Navigator.pushNamed(context, route);
+              } else {
+                Navigator.pop(context);
+              }
             },
           ),
           const SizedBox(width: 8),

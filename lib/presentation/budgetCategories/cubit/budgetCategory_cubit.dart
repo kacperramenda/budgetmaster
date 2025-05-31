@@ -51,4 +51,13 @@ class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
       emit(BudgetCategoryError('Nie udało się załadować kategorii'));
     }
   }
+
+  Future<void> addCategory(BudgetCategory category) async {
+    try {
+      await repository.addCategory(category);
+      loadCategories(); // Reload categories after adding
+    } catch (e) {
+      emit(BudgetCategoryError('Nie udało się dodać kategorii'));
+    }
+  }
 }
