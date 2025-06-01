@@ -68,46 +68,46 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       MenuTile(
                         svgPath: 'assets/icons/budget.svg',
-                        label: 'Budżet',
+                        label: 'Kategorie',
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/budget-categories');
                         },
                       ),
-                      MenuTile(
-                        svgPath: 'assets/icons/savings.svg',
-                        label: 'Sejfy',
-                        onTap: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                      ),
-                      MenuTile(
-                        svgPath: 'assets/icons/groups.svg',
-                        label: 'Grupy wydatków',
-                        onTap: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                      ),
+                      // MenuTile(
+                      //   svgPath: 'assets/icons/savings.svg',
+                      //   label: 'Sejfy',
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, '/profile');
+                      //   },
+                      // ),
+                      // MenuTile(
+                      //   svgPath: 'assets/icons/groups.svg',
+                      //   label: 'Grupy wydatków',
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, '/profile');
+                      //   },
+                      // ),
                       MenuTile(
                         svgPath: 'assets/icons/expenses.svg',
                         label: 'Wydatki',
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/expenses');
                         },
                       ),
                       MenuTile(
                         svgPath: 'assets/icons/expenses-set.svg',
                         label: 'Zestawienie wydatków',
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/expenses-set');
                         },
                       ),
-                      MenuTile(
-                        svgPath: 'assets/icons/split-expense.svg',
-                        label: 'Podziel wydatek',
-                        onTap: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                      ),
+                      // MenuTile(
+                      //   svgPath: 'assets/icons/split-expense.svg',
+                      //   label: 'Podziel wydatek',
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, '/profile');
+                      //   },
+                      // ),
                     ],
                   )
                 ],

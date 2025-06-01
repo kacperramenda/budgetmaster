@@ -1,3 +1,4 @@
+import 'package:budgetmaster/presentation/common/monthsScrollList.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:budgetmaster/presentation/expenses/widgets/expenses_category_scr
 
 class ExpensesView extends StatelessWidget {
   const ExpensesView({super.key});
+  
   
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,14 @@ class ExpensesView extends StatelessWidget {
                   }
                 }
               ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              //   child: MonthsScrollList(
+              //     months: months,
+              //     selectedMonth: selectedMonthIndex,
+              //     onMonthSelected: _onMonthSelected,
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 child: ExpensesCategoryScrollList(

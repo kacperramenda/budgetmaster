@@ -23,7 +23,7 @@ class ExpensesPage extends StatelessWidget {
     required this.expensesRepository,
     required this.budgetCategoryRepository,
   });
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
