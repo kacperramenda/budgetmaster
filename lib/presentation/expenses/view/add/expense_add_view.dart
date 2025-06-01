@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:budgetmaster/core/constants/app_colors.dart';
+import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:budgetmaster/domain/models/budgetCategory.dart';
 import 'package:budgetmaster/presentation/common/buttonPrimary.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
@@ -112,7 +115,43 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                           return const CircularProgressIndicator();
                         }
                         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Text('Brak kategorii dla tego miesiąca');
+                          return Column(
+                            children: [
+                              const Text(
+                                'Brak kategorii dla wybranej daty',
+                                style: TextStyle(color: AppColors.neutral3),
+                              ),
+                              Center(
+                                child: InkWell(
+                                  onTap: () async {
+                                    final result = await Navigator.pushNamed(context, '/add-budget-category');
+
+                                    if (result == true && expenseDate.isNotEmpty) {
+                                      final parsed = _extractMonthAndYear(expenseDate);
+                                      if (parsed != null) {
+                                        setState(() {
+                                          _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+                                            context,
+                                            listen: false,
+                                          ).getCategoriesForSelectedMonth(
+                                            parsed['month']!,
+                                            parsed['year']!,
+                                          ).then((list) => list.whereType<BudgetCategory>().toList());
+                                        });
+                                      }
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 6),
+                                    child: Text(
+                                      'Dodaj kategorię',
+                                      style: TextStyle(color: AppColors.primary1),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
                         }
                         final categories = snapshot.data!;
                         return SingleChildScrollView(

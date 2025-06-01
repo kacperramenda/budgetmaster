@@ -39,7 +39,7 @@ class CustomBottomNav extends StatelessWidget {
               ),
               _buildNavItem(
                 asset: 'assets/icons/budget.svg',
-                label: 'Budżet',
+                label: 'Kategorie',
                 index: 1,
               ),
               _buildNavItem(

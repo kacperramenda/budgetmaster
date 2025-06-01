@@ -34,7 +34,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<BudgetCategoryCubit>().loadCategories();
+      context.read<BudgetCategoryCubit>().loadCategories(month: selectedMonthIndex);
     });
   }
 
