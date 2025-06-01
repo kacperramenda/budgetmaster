@@ -18,7 +18,7 @@ class BudgetCategoryListItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          '/budgetCategoryDetails',
+          '/budget-category-details',
           arguments: budgetCategory,
         );
       },

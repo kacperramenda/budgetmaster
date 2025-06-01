@@ -1,9 +1,11 @@
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/data/repository/isar_budgetCategory_repository.dart';
+import 'package:budgetmaster/domain/models/budgetCategory.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
 import 'package:budgetmaster/presentation/budgetCategories/cubit/budgetCategory_cubit.dart';
 import 'package:budgetmaster/presentation/budgetCategories/view/add/budgetCategry_add_view.dart';
+import 'package:budgetmaster/presentation/budgetCategories/view/details/budgetCategory_details_view.dart';
 import 'package:budgetmaster/presentation/common/main_scaffold.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dart';
@@ -112,7 +114,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ExpenseCubit(expensesRepository, budgetCategoryRepository),
         ),
         BlocProvider<BudgetCategoryCubit>(
-          create: (context) => BudgetCategoryCubit(budgetCategoryRepository),
+          create: (context) => BudgetCategoryCubit(budgetCategoryRepository, expensesRepository),
         ),
       ],
       child: MaterialApp(
@@ -125,7 +127,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/home',
         routes: {
           '/home': (context) => const MainScaffold(currentIndex: 0),
-          '/budget': (context) => const MainScaffold(currentIndex: 1),
+          '/budget-categories': (context) => const MainScaffold(currentIndex: 1),
           '/savings': (context) => const MainScaffold(currentIndex: 2),
           '/expenses': (context) => const MainScaffold(currentIndex: 3),
           '/expense_details': (context) {
@@ -134,6 +136,10 @@ class MyApp extends StatelessWidget {
           },
           '/add-expense': (context) => const ExpenseAddView(),
           '/add-budget-category': (context) => const BudgetCategryAddView(),
+          '/budget-category-details': (context) {
+            final category = ModalRoute.of(context)!.settings.arguments as BudgetCategory;
+            return BudgetCategoryDetailsView(category: category);
+          },
         },
       ),
     );

@@ -26,7 +26,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         route = '/home';
         break;
       case 1:
-        route = '/budget';
+        route = '/budget-categories';
         break;
       case 2:
         route = '/savings';

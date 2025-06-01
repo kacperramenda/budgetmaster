@@ -1,4 +1,5 @@
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/presentation/budgetCategories/cubit/budgetCategory_cubit.dart';
@@ -15,7 +16,8 @@ class BudgetcategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BudgetCategoryCubit(budgetCategoryRepository),
+      create: (context) => BudgetCategoryCubit(budgetCategoryRepository, 
+          context.read<ExpenseRepository>()),
       child: const BudgetCategoriesView(),
     );
   }

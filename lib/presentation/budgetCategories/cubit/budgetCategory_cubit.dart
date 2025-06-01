@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:budgetmaster/domain/models/budgetCategory.dart';
 
@@ -36,8 +37,9 @@ class BudgetCategoryError extends BudgetCategoryState {
 // Cubit
 class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
   final BudgetCategoryRepository repository;
+  final ExpenseRepository expenseRepository;
 
-  BudgetCategoryCubit(this.repository) : super(BudgetCategoryInitial());
+  BudgetCategoryCubit(this.repository, this.expenseRepository) : super(BudgetCategoryInitial());
   
   void loadCategories({int? month}) async {
     emit(BudgetCategoryLoading());
@@ -60,4 +62,27 @@ class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
       emit(BudgetCategoryError('Nie udało się dodać kategorii'));
     }
   }
+
+  Future<void> updateCategory(BudgetCategory category) async {
+    try {
+      await repository.updateCategory(category);
+      loadCategories(); // Reload categories after updating
+    } catch (e) {
+      emit(BudgetCategoryError('Nie udało się zaktualizować kategorii'));
+    }
+  }
+
+  Future<void> deleteCategory(String id) async {
+  try {
+    final expenses = await expenseRepository.getExpensesByBudgetCategoryId(id);
+    if (expenses.isNotEmpty) {
+      throw Exception('Nie można usunąć kategorii z dodanymi wydatkami');
+    }
+
+    await repository.deleteCategory(id);
+    loadCategories(); // Odśwież dane
+  } catch (e) {
+    rethrow; // Przekaż dalej
+  }
+}
 }
