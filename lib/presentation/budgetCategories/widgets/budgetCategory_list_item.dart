@@ -36,7 +36,7 @@ class BudgetCategoryListItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF3629B7).withOpacity(0.07),
-              blurRadius: 30,
+              blurRadius: 12,
               offset: const Offset(0, 4),
             ),
           ],

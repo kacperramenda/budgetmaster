@@ -1,18 +1,17 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class MenuTile extends StatelessWidget {
-  final String svgPath; // ścieżka do ikony
-  final VoidCallback onTap; // co zrobić po kliknięciu
-  final String label; // opcjonalny tekst pod ikoną
+class MonthTile extends StatelessWidget {
+  final VoidCallback onTap;
+  final String monthName;
+  final int monthNumber;
 
-  const MenuTile({
+  const MonthTile({
     super.key,
-    required this.svgPath,
     required this.onTap,
-    required this.label,
+    required this.monthName,
+    required this.monthNumber,
   });
 
   @override
@@ -36,15 +35,10 @@ class MenuTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              svgPath,
-              width: 28,
-              height: 28,
-            ),
             const SizedBox(height: 8),
             Center(
               child: Text(
-                label,
+                monthName,
                 style: AppTypography.caption2.copyWith(
                   color: AppColors.neutral2
                 ),

@@ -31,7 +31,7 @@ class ExpenseCategoryTile extends StatelessWidget {
                   BoxShadow(
                     // ignore: deprecated_member_use
                     color: AppColors.neutral1.withOpacity(0.07),
-                    blurRadius: 30,
+                    blurRadius: 12,
                     offset: Offset(0, 4),
                   ),
                 ],

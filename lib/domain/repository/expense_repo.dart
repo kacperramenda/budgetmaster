@@ -25,4 +25,10 @@ abstract class ExpenseRepository {
   
   // Get expenses by category
   Future<List<Expense>> getExpensesByBudgetCategoryId(String budgetCategoryId);
+
+  // Get expenses for a specific month and year
+  Future<List<Expense>> getExpensesForMonth(int month, int year);
+
+  // Get expenses for a specific year
+  Future<List<Expense>> getExpensesForYear(int year);
 }

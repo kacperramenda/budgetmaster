@@ -164,9 +164,21 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                   padding: const EdgeInsets.only(right: 8),
                                   child: ExpenseCategoryAddTile(
                                     onTap: () {
-                                      setState(() {
-                                        expenseCategory = '';
-                                        selectedCategory = null;
+                                      Navigator.pushNamed(context, '/add-budget-category').then((result) {
+                                        if (result == true && expenseDate.isNotEmpty) {
+                                          final parsed = _extractMonthAndYear(expenseDate);
+                                          if (parsed != null) {
+                                            setState(() {
+                                              _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+                                                context,
+                                                listen: false,
+                                              ).getCategoriesForSelectedMonth(
+                                                parsed['month']!,
+                                                parsed['year']!,
+                                              ).then((list) => list.whereType<BudgetCategory>().toList());
+                                            });
+                                          }
+                                        }
                                       });
                                     },
                                   ),

@@ -68,4 +68,36 @@ class IsarExpenseRepository implements ExpenseRepository {
       return isarExpenses.map((isarExpense) => isarExpense.toDomain()).toList();
     });
   }
+
+@override
+Future<List<Expense>> getExpensesForMonth(int month, int year) {
+  final startDate = DateTime(year, month, 1);
+  final endDate = DateTime(year, month + 1, 1).subtract(const Duration(milliseconds: 1));
+
+  return db.isarExpenses
+    .filter()
+    .dateGreaterThan(startDate, include: true)
+    .dateLessThan(endDate, include: true)
+    .findAll()
+    .then((isarExpenses) {
+      return isarExpenses.map((e) => e.toDomain()).toList();
+    });
+}
+
+
+@override
+Future<List<Expense>> getExpensesForYear(int year) {
+  final startDate = DateTime(year, 1, 1);
+  final endDate = DateTime(year + 1, 1, 1).subtract(const Duration(milliseconds: 1));
+
+  return db.isarExpenses
+    .filter()
+    .dateGreaterThan(startDate, include: true)
+    .dateLessThan(endDate, include: true)
+    .findAll()
+    .then((isarExpenses) {
+      return isarExpenses.map((e) => e.toDomain()).toList();
+    });
+  }
+
 }

@@ -21,7 +21,7 @@ class ExpenseCategoryAddTile extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppColors.neutral1.withOpacity(0.07),
-              blurRadius: 30,
+              blurRadius: 12,
               offset: Offset(0, 4),
             ),
           ],

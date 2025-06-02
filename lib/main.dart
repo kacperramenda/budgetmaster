@@ -9,6 +9,9 @@ import 'package:budgetmaster/presentation/budgetCategories/view/details/budgetCa
 import 'package:budgetmaster/presentation/common/main_scaffold.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dart';
+import 'package:budgetmaster/presentation/expensesSet/cubit/expensesSetCubit.dart';
+import 'package:budgetmaster/presentation/expensesSet/view/expenses_set_month_view.dart';
+import 'package:budgetmaster/presentation/expensesSet/view/expenses_set_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -116,6 +119,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<BudgetCategoryCubit>(
           create: (context) => BudgetCategoryCubit(budgetCategoryRepository, expensesRepository),
         ),
+        BlocProvider<ExpensesSetCubit>(
+          create: (context) => ExpensesSetCubit(expensesRepository, budgetCategoryRepository),
+        ),
       ],
       child: MaterialApp(
         title: 'BudgetMaster',
@@ -140,6 +146,18 @@ class MyApp extends StatelessWidget {
             final category = ModalRoute.of(context)!.settings.arguments as BudgetCategory;
             return BudgetCategoryDetailsView(category: category);
           },
+          '/expenses-set' : (context) {
+            return ExpensesSetView();
+          },
+            '/expenses-set-month': (context) {
+              final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+              final expenses = args['expenses'] as List<Expense>;
+              final categories = args['categories'] as List<BudgetCategory>;
+              return ExpensesSetMonthView(
+                expenses: expenses,
+                categories: categories,
+              );
+            },
         },
       ),
     );

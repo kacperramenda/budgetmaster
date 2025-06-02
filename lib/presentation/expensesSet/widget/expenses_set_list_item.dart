@@ -3,20 +3,22 @@ import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 
-class ExpenseListItem extends StatelessWidget {
+class ExpensesSetListItem extends StatelessWidget {
   final Expense expense;
-  final VoidCallback onTap;
+  final Function onTap;
+  final String? categoryName;
 
-  const ExpenseListItem({
+  const ExpensesSetListItem({
     super.key,
     required this.expense,
     required this.onTap,
+    this.categoryName,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => onTap(),
       borderRadius: BorderRadius.circular(15),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -41,34 +43,28 @@ class ExpenseListItem extends StatelessWidget {
               children: [
                 Text(
                   expense.name,
-                  style: AppTypography.title3.copyWith(
+                  style: AppTypography.body1.copyWith(
                     color: AppColors.neutral1,
                   ),
                 ),
                 Text(
-                  _formatDate(expense.date),
-                  style: AppTypography.caption1.copyWith(
-                    color: AppColors.neutral3,
+                  "- ${expense.amount.toStringAsFixed(2)}zł",
+                  style: AppTypography.caption2.copyWith(
+                    color: AppColors.semanticRed,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-
-            // Second row: Split / Amount
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _labelValue("Podzielony", expense.isSplitted ? "Tak" : "Nie", AppColors.primary1),
-                _labelValue("Kwota", "${expense.amount.toStringAsFixed(2)}zł", AppColors.primary1),
+                _labelValue(
+                  "Kategoria",
+                  categoryName ?? "Brak kategorii",
+                  AppColors.neutral2,
+                ),
               ],
             ),
-
-            const SizedBox(height: 8),
-
-            // Third row: Paid
-            if(expense.isSplitted)
-              _labelValue("Opłacony", expense.isPaid ? "Tak" : "Nie", expense.isPaid ? AppColors.semanticGreen : AppColors.semanticRed),
           ],
         ),
       ),
@@ -94,8 +90,4 @@ class ExpenseListItem extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    // Możesz dodać własne formatowanie jeśli chcesz
-    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
-  }
 }
