@@ -11,11 +11,13 @@ import 'package:fl_chart/fl_chart.dart';
 class ExpensesSetMonthView extends StatelessWidget {
   final List<Expense> expenses;
   final List<BudgetCategory> categories;
+  final Map<String, dynamic> selectedMonth;
 
   const ExpensesSetMonthView({
     super.key,
     required this.expenses,
     required this.categories,
+    required this.selectedMonth,
   });
 
   Map<String, List<Expense>> _groupExpensesByDay(List<Expense> expenses) {
@@ -61,7 +63,7 @@ class ExpensesSetMonthView extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const PageHeader(title: 'Zestawienie miesiąca', route: '/expenses-set'),
+          PageHeader(title: 'Zestawienie ${selectedMonth['name']}', route: '/expenses-set'),
           const SizedBox(height: 16),
 
           // Wykres kołowy
@@ -112,7 +114,7 @@ class ExpensesSetMonthView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Text(category.name, style: AppTypography.body3),
+                      Text(selectedMonth['index'] == 0 ? '${category.name} (${_monthNameFromNumber(category.month)})' : category.name, style: AppTypography.body3),
                     ],
                   );
                 }).toList(),
@@ -144,7 +146,9 @@ class ExpensesSetMonthView extends StatelessWidget {
                               final category = _getCategoryById(expense.budgetCategoryId);
                               return ExpensesSetListItem(
                                 expense: expense,
-                                categoryName: category.name, // nowy parametr
+                                categoryName: selectedMonth['index'] == 0
+                                  ? '${category.name} (${_monthNameFromNumber(category.month)})'
+                                  : category.name, // nowy parametr
                                 onTap: () {
                                   Navigator.pushNamed(context, '/expense_details', arguments: expense);
                                 },
@@ -167,5 +171,36 @@ class ExpensesSetMonthView extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+_monthNameFromNumber(String month) {
+  switch (month) {
+    case '1':
+      return 'Styczeń';
+    case '2':
+      return 'Luty';
+    case '3':
+      return 'Marzec';
+    case '4':
+      return 'Kwiecień';
+    case '5':
+      return 'Maj';
+    case '6':
+      return 'Czerwiec';
+    case '7':
+      return 'Lipiec';
+    case '8':
+      return 'Sierpień';
+    case '9':
+      return 'Wrzesień';
+    case '10':
+      return 'Październik';
+    case '11':
+      return 'Listopad';
+    case '12':
+      return 'Grudzień';
+    default:
+      return '';
   }
 }

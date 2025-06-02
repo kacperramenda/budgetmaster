@@ -1,5 +1,4 @@
 import 'package:budgetmaster/presentation/expensesSet/cubit/expensesSetCubit.dart';
-import 'package:budgetmaster/presentation/expensesSet/view/expenses_set_month_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/presentation/common/month_tile.dart';
@@ -65,6 +64,7 @@ class ExpensesSetView extends StatelessWidget {
                           arguments: {
                             'expenses': expenses,
                             'categories': state.budgetCategories,
+                            'selectedMonth': month,
                           },
                         );
                       },

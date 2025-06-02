@@ -153,9 +153,11 @@ class MyApp extends StatelessWidget {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
               final expenses = args['expenses'] as List<Expense>;
               final categories = args['categories'] as List<BudgetCategory>;
+              final selectedMonth = args['selectedMonth'];
               return ExpensesSetMonthView(
                 expenses: expenses,
                 categories: categories,
+                selectedMonth: selectedMonth,
               );
             },
         },
