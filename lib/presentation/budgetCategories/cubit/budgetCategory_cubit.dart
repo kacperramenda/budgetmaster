@@ -45,10 +45,14 @@ class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
     emit(BudgetCategoryLoading());
     try {
       final all = await repository.getAllCategories(); // lub inna metoda pobierająca dane z bazy
-      final filtered = month != null
-          ? all.where((cat) => int.tryParse(cat.month) == month).toList()
-          : all;
-      emit(BudgetCategoryLoaded(filtered));
+      if(month != -1) {
+        final filtered = month != null
+            ? all.where((cat) => int.tryParse(cat.month) == month).toList()
+            : all;
+        emit(BudgetCategoryLoaded(filtered));
+      } else {
+        emit(BudgetCategoryLoaded(all));
+      }
     } catch (e) {
       emit(BudgetCategoryError('Nie udało się załadować kategorii'));
     }
@@ -57,6 +61,7 @@ class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
   Future<void> addCategory(BudgetCategory category) async {
     try {
       await repository.addCategory(category);
+      // const currentMonth = DateTime.now().month;
       loadCategories(); // Reload categories after adding
     } catch (e) {
       emit(BudgetCategoryError('Nie udało się dodać kategorii'));

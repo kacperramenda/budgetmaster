@@ -14,6 +14,7 @@ class BudgetCategoriesView extends StatefulWidget {
 
 class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
   final List<Map<String, dynamic>> months = [
+    {'name': 'Wszystkie', 'index': -1},
     {'name': 'Styczeń', 'index': 1},
     {'name': 'Luty', 'index': 2},
     {'name': 'Marzec', 'index': 3},
@@ -90,7 +91,8 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
                             final category = categories[index];
-                            return BudgetCategoryListItem(budgetCategory: category);
+                            final month = months.firstWhere((m) => m['index'] == int.parse(category.month), orElse: () => {'name': 'Nieznany miesiąc'})['name'];
+                            return BudgetCategoryListItem(budgetCategory: category, showMonth: selectedMonthIndex == -1 ? true : false, month: month);
                           },
                         ),
                 ),

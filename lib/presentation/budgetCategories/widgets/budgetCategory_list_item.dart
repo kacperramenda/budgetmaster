@@ -6,10 +6,14 @@ import '../../../domain/models/budgetCategory.dart';
 
 class BudgetCategoryListItem extends StatelessWidget {
   final BudgetCategory budgetCategory;
+  final bool showMonth;
+  final String? month;
 
   const BudgetCategoryListItem({
     Key? key,
     required this.budgetCategory,
+    this.showMonth = false,
+    this.month,
   }) : super(key: key);
 
   @override
@@ -59,7 +63,7 @@ class BudgetCategoryListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      budgetCategory.name,
+                      "${budgetCategory.name}${showMonth ? ', ' : ''}${showMonth ? month : ''}",
                       style: AppTypography.body1.copyWith(
                         color: AppColors.neutral1,
                         fontWeight: FontWeight.w600,)
