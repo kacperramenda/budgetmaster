@@ -8,13 +8,13 @@ class ExpensesSetState {
   final int selectedYear;
   final List<int> availableYears;
   final List<Expense> expenses;
-  final List<Category> budgetCategories;
+  final List<Category> categories;
 
   ExpensesSetState({
     required this.selectedYear,
     required this.availableYears,
     required this.expenses,
-    required this.budgetCategories,
+    required this.categories,
   });
 
   ExpensesSetState copyWith({
@@ -27,7 +27,7 @@ class ExpensesSetState {
       selectedYear: selectedYear ?? this.selectedYear,
       availableYears: availableYears ?? this.availableYears,
       expenses: expenses ?? this.expenses,
-      budgetCategories: budgetCategories ?? this.budgetCategories,
+      categories: budgetCategories ?? this.categories,
     );
   }
 }
@@ -41,7 +41,7 @@ class ExpensesSetCubit extends Cubit<ExpensesSetState> {
           selectedYear: DateTime.now().year,
           availableYears: [],
           expenses: [],
-          budgetCategories: [],
+          categories: [],
         )) {
     _init();
   }

@@ -63,7 +63,7 @@ class ExpensesSetView extends StatelessWidget {
                           '/expenses-set-month',
                           arguments: {
                             'expenses': expenses,
-                            'categories': state.budgetCategories,
+                            'categories': state.categories,
                             'selectedMonth': month,
                           },
                         );

@@ -44,7 +44,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   void loadCategories({int? month}) async {
     emit(CategoryLoading());
     try {
-      final all = await repository.getAllCategories(); // lub inna metoda pobierająca dane z bazy
+      final all = await repository.getAllCategories();
       if(month != -1) {
         final filtered = month != null
             ? all.where((cat) => int.tryParse(cat.month) == month).toList()
@@ -61,7 +61,6 @@ class CategoryCubit extends Cubit<CategoryState> {
   Future<void> addCategory(Category category) async {
     try {
       await repository.addCategory(category);
-      // const currentMonth = DateTime.now().month;
       loadCategories(); // Reload categories after adding
     } catch (e) {
       emit(CategoryError('Nie udało się dodać kategorii'));
@@ -78,16 +77,16 @@ class CategoryCubit extends Cubit<CategoryState> {
   }
 
   Future<void> deleteCategory(String id) async {
-  try {
-    final expenses = await expenseRepository.getExpensesByBudgetCategoryId(id);
-    if (expenses.isNotEmpty) {
-      throw Exception('Nie można usunąć kategorii z dodanymi wydatkami');
-    }
+    try {
+      final expenses = await expenseRepository.getExpensesByBudgetCategoryId(id);
+      if (expenses.isNotEmpty) {
+        throw Exception('Nie można usunąć kategorii z dodanymi wydatkami');
+      }
 
-    await repository.deleteCategory(id);
-    loadCategories(); // Odśwież dane
-  } catch (e) {
-    rethrow; // Przekaż dalej
+      await repository.deleteCategory(id);
+      loadCategories(); 
+    } catch (e) {
+      rethrow; 
+    }
   }
-}
 }

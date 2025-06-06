@@ -73,13 +73,13 @@ class _HomeViewState extends State<HomeView> {
                           Navigator.pushNamed(context, '/budget-categories');
                         },
                       ),
-                      // MenuTile(
-                      //   svgPath: 'assets/icons/savings.svg',
-                      //   label: 'Sejfy',
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, '/profile');
-                      //   },
-                      // ),
+                      MenuTile(
+                        svgPath: 'assets/icons/savings.svg',
+                        label: 'Sejfy',
+                        onTap: () {
+                          Navigator.pushNamed(context, '/profile');
+                        },
+                      ),
                       // MenuTile(
                       //   svgPath: 'assets/icons/groups.svg',
                       //   label: 'Grupy wydatków',
