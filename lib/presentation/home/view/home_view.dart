@@ -80,13 +80,6 @@ class _HomeViewState extends State<HomeView> {
                           Navigator.pushNamed(context, '/profile');
                         },
                       ),
-                      // MenuTile(
-                      //   svgPath: 'assets/icons/groups.svg',
-                      //   label: 'Grupy wydatków',
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, '/profile');
-                      //   },
-                      // ),
                       MenuTile(
                         svgPath: 'assets/icons/expenses.svg',
                         label: 'Wydatki',
@@ -97,17 +90,27 @@ class _HomeViewState extends State<HomeView> {
                       MenuTile(
                         svgPath: 'assets/icons/expenses-set.svg',
                         label: 'Zestawienie wydatków',
+                        iconColor: AppColors.semanticBlue,
                         onTap: () {
                           Navigator.pushNamed(context, '/expenses-set');
                         },
                       ),
-                      // MenuTile(
-                      //   svgPath: 'assets/icons/split-expense.svg',
-                      //   label: 'Podziel wydatek',
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, '/profile');
-                      //   },
-                      // ),
+                      MenuTile(
+                        svgPath: 'assets/icons/add-icon.svg',
+                        label: 'Dodaj wydatek',
+                        iconColor: AppColors.semanticRed,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/add-expense');
+                        },
+                      ),
+                      MenuTile(
+                        svgPath: 'assets/icons/add-icon.svg',
+                        label: 'Dodaj kategorię',
+                        iconColor: AppColors.semanticOrange,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/add-budget-category');
+                        },
+                      ),
                     ],
                   )
                 ],

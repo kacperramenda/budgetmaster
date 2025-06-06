@@ -7,10 +7,12 @@ class MenuTile extends StatelessWidget {
   final String svgPath; // ścieżka do ikony
   final VoidCallback onTap; // co zrobić po kliknięciu
   final String label; // opcjonalny tekst pod ikoną
+  final Color? iconColor; // opcjonalny kolor ikony
 
   const MenuTile({
     super.key,
     required this.svgPath,
+    this.iconColor,
     required this.onTap,
     required this.label,
   });
@@ -40,6 +42,9 @@ class MenuTile extends StatelessWidget {
               svgPath,
               width: 28,
               height: 28,
+              colorFilter: iconColor != null
+                  ? ColorFilter.mode(iconColor!, BlendMode.srcIn)
+                  : null,
             ),
             const SizedBox(height: 8),
             Center(
