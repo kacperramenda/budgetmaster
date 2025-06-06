@@ -30,7 +30,7 @@ void main() async {
 
   // Initialize database
   final isar = await Isar.open(
-    [IsarExpenseSchema, IsarBudgetCategorySchema],
+    [IsarExpenseSchema, IsarCategorySchema],
     directory: directory.path,
   );
 
