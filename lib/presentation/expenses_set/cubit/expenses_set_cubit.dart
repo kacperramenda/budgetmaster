@@ -1,5 +1,5 @@
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
-import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';

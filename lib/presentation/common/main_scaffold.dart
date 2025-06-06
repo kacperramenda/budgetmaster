@@ -1,11 +1,11 @@
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
-import 'package:budgetmaster/presentation/budgetCategories/view/budgetCategories_view.dart';
-import 'package:budgetmaster/presentation/common/customBottomNav.dart';
+import 'package:budgetmaster/presentation/budget_categories/view/budget_categories_view.dart';
+import 'package:budgetmaster/presentation/common/custom_bottom_nav.dart';
 import 'package:budgetmaster/presentation/expenses/view/expenses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/home/view/home_view.dart';
 import 'package:provider/provider.dart';
-import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
 
 class MainScaffold extends StatefulWidget {
   final int currentIndex;

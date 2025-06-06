@@ -7,10 +7,10 @@ Each cubit is a list of expenses.
 */
 
 import 'package:bloc/bloc.dart';
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
-import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
 
 class ExpenseState {
   final List<Expense> expenses;

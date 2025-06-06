@@ -10,7 +10,7 @@ Convert the Category model to an Isar model. This model is used to store categor
 import 'dart:ui';
 
 import 'package:isar/isar.dart';
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
 
  // Generated code for Isar model. 
 part 'isar_budgetCategory.g.dart'; // dart run build_runner build

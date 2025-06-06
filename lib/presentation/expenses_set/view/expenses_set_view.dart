@@ -1,9 +1,9 @@
-import 'package:budgetmaster/presentation/expensesSet/cubit/expensesSetCubit.dart';
+import 'package:budgetmaster/presentation/expenses_set/cubit/expenses_set_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/presentation/common/month_tile.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
-import 'package:budgetmaster/presentation/common/yearsScrollList.dart';
+import 'package:budgetmaster/presentation/common/years_scroll_list.dart';
 
 class ExpensesSetView extends StatelessWidget {
   const ExpensesSetView({super.key});

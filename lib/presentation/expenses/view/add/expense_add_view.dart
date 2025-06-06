@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
-import 'package:budgetmaster/presentation/common/buttonPrimary.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/presentation/common/button_primary.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_add_tile.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:budgetmaster/presentation/common/InputField.dart';
+import 'package:budgetmaster/presentation/common/input_field.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:provider/provider.dart';
-import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
 
 class ExpenseAddView extends StatefulWidget {
   const ExpenseAddView({super.key});

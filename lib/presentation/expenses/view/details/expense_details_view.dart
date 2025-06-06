@@ -1,4 +1,4 @@
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/domain/models/expense.dart';

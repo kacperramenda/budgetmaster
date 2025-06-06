@@ -2,7 +2,7 @@ import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/models/budgetCategory.dart';
+import '../../../domain/models/budget_category.dart';
 
 class BudgetCategoryListItem extends StatelessWidget {
   final BudgetCategory budgetCategory;

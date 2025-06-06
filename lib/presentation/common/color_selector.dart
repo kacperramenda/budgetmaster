@@ -1,5 +1,5 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
-import 'package:budgetmaster/presentation/common/ColorSelectorTile.dart';
+import 'package:budgetmaster/presentation/common/color_selector_tile.dart';
 import 'package:flutter/material.dart';
 
 class ColorPicker extends StatelessWidget {

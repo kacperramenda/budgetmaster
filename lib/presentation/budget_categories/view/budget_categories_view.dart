@@ -1,6 +1,6 @@
-import 'package:budgetmaster/presentation/budgetCategories/cubit/budgetCategory_cubit.dart';
-import 'package:budgetmaster/presentation/budgetCategories/widgets/budgetCategory_list_item.dart';
-import 'package:budgetmaster/presentation/common/monthsScrollList.dart';
+import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
+import 'package:budgetmaster/presentation/budget_categories/widgets/budget_category_list_item.dart';
+import 'package:budgetmaster/presentation/common/months_scroll_list.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

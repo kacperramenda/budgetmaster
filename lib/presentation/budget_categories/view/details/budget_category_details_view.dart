@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budgetmaster/presentation/budgetCategories/cubit/budgetCategory_cubit.dart';
+import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
 
 class BudgetCategoryDetailsView extends StatelessWidget {
   final BudgetCategory category;

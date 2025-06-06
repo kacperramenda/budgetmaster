@@ -5,7 +5,7 @@ CATEGORY REPOSITORY
 
 */
 
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
 
 abstract class BudgetCategoryRepository {
   // Add category

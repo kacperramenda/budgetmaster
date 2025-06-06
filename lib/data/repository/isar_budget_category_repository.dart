@@ -4,9 +4,9 @@ DATABASE REPOSITORY
 
 */
 
-import 'package:budgetmaster/data/models/isar_budgetCategory.dart';
-import 'package:budgetmaster/domain/models/budgetCategory.dart';
-import 'package:budgetmaster/domain/repository/budgetCategory_repo.dart';
+import 'package:budgetmaster/data/models/isar_budget_category.dart';
+import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
 import 'package:isar/isar.dart';
 
 class IsarCategoryRepository implements BudgetCategoryRepository {
