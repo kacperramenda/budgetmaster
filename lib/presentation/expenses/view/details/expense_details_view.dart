@@ -22,7 +22,7 @@ class ExpenseDetailsView extends StatelessWidget {
       builder: (context, state) {
         // Znajdź kategorię pasującą do budgetCategoryId
         final category = state.budgetCategories.firstWhere(
-          (c) => c.id == expense.budgetCategoryId,
+          (c) => c.id == expense.categoryId,
           orElse: () => Category(
             id: '',
             name: 'Nieznana',

@@ -86,7 +86,7 @@ void main() async {
   // print expenses from database in terminal
   final expenses = await isarExpenseRepository.getAllExpenses();
   for (var expense in expenses) {
-    print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.budgetCategoryId}, Date: ${expense.date}');
+    print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.categoryId}, Date: ${expense.date}');
   }
 
 

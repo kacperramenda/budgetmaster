@@ -33,7 +33,7 @@ class ExpensesSetMonthView extends StatelessWidget {
     final Map<String, double> grouped = {};
     for (var expense in expenses) {
       grouped.update(
-        expense.budgetCategoryId,
+        expense.categoryId,
         (value) => value + expense.amount,
         ifAbsent: () => expense.amount,
       );
@@ -143,7 +143,7 @@ class ExpensesSetMonthView extends StatelessWidget {
                           ),
                           ...dailyExpenses.map(
                             (expense) {
-                              final category = _getCategoryById(expense.budgetCategoryId);
+                              final category = _getCategoryById(expense.categoryId);
                               return ExpensesSetListItem(
                                 expense: expense,
                                 categoryName: selectedMonth['index'] == 0

@@ -68,7 +68,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       name: name,
       amount: amount,
       date: date ?? DateTime.now(),
-      budgetCategoryId: budgetCategoryId,
+      categoryId: budgetCategoryId,
       description: description,
       isSplitted: false,
       isPaid: false,
@@ -84,7 +84,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     final expense = state.expenses.firstWhere((e) => e.id == id);
     if (expense != null) {
       await expenseRepo.deleteExpense(id);
-      await _updateBudgetCategoryAmount(expense.budgetCategoryId, amountDelta: expense.amount);
+      await _updateBudgetCategoryAmount(expense.categoryId, amountDelta: expense.amount);
       loadExpenses();
     }
     // Update the budget category's current amount

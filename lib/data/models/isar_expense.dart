@@ -28,7 +28,7 @@ class IsarExpense {
       return Expense(
         id: id.toString(),
         name: name,
-        budgetCategoryId: budgetCategoryId,
+        categoryId: budgetCategoryId,
         date: date,
         amount: amount,
         description: description,
@@ -41,7 +41,7 @@ class IsarExpense {
     return IsarExpense()
       ..id = int.parse(expense.id)
       ..name = expense.name
-      ..budgetCategoryId = expense.budgetCategoryId
+      ..budgetCategoryId = expense.categoryId
       ..date = expense.date
       ..amount = expense.amount
       ..description = expense.description

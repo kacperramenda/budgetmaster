@@ -19,16 +19,12 @@ Properties:
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Methods:
-
-- for now none
-
 */
 
 class Expense {
   final String id;
   final String name;
-  final String budgetCategoryId;
+  final String categoryId;
   final DateTime date;
   final double amount;
   final String description;
@@ -38,7 +34,7 @@ class Expense {
   Expense({
     required this.id,
     required this.name,
-    required this.budgetCategoryId,
+    required this.categoryId,
     required this.date,
     required this.amount,
     required this.description,
