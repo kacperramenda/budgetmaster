@@ -7,14 +7,14 @@ Each cubit is a list of expenses.
 */
 
 import 'package:bloc/bloc.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 
 class ExpenseState {
   final List<Expense> expenses;
-  final List<BudgetCategory> budgetCategories;
+  final List<Category> budgetCategories;
   final String selectedCategory;
 
   ExpenseState({
@@ -26,7 +26,7 @@ class ExpenseState {
 
 class ExpenseCubit extends Cubit<ExpenseState> {
   final ExpenseRepository expenseRepo;
-  final BudgetCategoryRepository categoryRepo;
+  final CategoryRepository categoryRepo;
 
   ExpenseCubit(this.expenseRepo, this.categoryRepo)
       : super(ExpenseState(expenses: [], budgetCategories: [], selectedCategory: '0')) {
@@ -42,7 +42,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   Future<void> _loadCategories() async {
     final budgetCategories = await categoryRepo.getAllCategories();
-    BudgetCategory allCategory = BudgetCategory(
+    Category allCategory = Category(
       id: '0',
       name: 'Wszystkie',
       startAmount: 0,
@@ -95,7 +95,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
   Future<void> selectCategory(String budgetCategoryId) async {
     final selectedCategory = state.budgetCategories.firstWhere(
       (category) => category.id == budgetCategoryId,
-      orElse: () => BudgetCategory(
+      orElse: () => Category(
         id: '0',
         name: 'Wszystkie',
         startAmount: 0,

@@ -1,18 +1,18 @@
-import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
-import 'package:budgetmaster/presentation/budget_categories/widgets/budget_category_list_item.dart';
+import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
+import 'package:budgetmaster/presentation/categories/widgets/category_list_item.dart';
 import 'package:budgetmaster/presentation/common/months_scroll_list.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BudgetCategoriesView extends StatefulWidget {
-  const BudgetCategoriesView({super.key});
+class CategoriesView extends StatefulWidget {
+  const CategoriesView({super.key});
 
   @override
-  State<BudgetCategoriesView> createState() => _BudgetCategoriesViewState();
+  State<CategoriesView> createState() => _CategoriesViewState();
 }
 
-class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
+class _CategoriesViewState extends State<CategoriesView> {
   final List<Map<String, dynamic>> months = [
     {'name': 'Wszystkie', 'index': -1},
     {'name': 'Styczeń', 'index': 1},
@@ -35,7 +35,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<BudgetCategoryCubit>().loadCategories(month: selectedMonthIndex);
+      context.read<CategoryCubit>().loadCategories(month: selectedMonthIndex);
     });
   }
 
@@ -43,20 +43,20 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
     setState(() {
       selectedMonthIndex = monthIndex;
     });
-    context.read<BudgetCategoryCubit>().loadCategories(month: monthIndex);
+    context.read<CategoryCubit>().loadCategories(month: monthIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocBuilder<BudgetCategoryCubit, BudgetCategoryState>(
+      body: BlocBuilder<CategoryCubit, CategoryState>(
         builder: (context, state) {
-          if (state is BudgetCategoryLoading) {
+          if (state is CategoryLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is BudgetCategoryLoaded) {
+          if (state is CategoryLoaded) {
             final categories = state.categories;
 
             return Column(
@@ -69,7 +69,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
                   onAddPressed: () async {
                     final result = await Navigator.pushNamed(context, '/add-budget-category');
                     if (result == true) {
-                      context.read<BudgetCategoryCubit>().loadCategories(
+                      context.read<CategoryCubit>().loadCategories(
                         month: selectedMonthIndex,
                       );
                     }
@@ -92,7 +92,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
                           itemBuilder: (context, index) {
                             final category = categories[index];
                             final month = months.firstWhere((m) => m['index'] == int.parse(category.month), orElse: () => {'name': 'Nieznany miesiąc'})['name'];
-                            return BudgetCategoryListItem(budgetCategory: category, showMonth: selectedMonthIndex == -1 ? true : false, month: month);
+                            return CategoryListItem(budgetCategory: category, showMonth: selectedMonthIndex == -1 ? true : false, month: month);
                           },
                         ),
                 ),
@@ -100,7 +100,7 @@ class _BudgetCategoriesViewState extends State<BudgetCategoriesView> {
             );
           }
 
-          if (state is BudgetCategoryError) {
+          if (state is CategoryError) {
             return Center(child: Text('Błąd: ${state.message}'));
           }
 

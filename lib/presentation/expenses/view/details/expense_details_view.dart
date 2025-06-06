@@ -1,4 +1,4 @@
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
@@ -23,7 +23,7 @@ class ExpenseDetailsView extends StatelessWidget {
         // Znajdź kategorię pasującą do budgetCategoryId
         final category = state.budgetCategories.firstWhere(
           (c) => c.id == expense.budgetCategoryId,
-          orElse: () => BudgetCategory(
+          orElse: () => Category(
             id: '',
             name: 'Nieznana',
             startAmount: 0,

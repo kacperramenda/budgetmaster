@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/presentation/common/button_primary.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_add_tile.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/common/input_field.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:provider/provider.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 
 class ExpenseAddView extends StatefulWidget {
   const ExpenseAddView({super.key});
@@ -25,8 +25,8 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   late String expenseCategory;
   late String expenseAmount;
   late String expenseDescription;
-  BudgetCategory? selectedCategory;
-  Future<List<BudgetCategory>>? _categoriesFuture;
+  Category? selectedCategory;
+  Future<List<Category>>? _categoriesFuture;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -47,11 +47,11 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
       expenseDate = newDate;
       final parsed = _extractMonthAndYear(newDate);
       if (parsed != null) {
-          _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+          _categoriesFuture = Provider.of<CategoryRepository>(
           context,
           listen: false,
         ).getCategoriesForSelectedMonth(parsed['month']!, parsed['year']!).then(
-          (list) => list.whereType<BudgetCategory>().toList(),
+          (list) => list.whereType<Category>().toList(),
         );
       }
     });
@@ -108,7 +108,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                 else
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: FutureBuilder<List<BudgetCategory>>(
+                    child: FutureBuilder<List<Category>>(
                       future: _categoriesFuture,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -130,13 +130,13 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                       final parsed = _extractMonthAndYear(expenseDate);
                                       if (parsed != null) {
                                         setState(() {
-                                          _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+                                          _categoriesFuture = Provider.of<CategoryRepository>(
                                             context,
                                             listen: false,
                                           ).getCategoriesForSelectedMonth(
                                             parsed['month']!,
                                             parsed['year']!,
-                                          ).then((list) => list.whereType<BudgetCategory>().toList());
+                                          ).then((list) => list.whereType<Category>().toList());
                                         });
                                       }
                                     }
@@ -169,13 +169,13 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                           final parsed = _extractMonthAndYear(expenseDate);
                                           if (parsed != null) {
                                             setState(() {
-                                              _categoriesFuture = Provider.of<BudgetCategoryRepository>(
+                                              _categoriesFuture = Provider.of<CategoryRepository>(
                                                 context,
                                                 listen: false,
                                               ).getCategoriesForSelectedMonth(
                                                 parsed['month']!,
                                                 parsed['year']!,
-                                              ).then((list) => list.whereType<BudgetCategory>().toList());
+                                              ).then((list) => list.whereType<Category>().toList());
                                             });
                                           }
                                         }

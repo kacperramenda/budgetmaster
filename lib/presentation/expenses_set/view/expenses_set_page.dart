@@ -1,4 +1,4 @@
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:budgetmaster/presentation/expenses_set/cubit/expenses_set_cubit.dart';
 import 'package:budgetmaster/presentation/expenses_set/view/expenses_set_view.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:budgetmaster/domain/repository/expense_repo.dart';
 
 class ExpensesSetPage extends StatelessWidget {
   final ExpenseRepository repository;
-  final BudgetCategoryRepository budgetCategoryRepository;
+  final CategoryRepository budgetCategoryRepository;
 
   const ExpensesSetPage({super.key, required this.repository, required this.budgetCategoryRepository});
 

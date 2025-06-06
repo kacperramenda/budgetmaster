@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 
 class ExpensesCategoryScrollList extends StatelessWidget {
-  final List<BudgetCategory> categories;
+  final List<Category> categories;
   final String? selectedCategory;
   final Function(String category) onCategorySelected;
 

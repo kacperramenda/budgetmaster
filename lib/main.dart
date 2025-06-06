@@ -1,11 +1,11 @@
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
-import 'package:budgetmaster/data/repository/isar_budget_category_repository.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/data/repository/isar_category_repository.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
-import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
-import 'package:budgetmaster/presentation/budget_categories/view/add/budget_categry_add_view.dart';
-import 'package:budgetmaster/presentation/budget_categories/view/details/budget_category_details_view.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
+import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
+import 'package:budgetmaster/presentation/categories/view/add/categry_add_view.dart';
+import 'package:budgetmaster/presentation/categories/view/details/category_details_view.dart';
 import 'package:budgetmaster/presentation/common/main_scaffold.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dart';
@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:budgetmaster/data/models/isar_expense.dart';
-import 'package:budgetmaster/data/models/isar_budget_category.dart';
+import 'package:budgetmaster/data/models/isar_category.dart';
 import 'package:budgetmaster/presentation/expenses/view/details/expense_details_view.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 
@@ -99,7 +99,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final ExpenseRepository expensesRepository;
-  final BudgetCategoryRepository budgetCategoryRepository;
+  final CategoryRepository budgetCategoryRepository;
 
   const MyApp({
     super.key,
@@ -112,12 +112,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ExpenseRepository>.value(value: expensesRepository),
-        Provider<BudgetCategoryRepository>.value(value: budgetCategoryRepository),
+        Provider<CategoryRepository>.value(value: budgetCategoryRepository),
         BlocProvider<ExpenseCubit>(
           create: (context) => ExpenseCubit(expensesRepository, budgetCategoryRepository),
         ),
-        BlocProvider<BudgetCategoryCubit>(
-          create: (context) => BudgetCategoryCubit(budgetCategoryRepository, expensesRepository),
+        BlocProvider<CategoryCubit>(
+          create: (context) => CategoryCubit(budgetCategoryRepository, expensesRepository),
         ),
         BlocProvider<ExpensesSetCubit>(
           create: (context) => ExpensesSetCubit(expensesRepository, budgetCategoryRepository),
@@ -141,10 +141,10 @@ class MyApp extends StatelessWidget {
             return ExpenseDetailsView(expense: expense);
           },
           '/add-expense': (context) => const ExpenseAddView(),
-          '/add-budget-category': (context) => const BudgetCategryAddView(),
+          '/add-budget-category': (context) => const CategoryAddView(),
           '/budget-category-details': (context) {
-            final category = ModalRoute.of(context)!.settings.arguments as BudgetCategory;
-            return BudgetCategoryDetailsView(category: category);
+            final category = ModalRoute.of(context)!.settings.arguments as Category;
+            return CategoryDetailsView(category: category);
           },
           '/expenses-set' : (context) {
             return ExpensesSetView();
@@ -152,7 +152,7 @@ class MyApp extends StatelessWidget {
             '/expenses-set-month': (context) {
               final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
               final expenses = args['expenses'] as List<Expense>;
-              final categories = args['categories'] as List<BudgetCategory>;
+              final categories = args['categories'] as List<Category>;
               final selectedMonth = args['selectedMonth'];
               return ExpensesSetMonthView(
                 expenses: expenses,

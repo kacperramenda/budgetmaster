@@ -4,12 +4,12 @@ DATABASE REPOSITORY
 
 */
 
-import 'package:budgetmaster/data/models/isar_budget_category.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/data/models/isar_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:isar/isar.dart';
 
-class IsarCategoryRepository implements BudgetCategoryRepository {
+class IsarCategoryRepository implements CategoryRepository {
   //database instance
   final Isar db;
 
@@ -17,9 +17,9 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get categories
   @override
-  Future<List<BudgetCategory>> getAllCategories() async {
+  Future<List<Category>> getAllCategories() async {
     // Fetch all categories from the Isar database asynchronously.
-    final categories = await db.collection<IsarBudgetCategory>().where().findAll();
+    final categories = await db.collection<IsarCategory>().where().findAll();
 
     // Convert IsarBudgetCategory to BudgetCategory using the toDomain method
     // and return the list of categories.
@@ -28,9 +28,9 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get category by id
   @override
-  Future<BudgetCategory?> getCategoryById(String id) async {
+  Future<Category?> getCategoryById(String id) async {
     // Fetch a category by its ID from the Isar database asynchronously.
-    final category = await db.collection<IsarBudgetCategory>().get(int.parse(id));
+    final category = await db.collection<IsarCategory>().get(int.parse(id));
 
     // Convert IsarBudgetCategory to BudgetCategory using the toDomain method
     // and return the category.
@@ -39,10 +39,10 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get category by id for current month and year
   @override
-  Future<BudgetCategory?> getCategoryByIdForSelectedMonth(String id, String month, String year) async {
+  Future<Category?> getCategoryByIdForSelectedMonth(String id, String month, String year) async {
     // Fetch a category by its ID for the current month and year from the Isar database asynchronously.
     final category = await db
-        .collection<IsarBudgetCategory>()
+        .collection<IsarCategory>()
         .filter()
         .idEqualTo(int.parse(id))
         .monthEqualTo(month)
@@ -56,9 +56,9 @@ class IsarCategoryRepository implements BudgetCategoryRepository {
 
   //get categories for current month
   @override
-Future<List<BudgetCategory>> getCategoriesForSelectedMonth(String month, String year) async {
+Future<List<Category>> getCategoriesForSelectedMonth(String month, String year) async {
   final categories = await db
-      .collection<IsarBudgetCategory>()
+      .collection<IsarCategory>()
       .filter()
       .monthEqualTo(month)
       .yearEqualTo(year)
@@ -70,21 +70,21 @@ Future<List<BudgetCategory>> getCategoriesForSelectedMonth(String month, String 
 
   //add category
   @override
-  Future<void> addCategory(BudgetCategory category) async {
+  Future<void> addCategory(Category category) async {
     // Convert BudgetCategory to IsarBudgetCategory using the fromDomain method
     // and add it to the Isar database asynchronously.
     await db.writeTxn(() async {
-      await db.collection<IsarBudgetCategory>().put(IsarBudgetCategory.fromDomain(category));
+      await db.collection<IsarCategory>().put(IsarCategory.fromDomain(category));
     });
   }
 
   //update category
   @override
-  Future<void> updateCategory(BudgetCategory category) async {
+  Future<void> updateCategory(Category category) async {
     // Convert BudgetCategory to IsarBudgetCategory using the fromDomain method
     // and update it in the Isar database asynchronously.
     await db.writeTxn(() async {
-      await db.collection<IsarBudgetCategory>().put(IsarBudgetCategory.fromDomain(category));
+      await db.collection<IsarCategory>().put(IsarCategory.fromDomain(category));
     });
   }
 
@@ -93,7 +93,7 @@ Future<List<BudgetCategory>> getCategoriesForSelectedMonth(String month, String 
   Future<void> deleteCategory(String id) async {
     // Delete a category by its ID from the Isar database asynchronously.
     await db.writeTxn(() async {
-      await db.collection<IsarBudgetCategory>().delete(int.parse(id));
+      await db.collection<IsarCategory>().delete(int.parse(id));
     });
   }
 }

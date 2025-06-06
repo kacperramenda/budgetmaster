@@ -1,6 +1,6 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
-import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
+import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 import 'package:budgetmaster/presentation/common/color_selector.dart';
 import 'package:budgetmaster/presentation/common/input_field.dart';
 import 'package:budgetmaster/presentation/common/month_year_picker_field.dart';
@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BudgetCategryAddView extends StatefulWidget {
-  const BudgetCategryAddView({super.key});
+class CategoryAddView extends StatefulWidget {
+  const CategoryAddView({super.key});
 
   @override
-  State<BudgetCategryAddView> createState() => _BudgetCategryAddView();
+  State<CategoryAddView> createState() => _BudgetCategryAddView();
 }
 
-class _BudgetCategryAddView extends State<BudgetCategryAddView> {
+class _BudgetCategryAddView extends State<CategoryAddView> {
   late String budgetCategoryName;
 
   final TextEditingController _nameController = TextEditingController();
@@ -112,8 +112,8 @@ class _BudgetCategryAddView extends State<BudgetCategryAddView> {
                     final parsedMonth = int.tryParse(monthYear.split('/')[0]);
                     final parsedYear = int.tryParse(monthYear.split('/')[1]);
 
-                    await context.read<BudgetCategoryCubit>().addCategory(
-                      BudgetCategory(
+                    await context.read<CategoryCubit>().addCategory(
+                      Category(
                         id: DateTime.now().millisecondsSinceEpoch.toString(),
                         name: name,
                         startAmount: double.tryParse(amount) ?? 0.0,

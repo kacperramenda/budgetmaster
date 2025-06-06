@@ -1,6 +1,6 @@
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:budgetmaster/presentation/expenses_set/widget/expenses_set_list_item.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 class ExpensesSetMonthView extends StatelessWidget {
   final List<Expense> expenses;
-  final List<BudgetCategory> categories;
+  final List<Category> categories;
   final Map<String, dynamic> selectedMonth;
 
   const ExpensesSetMonthView({
@@ -45,10 +45,10 @@ class ExpensesSetMonthView extends StatelessWidget {
     return expenses.fold(0.0, (sum, e) => sum + e.amount);
   }
 
-  BudgetCategory _getCategoryById(String id) {
+  Category _getCategoryById(String id) {
     return categories.firstWhere(
       (cat) => cat.id == id,
-      orElse: () => BudgetCategory(id: id, name: 'Inna', startAmount: 0, currentAmount: 0, month: '', year: ''),
+      orElse: () => Category(id: id, name: 'Inna', startAmount: 0, currentAmount: 0, month: '', year: ''),
     );
   }
 

@@ -12,11 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/view/expenses_view.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 
 class ExpensesPage extends StatelessWidget {
   final ExpenseRepository expensesRepository;
-  final BudgetCategoryRepository budgetCategoryRepository;
+  final CategoryRepository budgetCategoryRepository;
 
   const ExpensesPage({
     super.key,

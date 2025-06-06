@@ -1,5 +1,5 @@
-import 'package:budgetmaster/domain/models/budget_category.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
@@ -8,7 +8,7 @@ class ExpensesSetState {
   final int selectedYear;
   final List<int> availableYears;
   final List<Expense> expenses;
-  final List<BudgetCategory> budgetCategories;
+  final List<Category> budgetCategories;
 
   ExpensesSetState({
     required this.selectedYear,
@@ -21,7 +21,7 @@ class ExpensesSetState {
     int? selectedYear,
     List<int>? availableYears,
     List<Expense>? expenses,
-    List<BudgetCategory>? budgetCategories,
+    List<Category>? budgetCategories,
   }) {
     return ExpensesSetState(
       selectedYear: selectedYear ?? this.selectedYear,
@@ -34,7 +34,7 @@ class ExpensesSetState {
 
 class ExpensesSetCubit extends Cubit<ExpensesSetState> {
   final ExpenseRepository _repository;
-  final BudgetCategoryRepository budgetCategoryRepository;
+  final CategoryRepository budgetCategoryRepository;
 
   ExpensesSetCubit(this._repository, this.budgetCategoryRepository)
       : super(ExpensesSetState(

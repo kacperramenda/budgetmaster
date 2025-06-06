@@ -2,7 +2,7 @@
 
 CATEGORY MODEL
 
-This model represents an expenses categories aka "safe" in the application. 
+This model represents an expense category. 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14,16 +14,12 @@ Properties:
 - currentAmount: The current amount of the category.
 - month: The month of the category.
 - year: The year of the category.
+- color: Optional color associated with the category.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Methods:
-
-- for now none
-
 */
 
-class BudgetCategory {
+class Category {
   final String id;
   final String name;
   final double startAmount;
@@ -32,7 +28,7 @@ class BudgetCategory {
   final String year;
   final String? color;
 
-  BudgetCategory({
+  Category({
     required this.id,
     required this.name,
     required this.startAmount,
@@ -43,7 +39,7 @@ class BudgetCategory {
 
   });
 
-  BudgetCategory copyWith({
+  Category copyWith({
     String? id,
     String? name,
     double? startAmount,
@@ -52,7 +48,7 @@ class BudgetCategory {
     String? year,
     String? color,
   }) {
-    return BudgetCategory(
+    return Category(
       id: id ?? this.id,
       name: name ?? this.name,
       startAmount: startAmount ?? this.startAmount,

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budgetmaster/presentation/budget_categories/cubit/budget_category_cubit.dart';
+import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 
-class BudgetCategoryDetailsView extends StatelessWidget {
-  final BudgetCategory category;
+class CategoryDetailsView extends StatelessWidget {
+  final Category category;
 
-  const BudgetCategoryDetailsView({super.key, required this.category});
+  const CategoryDetailsView({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.neutral6,
       body: 
-          BlocListener<BudgetCategoryCubit, BudgetCategoryState>(listener: (context, state) {
-          if (state is BudgetCategoryError) {
+          BlocListener<CategoryCubit, CategoryState>(listener: (context, state) {
+          if (state is CategoryError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
-          } else if (state is BudgetCategoryInitial) {
+          } else if (state is CategoryInitial) {
             Navigator.pop(context, true); // Sukces — wracamy
           }
         }, 
@@ -100,7 +100,7 @@ class BudgetCategoryDetailsView extends StatelessWidget {
 
                         if (confirm == true) {
                           try {
-                            await context.read<BudgetCategoryCubit>().deleteCategory(category.id);
+                            await context.read<CategoryCubit>().deleteCategory(category.id);
                             if (!context.mounted) return;
 
                             Navigator.pop(context, true); // wróć do listy

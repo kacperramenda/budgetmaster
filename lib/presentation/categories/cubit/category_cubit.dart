@@ -1,79 +1,79 @@
 import 'package:bloc/bloc.dart';
-import 'package:budgetmaster/domain/repository/budget_category_repo.dart';
+import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:equatable/equatable.dart';
-import 'package:budgetmaster/domain/models/budget_category.dart';
+import 'package:budgetmaster/domain/models/category.dart';
 
 // States
-abstract class BudgetCategoryState extends Equatable {
-  const BudgetCategoryState();
+abstract class CategoryState extends Equatable {
+  const CategoryState();
 
   @override
   List<Object?> get props => [];
 }
 
-class BudgetCategoryInitial extends BudgetCategoryState {}
+class CategoryInitial extends CategoryState {}
 
-class BudgetCategoryLoading extends BudgetCategoryState {}
+class CategoryLoading extends CategoryState {}
 
-class BudgetCategoryLoaded extends BudgetCategoryState {
-  final List<BudgetCategory> categories;
+class CategoryLoaded extends CategoryState {
+  final List<Category> categories;
 
-  const BudgetCategoryLoaded(this.categories);
+  const CategoryLoaded(this.categories);
 
   @override
   List<Object?> get props => [categories];
 }
 
-class BudgetCategoryError extends BudgetCategoryState {
+class CategoryError extends CategoryState {
   final String message;
 
-  const BudgetCategoryError(this.message);
+  const CategoryError(this.message);
 
   @override
   List<Object?> get props => [message];
 }
 
 // Cubit
-class BudgetCategoryCubit extends Cubit<BudgetCategoryState> {
-  final BudgetCategoryRepository repository;
+class CategoryCubit extends Cubit<CategoryState> {
+  final CategoryRepository repository;
   final ExpenseRepository expenseRepository;
 
-  BudgetCategoryCubit(this.repository, this.expenseRepository) : super(BudgetCategoryInitial());
+  CategoryCubit(this.repository, this.expenseRepository) : super(CategoryInitial());
   
   void loadCategories({int? month}) async {
-    emit(BudgetCategoryLoading());
+    emit(CategoryLoading());
     try {
       final all = await repository.getAllCategories(); // lub inna metoda pobierająca dane z bazy
       if(month != -1) {
         final filtered = month != null
             ? all.where((cat) => int.tryParse(cat.month) == month).toList()
             : all;
-        emit(BudgetCategoryLoaded(filtered));
+        emit(CategoryLoaded(filtered));
       } else {
-        emit(BudgetCategoryLoaded(all));
+        emit(CategoryLoaded(all));
       }
     } catch (e) {
-      emit(BudgetCategoryError('Nie udało się załadować kategorii'));
+      emit(CategoryError('Nie udało się załadować kategorii'));
     }
   }
 
-  Future<void> addCategory(BudgetCategory category) async {
+  Future<void> addCategory(Category category) async {
     try {
       await repository.addCategory(category);
       // const currentMonth = DateTime.now().month;
       loadCategories(); // Reload categories after adding
     } catch (e) {
-      emit(BudgetCategoryError('Nie udało się dodać kategorii'));
+      emit(CategoryError('Nie udało się dodać kategorii'));
     }
   }
 
-  Future<void> updateCategory(BudgetCategory category) async {
+  Future<void> updateCategory(Category category) async {
     try {
       await repository.updateCategory(category);
       loadCategories(); // Reload categories after updating
     } catch (e) {
-      emit(BudgetCategoryError('Nie udało się zaktualizować kategorii'));
+      emit(CategoryError('Nie udało się zaktualizować kategorii'));
     }
   }
 
