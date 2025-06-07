@@ -77,7 +77,7 @@ class _HomeViewState extends State<HomeView> {
                         svgPath: 'assets/icons/savings.svg',
                         label: 'Sejfy',
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/safes');
                         },
                       ),
                       MenuTile(

@@ -22,13 +22,15 @@ class Safe {
   final String name;
   final double goalAmount;
   final double currentAmount;
+  final bool isFullfiled; // This can be derived from goalAmount and currentAmount
   final String? color;
 
   Safe({
     required this.id,
     required this.name,
     required this.goalAmount,
-    required this.currentAmount,
+    this.currentAmount = 0.0,
+    this.isFullfiled = false,
     this.color,
   });
 
@@ -37,6 +39,7 @@ class Safe {
     String? name,
     double? goalAmount,
     double? currentAmount,
+    bool? isFullfiled,
     String? color,
   }) {
     return Safe(
@@ -44,6 +47,7 @@ class Safe {
       name: name ?? this.name,
       goalAmount: goalAmount ?? this.goalAmount,
       currentAmount: currentAmount ?? this.currentAmount,
+      isFullfiled: isFullfiled ?? (currentAmount ?? this.currentAmount) >= (goalAmount ?? this.goalAmount),
       color: color ?? this.color,
     );
   }

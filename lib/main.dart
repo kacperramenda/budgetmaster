@@ -1,8 +1,12 @@
+import 'package:budgetmaster/data/models/isar_safe.dart';
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/data/repository/isar_category_repository.dart';
+import 'package:budgetmaster/data/repository/isar_safe_repository.dart';
 import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/domain/models/safe.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/category_repo.dart';
+import 'package:budgetmaster/domain/repository/safe_repo.dart';
 import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 import 'package:budgetmaster/presentation/categories/view/add/categry_add_view.dart';
 import 'package:budgetmaster/presentation/categories/view/details/category_details_view.dart';
@@ -12,6 +16,9 @@ import 'package:budgetmaster/presentation/expenses/view/add/expense_add_view.dar
 import 'package:budgetmaster/presentation/expenses_set/cubit/expenses_set_cubit.dart';
 import 'package:budgetmaster/presentation/expenses_set/view/expenses_set_month_view.dart';
 import 'package:budgetmaster/presentation/expenses_set/view/expenses_set_view.dart';
+import 'package:budgetmaster/presentation/safes/cubit/safe_cubit.dart';
+import 'package:budgetmaster/presentation/safes/view/add/safe_add_view.dart';
+import 'package:budgetmaster/presentation/safes/view/details/safe_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +37,13 @@ void main() async {
 
   // Initialize database
   final isar = await Isar.open(
-    [IsarExpenseSchema, IsarCategorySchema],
+    [IsarExpenseSchema, IsarCategorySchema, IsarSafeSchema],
     directory: directory.path,
   );
 
   final isarExpenseRepository = IsarExpenseRepository(isar);
   final isarBudgetCategoryRepository = IsarCategoryRepository(isar);
+  final isarSafeRepository = IsarSafeRepository(isar);
 
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
@@ -83,6 +91,25 @@ void main() async {
   //   await isar.isarExpenses.deleteAll(allExpenseIds);
   // });
 
+  // delete all safes
+  // await isar.writeTxn(() async {
+  //   final allSafeIds = await isar.isarSafes.where().idProperty().findAll();
+  //   await isar.isarSafes.deleteAll(allSafeIds);
+  // });
+
+  // add sample fulfilled safe
+  // final newSafe = IsarSafe()
+  //   ..id = 15
+  //   ..name = 'Bezpieczna kwota'
+  //   ..goalAmount = 1000.0
+  //   ..currentAmount = 1000.0
+  //   ..color = '0xFF00FF00' // Example color in ARGB format
+  //   ..isFulfilled = true;
+  // await isar.writeTxn(() async {
+  //   await isar.isarSafes.put(newSafe);
+  // });
+
+
   // print expenses from database in terminal
   final expenses = await isarExpenseRepository.getAllExpenses();
   for (var expense in expenses) {
@@ -94,17 +121,20 @@ void main() async {
   runApp(MyApp(
     expensesRepository: isarExpenseRepository,
     budgetCategoryRepository: isarBudgetCategoryRepository,
+    safeRepository: isarSafeRepository,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final ExpenseRepository expensesRepository;
   final CategoryRepository budgetCategoryRepository;
+  final SafeRepository safeRepository;
 
   const MyApp({
     super.key,
     required this.expensesRepository,
     required this.budgetCategoryRepository,
+    required this.safeRepository,
   });
 
   @override
@@ -122,6 +152,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ExpensesSetCubit>(
           create: (context) => ExpensesSetCubit(expensesRepository, budgetCategoryRepository),
         ),
+        BlocProvider<SafeCubit>(
+          create: (context) => SafeCubit(safeRepository),
+        ),
       ],
       child: MaterialApp(
         title: 'BudgetMaster',
@@ -134,7 +167,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/home': (context) => const MainScaffold(currentIndex: 0),
           '/budget-categories': (context) => const MainScaffold(currentIndex: 1),
-          '/savings': (context) => const MainScaffold(currentIndex: 2),
+          '/safes': (context) => const MainScaffold(currentIndex: 2),
           '/expenses': (context) => const MainScaffold(currentIndex: 3),
           '/expense_details': (context) {
             final expense = ModalRoute.of(context)!.settings.arguments as Expense;
@@ -149,17 +182,22 @@ class MyApp extends StatelessWidget {
           '/expenses-set' : (context) {
             return ExpensesSetView();
           },
-            '/expenses-set-month': (context) {
-              final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-              final expenses = args['expenses'] as List<Expense>;
-              final categories = args['categories'] as List<Category>;
-              final selectedMonth = args['selectedMonth'];
-              return ExpensesSetMonthView(
-                expenses: expenses,
-                categories: categories,
-                selectedMonth: selectedMonth,
-              );
-            },
+          '/expenses-set-month': (context) {
+            final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+            final expenses = args['expenses'] as List<Expense>;
+            final categories = args['categories'] as List<Category>;
+            final selectedMonth = args['selectedMonth'];
+            return ExpensesSetMonthView(
+              expenses: expenses,
+              categories: categories,
+              selectedMonth: selectedMonth,
+            );
+          },
+          '/add-safe': (context) => const SafeAddView(),
+          '/safe-details': (context) {
+            final safe = ModalRoute.of(context)!.settings.arguments as Safe;
+            return SafeDetailsView(safe: safe);
+          },
         },
       ),
     );

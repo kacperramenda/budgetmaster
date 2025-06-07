@@ -77,7 +77,6 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
         children: [
           PageHeader(
             title: "Dodaj wydatek",
-            route: "/expenses",
             showAddButton: true,
             onAddPressed: () {
               Navigator.pushNamed(context, '/add-expense');

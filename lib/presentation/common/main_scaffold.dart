@@ -2,6 +2,7 @@ import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/presentation/categories/view/categories_view.dart';
 import 'package:budgetmaster/presentation/common/custom_bottom_nav.dart';
 import 'package:budgetmaster/presentation/expenses/view/expenses_page.dart';
+import 'package:budgetmaster/presentation/safes/view/safes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/home/view/home_view.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 1:
         return CategoriesView();
       case 2:
-        return const HomeView();
+        return const SafesView();
       case 3:
           return ExpensesPage(
             expensesRepository: context.read<ExpenseRepository>(),
