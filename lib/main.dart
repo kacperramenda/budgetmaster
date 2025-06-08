@@ -1,12 +1,16 @@
 import 'package:budgetmaster/data/models/isar_safe.dart';
+import 'package:budgetmaster/data/models/isar_saving.dart';
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/data/repository/isar_category_repository.dart';
 import 'package:budgetmaster/data/repository/isar_safe_repository.dart';
+import 'package:budgetmaster/data/repository/isar_saving_repository.dart';
 import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/domain/models/safe.dart';
+import 'package:budgetmaster/domain/models/saving.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:budgetmaster/domain/repository/safe_repo.dart';
+import 'package:budgetmaster/domain/repository/saving_repo.dart';
 import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 import 'package:budgetmaster/presentation/categories/view/add/categry_add_view.dart';
 import 'package:budgetmaster/presentation/categories/view/details/category_details_view.dart';
@@ -19,6 +23,10 @@ import 'package:budgetmaster/presentation/expenses_set/view/expenses_set_view.da
 import 'package:budgetmaster/presentation/safes/cubit/safe_cubit.dart';
 import 'package:budgetmaster/presentation/safes/view/add/safe_add_view.dart';
 import 'package:budgetmaster/presentation/safes/view/details/safe_details_view.dart';
+import 'package:budgetmaster/presentation/savings/cubit/savings_cubit.dart';
+import 'package:budgetmaster/presentation/savings/view/add/saving_add_view.dart';
+import 'package:budgetmaster/presentation/savings/view/details/saving_details_view.dart';
+import 'package:budgetmaster/presentation/savings/view/savings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -37,13 +45,14 @@ void main() async {
 
   // Initialize database
   final isar = await Isar.open(
-    [IsarExpenseSchema, IsarCategorySchema, IsarSafeSchema],
+    [IsarExpenseSchema, IsarCategorySchema, IsarSafeSchema, IsarSavingSchema],
     directory: directory.path,
   );
 
   final isarExpenseRepository = IsarExpenseRepository(isar);
   final isarBudgetCategoryRepository = IsarCategoryRepository(isar);
   final isarSafeRepository = IsarSafeRepository(isar);
+  final isarSavingsRepository = IsarSavingRepository(isar); 
 
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
@@ -103,18 +112,24 @@ void main() async {
   //   ..name = 'Bezpieczna kwota'
   //   ..goalAmount = 1000.0
   //   ..currentAmount = 1000.0
-  //   ..color = '0xFF00FF00' // Example color in ARGB format
+  //   ..color = '0xFF0890FE' // Example color in ARGB format
   //   ..isFulfilled = true;
   // await isar.writeTxn(() async {
   //   await isar.isarSafes.put(newSafe);
   // });
 
 
+  // delete all savings
+  // await isar.writeTxn(() async {
+  //   final allSavingIds = await isar.isarSavings.where().idProperty().findAll();
+  //   await isar.isarSavings.deleteAll(allSavingIds);
+  // });
+
   // print expenses from database in terminal
-  final expenses = await isarExpenseRepository.getAllExpenses();
-  for (var expense in expenses) {
-    print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.categoryId}, Date: ${expense.date}');
-  }
+  // final expenses = await isarExpenseRepository.getAllExpenses();
+  // for (var expense in expenses) {
+  //   print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.categoryId}, Date: ${expense.date}');
+  // }
 
 
   // Run app
@@ -122,6 +137,7 @@ void main() async {
     expensesRepository: isarExpenseRepository,
     budgetCategoryRepository: isarBudgetCategoryRepository,
     safeRepository: isarSafeRepository,
+    savingsRepository: isarSavingsRepository,
   ));
 }
 
@@ -129,12 +145,14 @@ class MyApp extends StatelessWidget {
   final ExpenseRepository expensesRepository;
   final CategoryRepository budgetCategoryRepository;
   final SafeRepository safeRepository;
+  final SavingRepository savingsRepository;
 
   const MyApp({
     super.key,
     required this.expensesRepository,
     required this.budgetCategoryRepository,
     required this.safeRepository,
+    required this.savingsRepository,
   });
 
   @override
@@ -153,7 +171,10 @@ class MyApp extends StatelessWidget {
           create: (context) => ExpensesSetCubit(expensesRepository, budgetCategoryRepository),
         ),
         BlocProvider<SafeCubit>(
-          create: (context) => SafeCubit(safeRepository),
+          create: (context) => SafeCubit(safeRepository, savingsRepository),
+        ),
+        BlocProvider<SavingsCubit>(
+          create: (context) => SavingsCubit(savingsRepository, safeRepository),
         ),
       ],
       child: MaterialApp(
@@ -197,6 +218,16 @@ class MyApp extends StatelessWidget {
           '/safe-details': (context) {
             final safe = ModalRoute.of(context)!.settings.arguments as Safe;
             return SafeDetailsView(safe: safe);
+          },
+          '/savings': (context) {
+            return const SavingsView();
+          },
+          '/add-saving': (context) {
+            return SavingAddView();
+          },
+          '/saving-details': (context) {
+            final saving = ModalRoute.of(context)!.settings.arguments as Saving;
+            return SavingDetailsView(saving: saving);
           },
         },
       ),

@@ -8,7 +8,9 @@ HOME VIEW
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:budgetmaster/presentation/home/widgets/tiles.dart';
+import 'package:budgetmaster/presentation/savings/cubit/savings_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class HomeView extends StatefulWidget {
@@ -17,8 +19,14 @@ class HomeView extends StatefulWidget {
   @override
   State<HomeView> createState() => _HomeViewState();
 }
-
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SavingsCubit>().loadData();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,16 +83,25 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       MenuTile(
                         svgPath: 'assets/icons/savings.svg',
-                        label: 'Sejfy',
+                        label: 'Skarbonki',
                         onTap: () {
                           Navigator.pushNamed(context, '/safes');
                         },
                       ),
                       MenuTile(
-                        svgPath: 'assets/icons/expenses.svg',
+                        svgPath: 'assets/icons/split-expense.svg',
+                        iconColor: AppColors.semanticGreen,
                         label: 'Wydatki',
                         onTap: () {
                           Navigator.pushNamed(context, '/expenses');
+                        },
+                      ),
+                      MenuTile(
+                        svgPath: 'assets/icons/expenses.svg',
+                        label: 'Oszczędności',
+                        iconColor: AppColors.semanticRed,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/savings');
                         },
                       ),
                       MenuTile(
@@ -95,23 +112,41 @@ class _HomeViewState extends State<HomeView> {
                           Navigator.pushNamed(context, '/expenses-set');
                         },
                       ),
-                      MenuTile(
-                        svgPath: 'assets/icons/add-icon.svg',
-                        label: 'Dodaj wydatek',
-                        iconColor: AppColors.semanticRed,
-                        onTap: () {
-                          Navigator.pushNamed(context, '/add-expense');
-                        },
-                      ),
+                    ],
+                  ),
+                  GridView.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.all(16),
+                    children: [
                       MenuTile(
                         svgPath: 'assets/icons/add-icon.svg',
                         label: 'Dodaj kategorię',
-                        iconColor: AppColors.semanticOrange,
+                        iconColor: AppColors.primary1,
                         onTap: () {
                           Navigator.pushNamed(context, '/add-budget-category');
                         },
                       ),
-                    ],
+                      MenuTile(
+                        svgPath: 'assets/icons/add-icon.svg',
+                        label: 'Dodaj oszczędność',
+                        iconColor: AppColors.semanticRed,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/add-saving');
+                        },
+                      ),
+                      MenuTile(
+                        svgPath: 'assets/icons/add-icon.svg',
+                        label: 'Dodaj wydatek',
+                        iconColor: AppColors.semanticGreen,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/add-expense');
+                        },
+                      ),
+                    ]
                   )
                 ],
               ),

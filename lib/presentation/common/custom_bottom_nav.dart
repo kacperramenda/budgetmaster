@@ -44,7 +44,7 @@ class CustomBottomNav extends StatelessWidget {
               ),
               _buildNavItem(
                 asset: 'assets/icons/savings.svg',
-                label: 'Sejfy',
+                label: 'Skarbonki',
                 index: 2,
               ),
               _buildNavItem(

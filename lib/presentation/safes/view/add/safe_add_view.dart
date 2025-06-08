@@ -39,7 +39,7 @@ class _SafeAddView extends State<SafeAddView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PageHeader(
-            title: "Dodaj sejf",
+            title: "Dodaj skarbonkę",
             showAddButton: false,
           ),
           Padding(
@@ -47,8 +47,8 @@ class _SafeAddView extends State<SafeAddView> {
             child: Column(
               children: [
                 InputField(type: InputType.text,
-                  label: "Nazwa sejfu",
-                  placeholder: "Wprowadź nazwę sejfu",
+                  label: "Nazwa skarbonki",
+                  placeholder: "Wprowadź nazwę skarbonki",
                   onChanged: (value) {
                     budgetCategoryName = value;
                   },
@@ -106,7 +106,7 @@ class _SafeAddView extends State<SafeAddView> {
                     );
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Sejf utworzony pomyślnie')),
+                      const SnackBar(content: Text('Skarbonka utworzona pomyślnie')),
                     );
                     Navigator.pop(context, true);
                   },

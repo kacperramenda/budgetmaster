@@ -14,6 +14,7 @@ class SafeDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isfilled = safe.currentAmount >= safe.goalAmount;
     return Scaffold(
       backgroundColor: AppColors.neutral6,
       body: 
@@ -29,7 +30,7 @@ class SafeDetailsView extends StatelessWidget {
         child: Column(
         children: [
           const PageHeader(
-            title: 'Szczegóły sejfu',
+            title: 'Szczegóły skarbonki',
             showAddButton: false,
           ),
           Expanded(
@@ -39,8 +40,9 @@ class SafeDetailsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildRow("Nazwa", safe.name),
-                  _buildRow("Cel oszczędnościowy", "${safe.goalAmount.toStringAsFixed(2)} zł"),
-                  _buildRow("Budżet aktualny", "${safe.currentAmount.toStringAsFixed(2)} zł"),
+                  _buildRow("Cel", "${safe.goalAmount.toStringAsFixed(2)} zł"),
+                  _buildRow("Uzbierano", "${safe.currentAmount.toStringAsFixed(2)} zł"),
+                  _buildRow("Stan", "${safe.currentAmount >= safe.goalAmount ? "Osiągnięto cel" : "Wciąż oszczędzamy"}"),
                   Container(
                     decoration: const BoxDecoration(
                       border: Border(
@@ -81,8 +83,8 @@ class SafeDetailsView extends StatelessWidget {
                         final confirm = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text("Potwierdzenie"),
-                            content: const Text("Czy na pewno chcesz usunąć ten sejf i wszystkie przypisane wpływy?"),
+                            title: Text(isfilled ? "Gratulacje!" : "Potwierdzenie"),
+                            content: Text(isfilled ? 'Czy napewno chcesz rozbić skarbonkę i usunąć wszystkie dodane oszczędności?' : 'Czy na pewno chcesz usunąć tą skarbonkę i wszystkie przypisane oszczędności?'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context, false),
@@ -90,7 +92,7 @@ class SafeDetailsView extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context, true),
-                                child: const Text("Usuń"),
+                                child: Text(isfilled ? "Rozbij" : "Usuń"),
                               ),
                             ],
                           ),
@@ -104,7 +106,7 @@ class SafeDetailsView extends StatelessWidget {
                             Navigator.pop(context, true); // wróć do listy
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Błąd podczas usuwania sejfu: $e")),
+                              SnackBar(content: Text("Błąd podczas usuwania skarbonki: $e")),
                             );
                           }
                         }
@@ -113,7 +115,7 @@ class SafeDetailsView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16, bottom: 48),
                         child: Center(
                           child: Text(
-                            "Usuń sejf",
+                            isfilled ? "Rozbij skarbonkę" : "Usuń skarbonkę",
                             style: AppTypography.body1.copyWith(
                               color: AppColors.semanticRed,
                             ),

@@ -25,7 +25,7 @@ class _SafesViewState extends State<SafesView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PageHeader(
-                title: 'Sejfy',
+                title: 'Skarbonki',
                 showAddButton: true,
                 onAddPressed: () async {
                   final result = await Navigator.pushNamed(context, '/add-safe');
@@ -46,7 +46,6 @@ class _SafesViewState extends State<SafesView> {
                     'Niewypełnione',
                   ],
                   onStateSelected: (selected) {
-                    print('###############Selected state: $selected');
                     context.read<SafeCubit>().getSafesByState(selected);
                     setState(() {
                       selectedState = selected;
@@ -57,7 +56,7 @@ class _SafesViewState extends State<SafesView> {
 
               Expanded(
                 child: state.safes.isEmpty
-                    ? const Center(child: Text('Brak sejfów'))
+                    ? const Center(child: Text('Brak skarbonek'))
                     : ListView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         itemCount: state.safes.length,

@@ -1,16 +1,16 @@
+import 'package:budgetmaster/domain/models/safe.dart';
 import 'package:flutter/material.dart';
-import 'package:budgetmaster/domain/models/category.dart';
 
-class ExpensesCategoryScrollList extends StatelessWidget {
-  final List<Category> categories;
-  final String? selectedCategory;
-  final Function(String category) onCategorySelected;
+class SafesScrollList extends StatelessWidget {
+  final Function(String safeId) onSafeSelected;
+  final String? selectedSafe;
+  final List<Safe> safes;
 
-  const ExpensesCategoryScrollList({
+  const SafesScrollList({
     super.key,
-    required this.categories,
-    required this.onCategorySelected,
-    this.selectedCategory,
+    required this.onSafeSelected,
+    required this.selectedSafe,
+    required this.safes,
   });
 
   @override
@@ -19,12 +19,12 @@ class ExpensesCategoryScrollList extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: categories.map((category) {
-            final isSelected = category.id == selectedCategory;
+          children: safes.map((safe) {
+            final isSelected = safe.id == selectedSafe;
             return Padding(
               padding: const EdgeInsets.only(right: 8),
               child: GestureDetector(
-                onTap: () => onCategorySelected(category.id),
+                onTap: () => onSafeSelected(safe.id),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
@@ -32,7 +32,7 @@ class ExpensesCategoryScrollList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    category.name,
+                    safe.name,
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: 'Poppins',
