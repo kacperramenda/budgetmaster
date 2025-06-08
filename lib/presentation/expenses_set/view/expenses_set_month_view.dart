@@ -34,15 +34,16 @@ class ExpensesSetMonthView extends StatelessWidget {
     for (var expense in expenses) {
       grouped.update(
         expense.categoryId,
-        (value) => value + expense.amount,
-        ifAbsent: () => expense.amount,
+        (value) => value + (expense.amount - expense.paidAmount),
+        ifAbsent: () => (expense.amount - expense.paidAmount),
       );
     }
     return grouped;
   }
 
   double _calculateTotal(List<Expense> expenses) {
-    return expenses.fold(0.0, (sum, e) => sum + e.amount);
+    // Calculates the total amount of expenses (expense amount is equal to expense.amount - expense.paidAmount)
+    return expenses.fold(0.0, (total, expense) => total + (expense.amount - expense.paidAmount));
   }
 
   Category _getCategoryById(String id) {
@@ -75,6 +76,7 @@ class ExpensesSetMonthView extends StatelessWidget {
                   sectionsSpace: 2,
                   centerSpaceRadius: 40,
                   sections: groupedByCategory.entries.map((entry) {
+                    print("###################Entry: ${entry.key}, Value: ${entry.value}");
                     final percentage = entry.value / total * 100;
                     final category = _getCategoryById(entry.key);
                     return PieChartSectionData(

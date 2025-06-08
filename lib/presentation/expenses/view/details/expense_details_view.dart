@@ -1,4 +1,5 @@
 import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
@@ -11,25 +12,57 @@ String _formatDate(DateTime date) {
   return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
 }
 
-class ExpenseDetailsView extends StatelessWidget {
-  final Expense expense;
+class ExpenseDetailsView extends StatefulWidget {
+  final String expenseId;
 
-  const ExpenseDetailsView({super.key, required this.expense});
+  const ExpenseDetailsView({super.key, required this.expenseId});
+
+  @override
+  State<ExpenseDetailsView> createState() => _ExpenseDetailsViewState();
+}
+
+class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ExpenseCubit>().reloadExpense(widget.expenseId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExpenseCubit, ExpenseState>(
       builder: (context, state) {
-        // Znajdź kategorię pasującą do budgetCategoryId
+        final expense = state.expenses.firstWhere(
+          (e) => e.id == widget.expenseId,
+          orElse: () => Expense(
+            id: '',
+            name: '',
+            amount: 0.0,
+            date: DateTime.now(),
+            categoryId: '',
+            isSplitted: false,
+            isPaid: false,
+            description: '',
+          ),
+        );
+
+        print('#################Expense paidAmount: ${expense.paidAmount}');
+
+        if (expense.id == '') {
+          return const Scaffold(
+            body: Center(child: Text("Wydatek nie znaleziony")),
+          );
+        }
+
         final category = state.budgetCategories.firstWhere(
           (c) => c.id == expense.categoryId,
           orElse: () => Category(
             id: '',
-            name: 'Nieznana',
-            startAmount: 0,
-            currentAmount: 0,
-            month: '',
-            year: '',
+            name: 'Nieznana kategoria',
+            startAmount: 0.0,
+            currentAmount: 0.0,
+            month: DateTime.now().month.toString(),
+            year: DateTime.now().year.toString(),
           ),
         );
 
@@ -223,6 +256,35 @@ class ExpenseDetailsView extends StatelessWidget {
                           ),
                         ),
 
+                        Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: AppColors.neutral5,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Kwota opłacona",
+                                style: AppTypography.body1.copyWith(
+                                  color: AppColors.neutral2,
+                                ),
+                              ),
+                              Text(
+                                "${expense.paidAmount.toStringAsFixed(2)} zł",
+                                style: AppTypography.title3.copyWith(
+                                  color: expense.isPaid ? AppColors.semanticGreen : AppColors.semanticRed,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                       Container(
                         decoration: const BoxDecoration(
                           border: Border(
@@ -296,11 +358,15 @@ class ExpenseDetailsView extends StatelessWidget {
                                       ),
                                     ),
                                     onTap: () async {
-                                      final result = await Navigator.pushNamed(context, '/split-expense', arguments: expense);
-                                      if (result == true && context.mounted) {
-                                        Navigator.pop(context, true); // wróć z informacją, że podzielono
+                                      final result = await Navigator.pushNamed(
+                                        context,
+                                        '/split-expense',
+                                        arguments: expense,
+                                      );
+                                      if (result == true) {
+                                        context.read<ExpenseCubit>().reloadExpense(expense.id);
                                       }
-                                    },
+                                    }
                                   ),
                                   const SizedBox(height: 16),
                                   Text(

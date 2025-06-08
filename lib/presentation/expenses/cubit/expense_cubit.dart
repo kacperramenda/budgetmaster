@@ -128,4 +128,18 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       await _loadCategories();
     }
   }
+
+  // reload expense by id
+  Future<void> reloadExpense(String id) async {
+    final expense = await expenseRepo.getExpenseById(id);
+    if (expense != null) {
+      final expenses = List<Expense>.from(state.expenses);
+      final index = expenses.indexWhere((e) => e.id == id);
+      if (index != -1) {
+        expenses[index] = expense;
+        emit(ExpenseState(expenses: expenses, budgetCategories: state.budgetCategories, selectedCategory: state.selectedCategory));
+      }
+    }
+  }
+
 }

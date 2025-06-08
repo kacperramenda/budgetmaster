@@ -30,6 +30,7 @@ class Expense {
   final String description;
   final bool isSplitted;
   final bool isPaid;
+  final double paidAmount;
 
   Expense({
     required this.id,
@@ -40,5 +41,30 @@ class Expense {
     required this.description,
     this.isSplitted = false,
     this.isPaid = false,
+    this.paidAmount = 0.0,
   });
+
+  Expense copyWith({
+    String? id,
+    String? name,
+    String? categoryId,
+    DateTime? date,
+    double? amount,
+    String? description,
+    bool? isSplitted,
+    bool? isPaid,
+    double? paidAmount
+  }) {
+    return Expense(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      categoryId: categoryId ?? this.categoryId,
+      date: date ?? this.date,
+      amount: amount ?? this.amount,
+      description: description ?? this.description,
+      isSplitted: isSplitted ?? this.isSplitted,
+      isPaid: isPaid ?? this.isPaid,
+      paidAmount: paidAmount ?? this.paidAmount,
+    );
+  }
 }

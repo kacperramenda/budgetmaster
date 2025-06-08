@@ -1,7 +1,9 @@
+import 'package:budgetmaster/data/models/isar_expense_split.dart';
 import 'package:budgetmaster/data/models/isar_safe.dart';
 import 'package:budgetmaster/data/models/isar_saving.dart';
 import 'package:budgetmaster/data/repository/isar_expense_repository.dart';
 import 'package:budgetmaster/data/repository/isar_category_repository.dart';
+import 'package:budgetmaster/data/repository/isar_expense_split_repository.dart';
 import 'package:budgetmaster/data/repository/isar_safe_repository.dart';
 import 'package:budgetmaster/data/repository/isar_saving_repository.dart';
 import 'package:budgetmaster/domain/models/category.dart';
@@ -9,6 +11,7 @@ import 'package:budgetmaster/domain/models/safe.dart';
 import 'package:budgetmaster/domain/models/saving.dart';
 import 'package:budgetmaster/domain/repository/expense_repo.dart';
 import 'package:budgetmaster/domain/repository/category_repo.dart';
+import 'package:budgetmaster/domain/repository/expense_split_repo.dart';
 import 'package:budgetmaster/domain/repository/safe_repo.dart';
 import 'package:budgetmaster/domain/repository/saving_repo.dart';
 import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
@@ -27,6 +30,10 @@ import 'package:budgetmaster/presentation/savings/cubit/savings_cubit.dart';
 import 'package:budgetmaster/presentation/savings/view/add/saving_add_view.dart';
 import 'package:budgetmaster/presentation/savings/view/details/saving_details_view.dart';
 import 'package:budgetmaster/presentation/savings/view/savings_view.dart';
+import 'package:budgetmaster/presentation/split_expense/add/expense_split_add_view.dart';
+import 'package:budgetmaster/presentation/split_expense/cubit/expense_split_cubit.dart';
+import 'package:budgetmaster/presentation/split_expense/view/expense_split_page.dart';
+import 'package:budgetmaster/presentation/split_expense/view/expense_split_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +52,7 @@ void main() async {
 
   // Initialize database
   final isar = await Isar.open(
-    [IsarExpenseSchema, IsarCategorySchema, IsarSafeSchema, IsarSavingSchema],
+    [IsarExpenseSchema, IsarCategorySchema, IsarSafeSchema, IsarSavingSchema, IsarExpenseSplitSchema],
     directory: directory.path,
   );
 
@@ -53,6 +60,7 @@ void main() async {
   final isarBudgetCategoryRepository = IsarCategoryRepository(isar);
   final isarSafeRepository = IsarSafeRepository(isar);
   final isarSavingsRepository = IsarSavingRepository(isar); 
+  final isarExpenseSplitRepository = IsarExpenseSplitRepository(isar);
 
   // add sample budget categories
   // final newBudgetCategory = IsarBudgetCategory()
@@ -131,6 +139,41 @@ void main() async {
   //   print('Expense: ID: ${expense.id}, Name: ${expense.name}, Amount: ${expense.amount}, Category: ${expense.categoryId}, Date: ${expense.date}');
   // }
 
+  // delete all expense splits
+  // await isar.writeTxn(() async {
+  //   final allExpenseSplitIds = await isar.isarExpenseSplits.where().idProperty().findAll();
+  //   await isar.isarExpenseSplits.deleteAll(allExpenseSplitIds);
+  // });
+
+  // update all expenses to not split and not paid and paid amount to 0.0
+  // await isar.writeTxn(() async {
+  //   final allExpenseIds = await isar.isarExpenses.where().idProperty().findAll();
+  //   for (var id in allExpenseIds) {
+  //     final expense = await isar.isarExpenses.get(id);
+  //     if (expense != null) {
+  //       expense.isSplitted = false;
+  //       expense.isPaid = false;
+  //       expense.paidAmount = 0.0;
+  //       await isar.isarExpenses.put(expense);
+  //     }
+  //   }
+  // });
+
+  // update category where id is '1749245000802' to have currentAmount 400.0
+  // await isar.writeTxn(() async {
+  //   final category = await isar.isarCategorys.get(1749245000802);
+  //   if (category != null) {
+  //     category.currentAmount = -1400.0;
+  //     category.startAmount = 700.0; // Update startAmount if needed
+  //     await isar.isarCategorys.put(category);
+  //   }
+  // }); 
+  // print all categories from database in terminal
+  // final categories = await isarBudgetCategoryRepository.getAllCategories();
+  // for (var category in categories) {
+  //   print('Category: ID: ${category.id}, Name: ${category.name}, Start Amount: ${category.startAmount}, Current Amount: ${category.currentAmount}, Month: ${category.month}, Year: ${category.year}');
+  // }
+
 
   // Run app
   runApp(MyApp(
@@ -138,6 +181,7 @@ void main() async {
     budgetCategoryRepository: isarBudgetCategoryRepository,
     safeRepository: isarSafeRepository,
     savingsRepository: isarSavingsRepository,
+    expenseSplitRepository: isarExpenseSplitRepository,
   ));
 }
 
@@ -146,6 +190,7 @@ class MyApp extends StatelessWidget {
   final CategoryRepository budgetCategoryRepository;
   final SafeRepository safeRepository;
   final SavingRepository savingsRepository;
+  final ExpenseSplitRepository expenseSplitRepository;
 
   const MyApp({
     super.key,
@@ -153,6 +198,7 @@ class MyApp extends StatelessWidget {
     required this.budgetCategoryRepository,
     required this.safeRepository,
     required this.savingsRepository,
+    required this.expenseSplitRepository,
   });
 
   @override
@@ -176,7 +222,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<SavingsCubit>(
           create: (context) => SavingsCubit(savingsRepository, safeRepository),
         ),
-      ],
+        Provider<ExpenseSplitRepository>.value(value: expenseSplitRepository),
+      ],  
       child: MaterialApp(
         title: 'BudgetMaster',
         debugShowCheckedModeBanner: false,
@@ -190,10 +237,6 @@ class MyApp extends StatelessWidget {
           '/budget-categories': (context) => const MainScaffold(currentIndex: 1),
           '/safes': (context) => const MainScaffold(currentIndex: 2),
           '/expenses': (context) => const MainScaffold(currentIndex: 3),
-          '/expense_details': (context) {
-            final expense = ModalRoute.of(context)!.settings.arguments as Expense;
-            return ExpenseDetailsView(expense: expense);
-          },
           '/add-expense': (context) => const ExpenseAddView(),
           '/add-budget-category': (context) => const CategoryAddView(),
           '/budget-category-details': (context) {
@@ -228,6 +271,19 @@ class MyApp extends StatelessWidget {
           '/saving-details': (context) {
             final saving = ModalRoute.of(context)!.settings.arguments as Saving;
             return SavingDetailsView(saving: saving);
+          },
+          '/split-expense': (context) => const ExpenseSplitPage(),
+          '/expense-split-add': (context) {
+            final repo = RepositoryProvider.of<ExpenseSplitRepository>(context);
+
+            return BlocProvider(
+              create: (context) => ExpenseSplitCubit(repo),
+              child: ExpenseSplitAddView(),
+            );
+          },
+          '/expense_details': (context) {
+            final expense = ModalRoute.of(context)!.settings.arguments as Expense;
+            return ExpenseDetailsView(expenseId: expense.id);
           },
         },
       ),

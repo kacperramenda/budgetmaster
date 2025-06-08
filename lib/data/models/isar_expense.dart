@@ -23,6 +23,7 @@ class IsarExpense {
   late String description; // A description of the expense.
   late bool isSplitted; // A boolean indicating if the expense is split among multiple users.
   late bool isPaid; // A boolean indicating if the expense has been paid.
+  late double paidAmount; // The amount paid, if applicable.
 
   Expense toDomain() {
       return Expense(
@@ -34,6 +35,7 @@ class IsarExpense {
         description: description,
         isSplitted: isSplitted,
         isPaid: isPaid,
+        paidAmount: paidAmount,
       );
     }
 
@@ -46,7 +48,8 @@ class IsarExpense {
       ..amount = expense.amount
       ..description = expense.description
       ..isSplitted = expense.isSplitted
-      ..isPaid = expense.isPaid;
+      ..isPaid = expense.isPaid
+      ..paidAmount = expense.paidAmount;
   }
 }
 

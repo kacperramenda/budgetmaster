@@ -1,6 +1,7 @@
 import 'package:budgetmaster/presentation/common/months_scroll_list.dart';
 import 'package:budgetmaster/presentation/common/page_header.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
+import 'package:budgetmaster/presentation/expenses/view/details/expense_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/expense_list_item.dart';
@@ -62,16 +63,12 @@ class ExpensesView extends StatelessWidget {
                           return ExpenseListItem(
                             expense: expense,
                             onTap: () async {
-                              final result = await Navigator.pushNamed(
+                              Navigator.push(
                                 context,
-                                '/expense_details',
-                                arguments: expense,
+                                MaterialPageRoute(
+                                  builder: (_) => ExpenseDetailsView(expenseId: expense.id),
+                                ),
                               );
-
-                              if (result == true) {
-                                // odśwież listę wydatków
-                                context.read<ExpenseCubit>().loadExpenses();
-                              }
                             },
                           );
                         },

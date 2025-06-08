@@ -21,4 +21,10 @@ abstract class ExpenseSplitRepository {
 
   // Get all expense splits for an expense
   Future<List<ExpenseSplit>> getAllExpenseSplitsForExpense(String expenseId);
+
+  // Get all expense splits
+  Future<List<ExpenseSplit>> getAllExpenseSplits();
+
+  // Update expense state 
+  Future<void> updateExpenseState(String expenseId) async {}
 }

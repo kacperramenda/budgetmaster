@@ -48,7 +48,7 @@ class ExpensesSetListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "- ${expense.amount.toStringAsFixed(2)}zł",
+                  "- ${(expense.amount - expense.paidAmount).toStringAsFixed(2)}zł",
                   style: AppTypography.caption2.copyWith(
                     color: AppColors.semanticRed,
                   ),
