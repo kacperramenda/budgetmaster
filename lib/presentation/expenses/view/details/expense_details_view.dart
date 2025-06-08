@@ -285,13 +285,33 @@ class ExpenseDetailsView extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 16, bottom: 48),
                             child: Center(
-                              child: Text(
-                                "Usuń wydatek",
-                                style: AppTypography.body1.copyWith(
-                                  color: AppColors.semanticRed,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    child: Text(
+                                      "Podziel wydatek",
+                                      style: AppTypography.body1.copyWith(
+                                        color: AppColors.primary1,
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      final result = await Navigator.pushNamed(context, '/split-expense', arguments: expense);
+                                      if (result == true && context.mounted) {
+                                        Navigator.pop(context, true); // wróć z informacją, że podzielono
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    "Usuń wydatek",
+                                    style: AppTypography.body1.copyWith(
+                                      color: AppColors.semanticRed,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                            )
                           ),
                         ),
                       ),
