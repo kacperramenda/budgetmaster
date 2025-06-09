@@ -162,7 +162,7 @@ void main() async {
   // await isar.writeTxn(() async {
   //   final category = await isar.isarCategorys.get(1749245000802);
   //   if (category != null) {
-  //     category.currentAmount = -1400.0;
+  //     category.currentAmount = 0.0;
   //     category.startAmount = 700.0; // Update startAmount if needed
   //     await isar.isarCategorys.put(category);
   //   }
@@ -240,9 +240,9 @@ class MyApp extends StatelessWidget {
           '/add-budget-category': (context) => const CategoryAddView(),
           '/budget-category-details': (context) {
             final category = ModalRoute.of(context)!.settings.arguments as Category;
-            return CategoryDetailsView(category: category);
+            return CategoryDetailsView(categoryId: category.id);
           },
-          '/expenses-set' : (context) {
+          '/expenses-set' : (context) {  
             return ExpensesSetView();
           },
           '/expenses-set-month': (context) {
@@ -259,7 +259,7 @@ class MyApp extends StatelessWidget {
           '/add-safe': (context) => const SafeAddView(),
           '/safe-details': (context) {
             final safe = ModalRoute.of(context)!.settings.arguments as Safe;
-            return SafeDetailsView(safe: safe);
+            return SafeDetailsView(safeId: safe.id);
           },
           '/savings': (context) {
             return const SavingsView();

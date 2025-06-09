@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:budgetmaster/domain/models/category.dart';
+import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/presentation/common/button_primary.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/widgets/add/expense_category_add_tile.dart';
@@ -17,14 +17,16 @@ import 'package:provider/provider.dart';
 import 'package:budgetmaster/domain/repository/category_repo.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ExpenseAddView extends StatefulWidget {
-  const ExpenseAddView({super.key});
+class ExpenseEditView extends StatefulWidget {
+  final Expense expense;
+
+  const ExpenseEditView({super.key, required this.expense});
 
   @override
-  State<ExpenseAddView> createState() => _ExpenseAddViewState();
+  State<ExpenseEditView> createState() => _ExpenseEditViewState();
 }
 
-class _ExpenseAddViewState extends State<ExpenseAddView> {
+class _ExpenseEditViewState extends State<ExpenseEditView> {
   late String expenseDate;
   late String expenseCategory;
   late String expenseAmount;
@@ -32,6 +34,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   Category? selectedCategory;
   Future<List<Category>>? _categoriesFuture;
   File? _receiptImage;
+  String? _existingImagePath;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -41,36 +44,45 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   @override
   void initState() {
     super.initState();
-    expenseDate = '';
-    expenseCategory = '';
-    expenseAmount = '';
-    expenseDescription = '';
+    _nameController.text = widget.expense.name;
+    _amountController.text = widget.expense.amount.toString();
+    _descriptionController.text = widget.expense.description ?? '';
+    
+    final date = widget.expense.date;
+    _dateController.text = '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    
+    expenseDate = _dateController.text;
+    expenseCategory = widget.expense.categoryId;
+    expenseAmount = _amountController.text;
+    expenseDescription = _descriptionController.text;
+    _existingImagePath = widget.expense.receiptImagePath;
+
+    _loadCategoriesForExpenseDate();
   }
 
-  void _onDateChanged(String newDate) {
-    setState(() {
-      expenseDate = newDate;
-      final parsed = _extractMonthAndYear(newDate);
-      if (parsed != null) {
-          _categoriesFuture = Provider.of<CategoryRepository>(
+  void _loadCategoriesForExpenseDate() {
+    final parsed = _extractMonthAndYear(expenseDate);
+    if (parsed != null) {
+      setState(() {
+        _categoriesFuture = Provider.of<CategoryRepository>(
           context,
           listen: false,
         ).getCategoriesForSelectedMonth(parsed['month']!, parsed['year']!).then(
           (list) => list.whereType<Category>().toList(),
         );
-      }
-    });
+      });
+    }
   }
 
-  void _removeImage() {
+  void _onDateChanged(String newDate) {
     setState(() {
-      _receiptImage = null;
+      expenseDate = newDate;
+      _loadCategoriesForExpenseDate();
     });
   }
 
   Future<void> _pickImage() async {
     try {
-      // Check if we have permission
       final status = await Permission.photos.request();
       if (!status.isGranted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -96,17 +108,25 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
         final File compressedImage = await _compressImage(File(image.path));
         setState(() {
           _receiptImage = compressedImage;
+          _existingImagePath = null; // Reset existing path when new image is selected
         });
       }
     } on PlatformException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Błąd platformy: ${e.message}')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   // SnackBar(content: Text('Błąd platformy: ${e.message}')),
+      // );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Wystąpił błąd: ${e.toString()}')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   // SnackBar(content: Text('Wystąpił błąd: ${e.toString()}')),
+      // );
     }
+  }
+
+  void _removeImage() {
+    setState(() {
+      _receiptImage = null;
+      _existingImagePath = null;
+    });
   }
 
   Future<File> _compressImage(File file) async {
@@ -121,7 +141,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
   Map<String, String>? _extractMonthAndYear(String dateStr) {
     try {
       final parts = dateStr.split('/');
-      final month = int.parse(parts[1]).toString(); // "05" → 5 → "5"
+      final month = int.parse(parts[1]).toString();
       final year = parts[2];
       return {'month': month, 'year': year};
     } catch (_) {
@@ -138,11 +158,8 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             PageHeader(
-              title: "Dodaj wydatek",
-              showAddButton: true,
-              onAddPressed: () {
-                Navigator.pushNamed(context, '/add-expense');
-              },
+              title: "Edytuj wydatek",
+              showAddButton: false,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -188,18 +205,7 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                       final result = await Navigator.pushNamed(context, '/add-budget-category');
         
                                       if (result == true && expenseDate.isNotEmpty) {
-                                        final parsed = _extractMonthAndYear(expenseDate);
-                                        if (parsed != null) {
-                                          setState(() {
-                                            _categoriesFuture = Provider.of<CategoryRepository>(
-                                              context,
-                                              listen: false,
-                                            ).getCategoriesForSelectedMonth(
-                                              parsed['month']!,
-                                              parsed['year']!,
-                                            ).then((list) => list.whereType<Category>().toList());
-                                          });
-                                        }
+                                        _loadCategoriesForExpenseDate();
                                       }
                                     },
                                     child: Padding(
@@ -207,10 +213,10 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                       child: Text(
                                         'Dodaj kategorię',
                                         style: TextStyle(color: AppColors.primary1),
-                                        ),
                                       ),
                                     ),
                                   ),
+                                ),
                               ],
                             );
                           }
@@ -227,25 +233,15 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                                       onTap: () {
                                         Navigator.pushNamed(context, '/add-budget-category').then((result) {
                                           if (result == true && expenseDate.isNotEmpty) {
-                                            final parsed = _extractMonthAndYear(expenseDate);
-                                            if (parsed != null) {
-                                              setState(() {
-                                                _categoriesFuture = Provider.of<CategoryRepository>(
-                                                  context,
-                                                  listen: false,
-                                                ).getCategoriesForSelectedMonth(
-                                                  parsed['month']!,
-                                                  parsed['year']!,
-                                                ).then((list) => list.whereType<Category>().toList());
-                                              });
-                                            }
+                                            _loadCategoriesForExpenseDate();
                                           }
                                         });
                                       },
                                     ),
                                   ),
                                   ...categories.map((category) {
-                                    final isSelected = selectedCategory?.id == category.id;
+                                    final isSelected = selectedCategory?.id == category.id || 
+                                        (selectedCategory == null && category.id == widget.expense.categoryId);
                                     return Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Container(
@@ -284,7 +280,11 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                       placeholder: 'Nazwa wydatku',
                       controller: _nameController,
                       type: InputType.text,
-                      onChanged: (_) => setState(() {}),
+                      onChanged: (value) {
+                        setState(() {
+                          expenseCategory = value;
+                        });
+                      },
                     ),
                   ),
                   Padding(
@@ -294,8 +294,10 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                       placeholder: 'Kwota wydatku',
                       controller: _amountController,
                       type: InputType.number,
-                      onChanged: (newAmount) {
-                        setState(() => expenseAmount = newAmount);
+                      onChanged: (value) {
+                        setState(() {
+                          expenseAmount = value;
+                        });
                       },
                     ),
                   ),
@@ -306,8 +308,10 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                       placeholder: 'Opis wydatku',
                       controller: _descriptionController,
                       type: InputType.text,
-                      onChanged: (newDesc) {
-                        setState(() => expenseDescription = newDesc);
+                      onChanged: (value) {
+                        setState(() {
+                          expenseDescription = value;
+                        });
                       },
                     ),
                   ),
@@ -318,13 +322,13 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                       TextButton(
                         onPressed: _pickImage,
                         child: Text(
-                          _receiptImage != null 
+                          _receiptImage != null || _existingImagePath != null 
                               ? "Zmień zdjęcie" 
                               : "Dodaj zdjęcie paragonu",
                           style: TextStyle(color: AppColors.primary1),
                         ),
                       ),
-                      if (_receiptImage != null)
+                      if (_receiptImage != null || _existingImagePath != null)
                         TextButton(
                           onPressed: _removeImage,
                           child: Text(
@@ -343,20 +347,26 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                         height: 200,
                         fit: BoxFit.cover,
                       ),
+                    )
+                  else if (_existingImagePath != null && File(_existingImagePath!).existsSync())
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(
+                        File(_existingImagePath!),
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   const SizedBox(height: 24),
                   ButtonPrimary(
-                    label: 'Dodaj',
+                    label: 'Zapisz zmiany',
                     onPressed: () async {
                       final name = _nameController.text.trim();
                       final amount = _amountController.text.trim();
                       final desc = _descriptionController.text.trim();
                       final date = _dateController.text.trim();
         
-                      if (date.isEmpty ||
-                          expenseCategory.isEmpty ||
-                          name.isEmpty ||
-                          amount.isEmpty) {
+                      if (date.isEmpty || expenseCategory.isEmpty || name.isEmpty || amount.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Proszę wypełnić wszystkie pola')),
                         );
@@ -378,22 +388,34 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
                         return;
                       }
         
-                      // Get the image path if one was selected
-                      final imagePath = _receiptImage?.path;
+                      final imagePath = _receiptImage?.path ?? _existingImagePath;
         
-                      await context.read<ExpenseCubit>().addExpense(
-                        name,
-                        double.tryParse(amount) ?? 0.0,
-                        expenseCategory,
-                        desc,
+                      final updatedExpense = widget.expense.copyWith(
+                        name: name,
+                        amount: double.tryParse(amount) ?? 0.0,
+                        categoryId: expenseCategory,
+                        description: desc.isNotEmpty ? desc : null,
                         date: parsedDate,
-                        receiptImagePath: imagePath, // Pass the image path
+                        receiptImagePath: imagePath,
+                      );
+        
+                      await context.read<ExpenseCubit>().updateExpense(
+                        updatedExpense.id,
+                        updatedExpense.name,
+                        updatedExpense.amount,
+                        updatedExpense.categoryId,
+                        updatedExpense.description ?? '',
+                        date: updatedExpense.date,
+                        receiptImagePath: imagePath,
                       );
         
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Wydatek zapisany')),
+                        const SnackBar(content: Text('Zmiany w wydatku zostały zapisane')),
                       );
-                      Navigator.pop(context, true);
+                      
+                      if (mounted) {
+                        Navigator.pop(context, true);
+                      }
                     },
                   ),
                 ],
@@ -403,5 +425,14 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _amountController.dispose();
+    _descriptionController.dispose();
+    _dateController.dispose();
+    super.dispose();
   }
 }

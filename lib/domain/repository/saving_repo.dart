@@ -21,4 +21,7 @@ abstract class SavingRepository  {
 
   // Get a saving by ID
   Future<Saving?> getSavingById(String id);
+
+  // Delete all savings associated with a specific safe ID
+  Future<void> deleteSavingsBySafeId(String safeId);
 }

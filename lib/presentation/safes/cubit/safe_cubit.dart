@@ -42,6 +42,8 @@ class SafeCubit extends Cubit<SafeState> {
   // Delete safe
   Future<void> deleteSafe(String id) async {
     await safeRepo.deleteSafe(id);
+    // delete all savings associated with this safe
+    await savingRepo.deleteSavingsBySafeId(id);
     await loadSafes();
   }
 

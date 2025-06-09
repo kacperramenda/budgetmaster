@@ -48,4 +48,13 @@ class IsarSavingRepository implements SavingRepository {
     final isarSaving = await db.isarSavings.get(int.parse(id));
     return isarSaving?.toDomain();
   }
+
+  // Delete all savings associated with a specific safe ID
+  @override
+  Future<void> deleteSavingsBySafeId(String safeId) async {
+    final savings = await db.isarSavings.filter().safeIdEqualTo(safeId).findAll();
+    if (savings.isNotEmpty) {
+      await db.writeTxn(() => db.isarSavings.deleteAll(savings.map((s) => s.id).toList()));
+    }
+  }
 }

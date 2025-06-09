@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:budgetmaster/domain/models/category.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
+import 'package:budgetmaster/presentation/expenses/view/edit/expense_edit_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
@@ -92,10 +93,23 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
           backgroundColor: Colors.white,
           body: Column(
             children: [
-              const PageHeader(
+              PageHeader(
                 route: '/expenses',
                 title: 'Szczegóły wydatku',
                 showAddButton: false,
+                showEditButton: true,
+                onEditPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ExpenseEditView(expense: expense),
+                    ),
+                  ).then((result) {
+                    if (result == true) {
+                      context.read<ExpenseCubit>().reloadExpense(expense.id);
+                    }
+                  });
+                }, // Edit functionality not implemented
               ),
               Expanded(
                 child: Padding(
@@ -382,7 +396,7 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
                               ],
                             ),
                           ),
-                    
+
                         Builder(
                           builder: (context) => InkWell(
                             onTap: () async {
@@ -423,7 +437,7 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
                               }
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16, bottom: 48),
+                              padding: const EdgeInsets.only(top: 32, bottom: 48),
                               child: Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,

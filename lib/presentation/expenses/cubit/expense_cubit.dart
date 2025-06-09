@@ -78,7 +78,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     );
 
     await expenseRepo.addExpense(newExpense);
-    await _updateBudgetCategoryAmount(budgetCategoryId, amountDelta: -amount);
+    await updateAllBudgetCategoryAmounts();
     loadExpenses();
   }
 
@@ -87,7 +87,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     final expense = state.expenses.firstWhere((e) => e.id == id);
     if (expense != null) {
       await expenseRepo.deleteExpense(id);
-      await _updateBudgetCategoryAmount(expense.categoryId, amountDelta: expense.amount);
+      await updateAllBudgetCategoryAmounts();
       loadExpenses();
     }
     // Update the budget category's current amount
@@ -120,17 +120,28 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     ));
   }
 
-  Future<void> _updateBudgetCategoryAmount(String budgetCategoryId, {required double amountDelta}) async {
-    if (budgetCategoryId == '0') return; // Don't update for "Wszystkie"
-    final category = await categoryRepo.getCategoryById(budgetCategoryId);
-    if (category != null) {
-      final updatedCategory = category.copyWith(
-        currentAmount: (category.currentAmount ?? 0) + amountDelta,
-      );
-      await categoryRepo.updateCategory(updatedCategory);
+  Future<void> updateAllBudgetCategoryAmounts() async {
+    try {
+      final categories = await categoryRepo.getAllCategories();
+      final expenses = await expenseRepo.getAllExpenses();
+
+      for (final category in categories) {
+        final matchingExpenses = expenses.where((e) => e.categoryId == category.id);
+        final totalSpent = matchingExpenses.fold<double>(
+          0.0,
+          (sum, e) => sum + e.amount,
+        );
+
+        final updatedCategory = category.copyWith(currentAmount: category.startAmount - totalSpent);
+        await categoryRepo.updateCategory(updatedCategory);
+      }
+
       await _loadCategories();
+    } catch (e) {
+      print('Error updating budget category amounts: $e');
     }
   }
+
 
   // reload expense by id
   Future<void> reloadExpense(String id) async {
@@ -143,6 +154,34 @@ class ExpenseCubit extends Cubit<ExpenseState> {
         emit(ExpenseState(expenses: expenses, budgetCategories: state.budgetCategories, selectedCategory: state.selectedCategory));
       }
     }
+  }
+
+  // Update expense
+  Future<void> updateExpense(
+    String id,
+    String name,
+    double amount,
+    String budgetCategoryId,
+    String description, {
+    DateTime? date,
+    String? receiptImagePath,
+  }) async {
+    final updatedExpense = Expense(
+      id: id,
+      name: name,
+      amount: amount,
+      date: date ?? DateTime.now(),
+      categoryId: budgetCategoryId,
+      description: description,
+      isSplitted: false,
+      isPaid: false,
+      paidAmount: 0.0,
+      receiptImagePath: receiptImagePath,
+    );
+
+    await expenseRepo.updateExpense(updatedExpense);
+    await updateAllBudgetCategoryAmounts();
+    loadExpenses();
   }
 
 }
