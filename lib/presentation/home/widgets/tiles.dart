@@ -29,8 +29,8 @@ class MenuTile extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               // ignore: deprecated_member_use
-              color: Color(0xFF3629B7).withOpacity(0.07),
-              blurRadius: 12,
+              color: Color(0xFF3629B7).withOpacity(0.15),
+              blurRadius: 15,
               offset: Offset(0, 4),
             ),
           ],

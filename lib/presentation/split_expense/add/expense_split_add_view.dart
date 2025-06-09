@@ -40,7 +40,7 @@ class _ExpenseSplitAddViewState extends State<ExpenseSplitAddView> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const PageHeader(title: "Dodaj oszczędność"),
+          const PageHeader(title: "Dodaj podział"),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Column(

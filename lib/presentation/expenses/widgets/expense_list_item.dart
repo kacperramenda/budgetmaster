@@ -26,8 +26,8 @@ class ExpenseListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF3629B7).withOpacity(0.07),
-              blurRadius: 12,
+              color: const Color(0xFF3629B7).withOpacity(0.15),
+              blurRadius: 15,
               offset: const Offset(0, 4),
             ),
           ],
