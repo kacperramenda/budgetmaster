@@ -269,7 +269,7 @@ class MyApp extends StatelessWidget {
           },
           '/saving-details': (context) {
             final saving = ModalRoute.of(context)!.settings.arguments as Saving;
-            return SavingDetailsView(saving: saving);
+            return SavingDetailsView(savingId: saving.id);
           },
           '/split-expense': (context) => const ExpenseSplitPage(),
           '/expense-split-add': (context) {

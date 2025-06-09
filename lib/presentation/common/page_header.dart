@@ -1,3 +1,4 @@
+import 'package:budgetmaster/presentation/common/edit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/presentation/common/add_button.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
@@ -7,6 +8,8 @@ class PageHeader extends StatelessWidget {
   final String route;
   final bool showAddButton;
   final VoidCallback? onAddPressed;
+  final bool showEditButton;
+  final VoidCallback? onEditPressed;
 
   const PageHeader({
     super.key,
@@ -14,6 +17,8 @@ class PageHeader extends StatelessWidget {
     this.route = '',
     this.showAddButton = false,
     this.onAddPressed,
+    this.showEditButton = false,
+    this.onEditPressed,
   });
 
   @override
@@ -53,6 +58,13 @@ class PageHeader extends StatelessWidget {
                   () {
                     Navigator.pushNamed(context, '/add-expense');
                   },
+            ),
+
+          if (showEditButton)
+            RoundEditButton(
+              onPressed: onEditPressed ?? () {
+                Navigator.pushNamed(context, '/edit-expense');
+              },
             ),
         ],
       ),

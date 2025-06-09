@@ -1,6 +1,7 @@
 import 'package:budgetmaster/domain/models/safe.dart';
 import 'package:budgetmaster/domain/models/saving.dart';
 import 'package:budgetmaster/presentation/savings/cubit/savings_cubit.dart';
+import 'package:budgetmaster/presentation/savings/view/edit/savings_edit_view.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
@@ -12,14 +13,26 @@ String _formatDate(DateTime date) {
 }
 
 class SavingDetailsView extends StatelessWidget {
-  final Saving saving;
+  final String savingId;
 
-  const SavingDetailsView({super.key, required this.saving});
+  const SavingDetailsView({super.key, required this.savingId});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SavingsCubit, SavingsState>(
       builder: (context, state) {
+        final saving = state.savings.firstWhere(
+          (s) => s.id == savingId,
+          orElse: () => Saving(
+            id: '',
+            name: 'Nieznana',
+            amount: 0,
+            date: DateTime.now(),
+            safeId: '', 
+            description: '',
+          ),
+        );
+
         // Znajdź kategorię pasującą do budgetCategoryId
         final safe = state.safes.firstWhere(
           (c) => c.id == saving.safeId,
@@ -36,9 +49,21 @@ class SavingDetailsView extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Column(
             children: [
-              const PageHeader(
+              PageHeader(
                 title: 'Szczegóły oszczędności',
-                showAddButton: false,
+                // showAddButton: true,
+                showEditButton: true,
+                onEditPressed: () async {
+                  final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SavingEditView(saving: saving),
+                  ),
+                  );
+                  if (result == true && context.mounted) {
+                  context.read<SavingsCubit>().loadData();
+                  }
+                }, // Możesz dodać logikę edycji, jeśli potrzebujesz
               ),
               Expanded(
                 child: Padding(
