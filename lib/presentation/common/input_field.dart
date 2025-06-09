@@ -54,6 +54,34 @@ class InputField extends StatelessWidget {
                 initialDate: initialDate,
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100),
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData.light().copyWith(
+                      primaryColor: AppColors.primary1,
+                      colorScheme: ColorScheme.light(
+                        primary: AppColors.primary1,
+                        onPrimary: Colors.white,
+                        surface: Colors.white,
+                        onSurface: Colors.black,
+                      ),
+                      dialogTheme: DialogThemeData(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        titleTextStyle: AppTypography.title2,
+                        contentTextStyle: AppTypography.body1,
+                      ),
+                      textButtonTheme: TextButtonThemeData(
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary1,
+                          textStyle: AppTypography.body1,
+                        ),
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
               );
               if (pickedDate != null) {
                 final formatted = DateFormat('dd/MM/yyyy').format(pickedDate);

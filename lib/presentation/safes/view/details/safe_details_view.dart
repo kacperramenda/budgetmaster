@@ -83,16 +83,35 @@ class SafeDetailsView extends StatelessWidget {
                         final confirm = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text(isfilled ? "Gratulacje!" : "Potwierdzenie"),
-                            content: Text(isfilled ? 'Czy napewno chcesz rozbić skarbonkę i usunąć wszystkie dodane oszczędności?' : 'Czy na pewno chcesz usunąć tą skarbonkę i wszystkie przypisane oszczędności?'),
+                            backgroundColor: AppColors.neutral6,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            title: Text(isfilled ? "Gratulacje!" : "Potwierdzenie", 
+                              style: AppTypography.title2.copyWith(
+                                color: AppColors.neutral1,
+                              ),
+                            ),
+                            content: Text(isfilled ? 'Czy napewno chcesz rozbić skarbonkę i usunąć wszystkie dodane oszczędności?' : 'Czy na pewno chcesz usunąć tą skarbonkę i wszystkie przypisane oszczędności?', 
+                              style: AppTypography.body3.copyWith(
+                                color: AppColors.neutral1,
+                              ),
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context, false),
-                                child: const Text("Anuluj"),
+                                child: Text("Anuluj", style: AppTypography.body1.copyWith(
+                                  color: AppColors.primary1,
+                                )
+                              ),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context, true),
-                                child: Text(isfilled ? "Rozbij" : "Usuń"),
+                                child: Text(isfilled ? "Rozbij" : "Usuń", 
+                                  style: AppTypography.body1.copyWith(
+                                    color: isfilled ? AppColors.semanticGreen : AppColors.semanticRed,
+                                  ),
+                              ),
                               ),
                             ],
                           ),

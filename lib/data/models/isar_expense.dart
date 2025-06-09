@@ -24,6 +24,7 @@ class IsarExpense {
   late bool isSplitted; // A boolean indicating if the expense is split among multiple users.
   late bool isPaid; // A boolean indicating if the expense has been paid.
   late double paidAmount; // The amount paid, if applicable.
+  late String? receiptImagePath; // Optional path to a receipt image.
 
   Expense toDomain() {
       return Expense(
@@ -36,6 +37,7 @@ class IsarExpense {
         isSplitted: isSplitted,
         isPaid: isPaid,
         paidAmount: paidAmount,
+        receiptImagePath: receiptImagePath,
       );
     }
 
@@ -49,7 +51,8 @@ class IsarExpense {
       ..description = expense.description
       ..isSplitted = expense.isSplitted
       ..isPaid = expense.isPaid
-      ..paidAmount = expense.paidAmount;
+      ..paidAmount = expense.paidAmount
+      ..receiptImagePath = expense.receiptImagePath;
   }
 }
 

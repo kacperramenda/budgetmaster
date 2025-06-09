@@ -34,61 +34,86 @@ class _MonthYearPickerFieldState extends State<MonthYearPickerField> {
   }
 
   void _showMonthYearDialog(BuildContext context) async {
+    int tempMonth = selectedMonth;
+    int tempYear = selectedYear;
+
     await showDialog(
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: const Text('Wybierz miesiąc i rok'),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DropdownButton<int>(
-                value: selectedMonth,
-                items: List.generate(12, (index) {
-                  final month = index + 1;
-                  return DropdownMenuItem(
-                    value: month,
-                    child: Text(month.toString().padLeft(2, '0')),
-                  );
-                }),
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      selectedMonth = value;
-                    });
-                  }
-                },
-              ),
-              const SizedBox(width: 16),
-              DropdownButton<int>(
-                value: selectedYear,
-                items: List.generate(30, (index) {
-                  final year = 2000 + index;
-                  return DropdownMenuItem(
-                    value: year,
-                    child: Text(year.toString()),
-                  );
-                }),
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      selectedYear = value;
-                    });
-                  }
-                },
-              ),
-            ],
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Text(
+            'Wybierz miesiąc i rok',
+            style: AppTypography.title2.copyWith(
+              color: AppColors.neutral1,
+            ),
+          ),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DropdownButton<int>(
+                    value: tempMonth,
+                    items: List.generate(12, (index) {
+                      final month = index + 1;
+                      return DropdownMenuItem(
+                        value: month,
+                        child: Text(month.toString().padLeft(2, '0')),
+                      );
+                    }),
+                    dropdownColor: Colors.white,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          tempMonth = value;
+                        });
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  DropdownButton<int>(
+                    value: tempYear,
+                    items: List.generate(30, (index) {
+                      final year = 2000 + index;
+                      return DropdownMenuItem(
+                        value: year,
+                        child: Text(year.toString()),
+                      );
+                    }),
+                    dropdownColor: Colors.white,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          tempYear = value;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              );
+            },
           ),
           actions: [
             TextButton(
               onPressed: () {
+                selectedMonth = tempMonth;
+                selectedYear = tempYear;
                 final formatted =
                     '${selectedMonth.toString().padLeft(2, '0')}/${selectedYear.toString()}';
                 _controller.text = formatted;
                 widget.onChanged?.call(formatted);
                 Navigator.of(ctx).pop();
               },
-              child: const Text('OK'),
+              child: Text(
+                'OK',
+                style: AppTypography.body1.copyWith(
+                  color: AppColors.primary1,
+                ),
+              ),
             ),
           ],
         );

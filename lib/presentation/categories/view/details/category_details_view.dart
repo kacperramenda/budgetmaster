@@ -82,20 +82,33 @@ class CategoryDetailsView extends StatelessWidget {
                       onTap: () async {
                         final confirm = await showDialog<bool>(
                           context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Potwierdzenie"),
-                            content: const Text("Czy na pewno chcesz usunąć tę kategorię?"),
+                          builder: (context) => Theme(
+                            data: Theme.of(context),
+                            child: AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            backgroundColor: AppColors.neutral6,
+                            title: Text("Potwierdzenie", style: AppTypography.title2),
+                            content: Text("Czy na pewno chcesz usunąć tę kategorię?", style: AppTypography.body3.copyWith(
+                              color: AppColors.neutral1,
+                            )),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context, false),
-                                child: const Text("Anuluj"),
+                                child: Text("Anuluj", style: AppTypography.body1.copyWith(
+                                  color: AppColors.primary1,
+                                )),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context, true),
-                                child: const Text("Usuń"),
+                                child: Text("Usuń", style: AppTypography.body1.copyWith(
+                                  color: AppColors.semanticRed,
+                                )),
                               ),
                             ],
                           ),
+                            )
                         );
 
                         if (confirm == true) {

@@ -199,16 +199,26 @@ class SavingDetailsView extends StatelessWidget {
                             final confirm = await showDialog<bool>(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: const Text("Potwierdzenie"),
-                                content: const Text("Czy na pewno chcesz usunąć tą oszczędność?"),
+                                backgroundColor: AppColors.neutral6,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                title: const Text("Potwierdzenie", style: AppTypography.title2),
+                                content: const Text("Czy na pewno chcesz usunąć tą oszczędność?", style: AppTypography.body3),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context, false),
-                                    child: const Text("Anuluj"),
+                                    child: Text("Anuluj", style: AppTypography.body1.copyWith(
+                                      color: AppColors.primary1,
+                                    )
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () => Navigator.pop(context, true),
-                                    child: const Text("Usuń"),
+                                    child: Text("Usuń", style: AppTypography.body1.copyWith(
+                                      color: AppColors.semanticRed,
+                                    )
+                                    ),
                                   ),
                                 ],
                               ),

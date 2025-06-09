@@ -56,6 +56,11 @@ const IsarExpenseSchema = CollectionSchema(
       id: 7,
       name: r'paidAmount',
       type: IsarType.double,
+    ),
+    r'receiptImagePath': PropertySchema(
+      id: 8,
+      name: r'receiptImagePath',
+      type: IsarType.string,
     )
   },
   estimateSize: _isarExpenseEstimateSize,
@@ -81,6 +86,12 @@ int _isarExpenseEstimateSize(
   bytesCount += 3 + object.budgetCategoryId.length * 3;
   bytesCount += 3 + object.description.length * 3;
   bytesCount += 3 + object.name.length * 3;
+  {
+    final value = object.receiptImagePath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -98,6 +109,7 @@ void _isarExpenseSerialize(
   writer.writeBool(offsets[5], object.isSplitted);
   writer.writeString(offsets[6], object.name);
   writer.writeDouble(offsets[7], object.paidAmount);
+  writer.writeString(offsets[8], object.receiptImagePath);
 }
 
 IsarExpense _isarExpenseDeserialize(
@@ -116,6 +128,7 @@ IsarExpense _isarExpenseDeserialize(
   object.isSplitted = reader.readBool(offsets[5]);
   object.name = reader.readString(offsets[6]);
   object.paidAmount = reader.readDouble(offsets[7]);
+  object.receiptImagePath = reader.readStringOrNull(offsets[8]);
   return object;
 }
 
@@ -142,6 +155,8 @@ P _isarExpenseDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 7:
       return (reader.readDouble(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -897,6 +912,160 @@ extension IsarExpenseQueryFilter
       ));
     });
   }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'receiptImagePath',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'receiptImagePath',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'receiptImagePath',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'receiptImagePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'receiptImagePath',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'receiptImagePath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterFilterCondition>
+      receiptImagePathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'receiptImagePath',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension IsarExpenseQueryObject
@@ -1002,6 +1171,20 @@ extension IsarExpenseQuerySortBy
   QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy> sortByPaidAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'paidAmount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      sortByReceiptImagePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'receiptImagePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      sortByReceiptImagePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'receiptImagePath', Sort.desc);
     });
   }
 }
@@ -1117,6 +1300,20 @@ extension IsarExpenseQuerySortThenBy
       return query.addSortBy(r'paidAmount', Sort.desc);
     });
   }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      thenByReceiptImagePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'receiptImagePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QAfterSortBy>
+      thenByReceiptImagePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'receiptImagePath', Sort.desc);
+    });
+  }
 }
 
 extension IsarExpenseQueryWhereDistinct
@@ -1170,6 +1367,14 @@ extension IsarExpenseQueryWhereDistinct
   QueryBuilder<IsarExpense, IsarExpense, QDistinct> distinctByPaidAmount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'paidAmount');
+    });
+  }
+
+  QueryBuilder<IsarExpense, IsarExpense, QDistinct> distinctByReceiptImagePath(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'receiptImagePath',
+          caseSensitive: caseSensitive);
     });
   }
 }
@@ -1228,6 +1433,13 @@ extension IsarExpenseQueryProperty
   QueryBuilder<IsarExpense, double, QQueryOperations> paidAmountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'paidAmount');
+    });
+  }
+
+  QueryBuilder<IsarExpense, String?, QQueryOperations>
+      receiptImagePathProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'receiptImagePath');
     });
   }
 }

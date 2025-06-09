@@ -5,6 +5,8 @@ import 'app_typography.dart';
 class AppTheme {
   static ThemeData get theme {
     return ThemeData(
+      useMaterial3: true,
+
       brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.neutral6,
       fontFamily: 'Poppins',
@@ -29,12 +31,9 @@ class AppTheme {
 
       /* 
       -------------------------------------------------------------------------------------------------
-      
       INPUTS
-
       -------------------------------------------------------------------------------------------------
       */ 
-
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         filled: true,
@@ -87,17 +86,36 @@ class AppTheme {
           ),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-
-    ),
+      ),
 
       /* 
       -------------------------------------------------------------------------------------------------
-      
-      BUTTONS
-
+      DIALOGS & BUTTONS
       -------------------------------------------------------------------------------------------------
       */ 
-
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary1,
+          foregroundColor: Colors.white,
+          textStyle: AppTypography.body2.copyWith(color: Colors.white),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        ),
+      ),
+      
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary1,
+          side: BorderSide(color: AppColors.primary1),
+          textStyle: AppTypography.body2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        ),
+      ),
     );
   }
 }

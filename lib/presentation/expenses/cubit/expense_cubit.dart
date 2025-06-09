@@ -62,6 +62,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     String budgetCategoryId,
     String description, {
     DateTime? date,
+    String? receiptImagePath,
   }) async {
     final newExpense = Expense(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -72,6 +73,8 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       description: description,
       isSplitted: false,
       isPaid: false,
+      paidAmount: 0.0,
+      receiptImagePath: receiptImagePath,
     );
 
     await expenseRepo.addExpense(newExpense);

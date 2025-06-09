@@ -38,11 +38,16 @@ class _HomeViewState extends State<HomeView> {
               CircleAvatar(
                 radius: 25,
                 backgroundColor: AppColors.neutral6,
+                child: Icon(
+                  Icons.person,
+                  color: AppColors.primary1,
+                  size: 30,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 18),
                 child: Text(
-                  "Cześć, Kacper!",
+                  "Witaj w BudgetMaster!",
                   style: AppTypography.body1.copyWith(
                     color: AppColors.neutral6
                   )

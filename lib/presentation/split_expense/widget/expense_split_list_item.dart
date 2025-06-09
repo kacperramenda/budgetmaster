@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ExpenseSplitListItem extends StatelessWidget {
   final ExpenseSplit split;
@@ -39,6 +40,51 @@ class ExpenseSplitListItem extends StatelessWidget {
         children: [
           Row(
             children: [
+              Column(
+                children: [
+                  InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 220,
+                              height: 220,
+                              child: Center(
+                                child: QrImageView(
+                                  data: 'https://buy.stripe.com/test_6oUbJ14P7bc18byanfcQU00',
+                                  version: QrVersions.auto,
+                                  size: 200,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Zamknij'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      QrImageView(
+                        data: 'https://buy.stripe.com/test_6oUbJ14P7bc18byanfcQU00',
+                        size: 60,
+                      ),
+                      // ... reszta kodu
+                    ],
+                  ),
+                ),
+                ],
+              ),
+              const SizedBox(width: 8),
               Expanded(
               child: GestureDetector(
                 onTap: onTap,
@@ -90,7 +136,9 @@ class ExpenseSplitListItem extends StatelessWidget {
               ),
             ],
           ),
+
           const SizedBox(height: 12),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -98,19 +146,33 @@ class ExpenseSplitListItem extends StatelessWidget {
                 onTap: () async {
                   final confirm = await showDialog<bool>(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Potwierdź usunięcie'),
-                      content: const Text('Czy na pewno chcesz usunąć ten podział wydatku?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text('Anuluj'),
+                    builder: (context) => Theme(
+                      data: Theme.of(context).copyWith(
+                        dialogTheme: DialogThemeData(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          
                         ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Usuń', style: TextStyle(color: AppColors.semanticRed)),
+                      ),
+                      child: AlertDialog(
+                        title: Text('Potwierdź usunięcie', style: AppTypography.title2,),
+                        content: Text(
+                          'Czy na pewno chcesz usunąć ten podział wydatku?',
+                          style: AppTypography.body3.copyWith(color: AppColors.neutral1),
                         ),
-                      ],
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('Anuluj', style: TextStyle(color: AppColors.primary1),),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Usuń', style: TextStyle(color: AppColors.semanticRed)),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                   if (confirm == true) {
