@@ -1,11 +1,10 @@
 import 'package:budgetmaster/domain/models/category.dart';
-import 'package:budgetmaster/presentation/categories/cubit/category_cubit.dart';
 import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
 import 'package:budgetmaster/core/theme/app_typography.dart';
-import 'package:budgetmaster/presentation/common/page_header.dart'; // <== Twój header
+import 'package:budgetmaster/presentation/common/page_header.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 String _formatDate(DateTime date) {
@@ -256,6 +255,7 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
                           ),
                         ),
 
+                      if (expense.isSplitted)
                         Container(
                           decoration: const BoxDecoration(
                             border: Border(
@@ -341,7 +341,7 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
                               if (!context.mounted) return;
                               await context.read<ExpenseCubit>().deleteExpense(expense.id);
                               if (!context.mounted) return;
-                              Navigator.pop(context, true); // wróć z informacją, że usunięto
+                              Navigator.pop(context, true); 
                             }
                           },
                           child: Padding(
@@ -358,14 +358,15 @@ class _ExpenseDetailsViewState extends State<ExpenseDetailsView> {
                                       ),
                                     ),
                                     onTap: () async {
-                                      final result = await Navigator.pushNamed(
+                                      await Navigator.pushNamed(
                                         context,
                                         '/split-expense',
                                         arguments: expense,
-                                      );
-                                      if (result == true) {
-                                        context.read<ExpenseCubit>().reloadExpense(expense.id);
-                                      }
+                                      ).then((result) {
+                                        if (result == true) {
+                                          context.read<ExpenseCubit>().reloadExpense(expense.id);
+                                        }
+                                      });
                                     }
                                   ),
                                   const SizedBox(height: 16),

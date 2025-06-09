@@ -33,7 +33,6 @@ import 'package:budgetmaster/presentation/savings/view/savings_view.dart';
 import 'package:budgetmaster/presentation/split_expense/add/expense_split_add_view.dart';
 import 'package:budgetmaster/presentation/split_expense/cubit/expense_split_cubit.dart';
 import 'package:budgetmaster/presentation/split_expense/view/expense_split_page.dart';
-import 'package:budgetmaster/presentation/split_expense/view/expense_split_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';

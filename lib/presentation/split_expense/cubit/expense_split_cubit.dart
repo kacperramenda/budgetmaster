@@ -39,7 +39,7 @@ class ExpenseSplitCubit extends Cubit<ExpenseSplitState> {
     if (split.expenseId != null) {
       await expenseSplitRepository.updateExpenseState(split.expenseId!);
     }
-    await loadExpenseSplits();
+    await getExpenseSplitsForExpense(split.expenseId!);
   }
 
   Future<void> deleteExpenseSplit(String id) async {
@@ -49,7 +49,7 @@ class ExpenseSplitCubit extends Cubit<ExpenseSplitState> {
     if (split != null && split.expenseId != null) {
       await expenseSplitRepository.updateExpenseState(split.expenseId!);
     }
-    await loadExpenseSplits();
+    await getExpenseSplitsForExpense(split!.expenseId!);
   }
 
   Future<void> getExpenseSplitsForExpense(String expenseId) async {

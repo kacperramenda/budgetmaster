@@ -1,5 +1,6 @@
 import 'package:budgetmaster/domain/models/expense.dart';
 import 'package:budgetmaster/domain/models/expense_split.dart';
+import 'package:budgetmaster/presentation/expenses/cubit/expense_cubit.dart';
 import 'package:budgetmaster/presentation/split_expense/cubit/expense_split_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:budgetmaster/core/constants/app_colors.dart';
@@ -39,47 +40,53 @@ class ExpenseSplitListItem extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: GestureDetector(
-                  onTap: onTap,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        split.name,
-                        style: AppTypography.title3.copyWith(
-                          color: AppColors.neutral1,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(
-                            "Kwota: ",
-                            style: AppTypography.caption2.copyWith(
-                              color: AppColors.neutral3,
-                            ),
-                          ),
-                          Text(
-                            "${split.amount.toStringAsFixed(2)}zł",
-                            style: AppTypography.caption2.copyWith(
-                              color: AppColors.primary1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+              child: GestureDetector(
+                onTap: onTap,
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                  split.name,
+                  style: AppTypography.title3.copyWith(
+                    color: AppColors.neutral1,
                   ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                  children: [
+                    Text(
+                    "Kwota: ",
+                    style: AppTypography.caption2.copyWith(
+                      color: AppColors.neutral3,
+                    ),
+                    ),
+                    Text(
+                    "${split.amount.toStringAsFixed(2)}zł",
+                    style: AppTypography.caption2.copyWith(
+                      color: AppColors.primary1,
+                    ),
+                    ),
+                  ],
+                  ),
+                ],
                 ),
               ),
-              Checkbox(
-                value: split.isPaid,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<ExpenseSplitCubit>().updateExpenseSplit(
-                      split.copyWith(isPaid: value),
-                    );
-                  }
-                },
+              ),
+              Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  value: split.isPaid,
+                  activeColor: AppColors.primary1,
+                  onChanged: (value) async {
+                    if (value != null) {
+                      await context.read<ExpenseSplitCubit>().updateExpenseSplit(
+                        split.copyWith(isPaid: value),
+                      );
+                      // Odśwież stan Expense
+                      context.read<ExpenseCubit>().reloadExpense(expense.id);
+                    }
+                  },
+                ),
               ),
             ],
           ),
@@ -107,7 +114,8 @@ class ExpenseSplitListItem extends StatelessWidget {
                     ),
                   );
                   if (confirm == true) {
-                    context.read<ExpenseSplitCubit>().deleteExpenseSplit(split.id);
+                    await context.read<ExpenseSplitCubit>().deleteExpenseSplit(split.id);
+                    context.read<ExpenseCubit>().reloadExpense(expense.id);
                   }
                 },
                 child: Text(

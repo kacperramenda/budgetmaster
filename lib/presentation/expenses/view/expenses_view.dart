@@ -63,12 +63,18 @@ class ExpensesView extends StatelessWidget {
                           return ExpenseListItem(
                             expense: expense,
                             onTap: () async {
-                              Navigator.push(
+                              final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => ExpenseDetailsView(expenseId: expense.id),
                                 ),
                               );
+
+                              if (result == true) {
+                                // Odśwież listę wydatków, jeśli coś się zmieniło
+                                // ignore: use_build_context_synchronously
+                                context.read<ExpenseCubit>().loadExpenses();
+                              }
                             },
                           );
                         },
